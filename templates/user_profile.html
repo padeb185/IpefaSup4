@@ -8,64 +8,57 @@
 {% block content %}
     <h1>Création d'un compte</h1>
 
-    <form method="post">
+    <form method="post" id="mainForm">
         {% csrf_token %}
 
         <label for="profileType">Vous êtes :</label>
         <select name="profileType" id="profileType">
-            <option value="Student" {% if studentForm.is_bound %}selected="selected"{% endif %}>Etudiant</option>
+            <option value="Student" {% if studentForm.is_bound %}selected="selected"{% endif %}>Étudiant</option>
             <option value="Teacher" {% if teacherForm.is_bound %}selected="selected"{% endif %}>Professeur</option>
-            <option value="Educator" {% if educatorForm.is_bound %}selected="selected"{% endif %}>Educateur</option>
+            <option value="Educator" {% if educatorForm.is_bound %}selected="selected"{% endif %}>Éducateur</option>
             <option value="Administrator" {% if administratorForm.is_bound %}selected="selected"{% endif %}>Administrateur</option>
         </select>
 
-        <div id="studentForm" style="display: none;">
+        <div id="studentForm" class="formType">
             {{ studentForm.as_p }}
         </div>
 
-        <div id="teacherForm" style="display: none;">
+        <div id="teacherForm" class="formType">
             {{ teacherForm.as_p }}
         </div>
 
-        <div id="educatorForm" style="display: none;">
+        <div id="educatorForm" class="formType">
             {{ educatorForm.as_p }}
         </div>
 
-        <div id="administratorForm" style="display: none;">
+        <div id="administratorForm" class="formType">
             {{ administratorForm.as_p }}
         </div>
 
         <button type="submit">Créer un compte</button>
     </form>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
         function displayRightForm() {
-            let profileType = $('#profileType').val();
+            const profileType = $('#profileType').val();
 
-            // Cache tous les formulaires au départ
-            $('#studentForm').hide();
-            $('#teacherForm').hide();
-            $('#educatorForm').hide();
-            $('#administratorForm').hide();
+            $('.formType').hide().find(':input').prop('disabled', true);
 
-            // Affiche uniquement le formulaire correspondant au profil sélectionné
             if (profileType === 'Student') {
-                $('#studentForm').show();
+                $('#studentForm').show().find(':input').prop('disabled', false);
             } else if (profileType === 'Teacher') {
-                $('#teacherForm').show();
+                $('#teacherForm').show().find(':input').prop('disabled', false);
             } else if (profileType === 'Educator') {
-                $('#educatorForm').show();
+                $('#educatorForm').show().find(':input').prop('disabled', false);
             } else if (profileType === 'Administrator') {
-                $('#administratorForm').show();
+                $('#administratorForm').show().find(':input').prop('disabled', false);
             }
         }
 
         $(document).ready(function() {
-            // Initialisation du formulaire en fonction du type de profil sélectionné
             displayRightForm();
-            // Réexécuter displayRightForm chaque fois que le type de profil change
             $('#profileType').change(displayRightForm);
         });
     </script>
-
 {% endblock %}

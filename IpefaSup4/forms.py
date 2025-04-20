@@ -56,6 +56,10 @@ class LoginForm(forms.Form):
 
 
 
+from django import forms
+from django.contrib.auth.hashers import make_password
+from .models import Student, Teacher, Administrator, Educator
+
 class BaseListForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput, required=False, label='Mot de passe')
     confirm_password = forms.CharField(widget=forms.PasswordInput, required=False, label='Confirmer le mot de passe')
@@ -65,7 +69,6 @@ class BaseListForm(forms.ModelForm):
         password = cleaned_data.get("password")
         confirm_password = cleaned_data.get("confirm_password")
 
-        # Vérifie que les mots de passe correspondent
         if password and confirm_password and password != confirm_password:
             raise forms.ValidationError("Les mots de passe ne correspondent pas")
 
@@ -74,7 +77,6 @@ class BaseListForm(forms.ModelForm):
     def save(self, commit=True):
         instance = super().save(commit=False)
 
-        # Si un mot de passe est fourni, on le chiffre
         if self.cleaned_data.get("password"):
             instance.password = make_password(self.cleaned_data["password"])
 
@@ -88,43 +90,11 @@ class StudentForm(BaseListForm):
         model = Student
         fields = '__all__'
 
-    def save(self, commit=True):
-        student = super().save(commit=False)
-
-        # Si l'utilisateur est lié à l'étudiant, assurez-vous qu'il est correctement associé
-        if 'user' in self.cleaned_data:
-            user = self.cleaned_data['user']
-            student.user = user  # Associe l'utilisateur à l'étudiant
-
-        if commit:
-            student.save()
-            user = student.user
-            if user:
-                user.save()  # Sauvegarde de l'utilisateur si nécessaire
-
-        return student
-
 
 class TeacherForm(BaseListForm):
     class Meta:
         model = Teacher
         fields = '__all__'
-
-    def save(self, commit=True):
-        teacher = super().save(commit=False)
-
-        # Assurez-vous que l'utilisateur est correctement associé à l'enseignant
-        if 'user' in self.cleaned_data:
-            user = self.cleaned_data['user']
-            teacher.user = user  # Associe l'utilisateur à l'enseignant
-
-        if commit:
-            teacher.save()
-            user = teacher.user
-            if user:
-                user.save()  # Sauvegarde de l'utilisateur si nécessaire
-
-        return teacher
 
 
 class AdministratorForm(BaseListForm):
@@ -132,43 +102,12 @@ class AdministratorForm(BaseListForm):
         model = Administrator
         fields = '__all__'
 
-    def save(self, commit=True):
-        administrator = super().save(commit=False)
-
-        # Si l'utilisateur est lié à l'administrateur, assurez-vous qu'il est correctement associé
-        if 'user' in self.cleaned_data:
-            user = self.cleaned_data['user']
-            administrator.user = user  # Associe l'utilisateur à l'administrateur
-
-        if commit:
-            administrator.save()
-            user = administrator.user
-            if user:
-                user.save()  # Sauvegarde de l'utilisateur si nécessaire
-
-        return administrator
-
 
 class EducatorForm(BaseListForm):
     class Meta:
         model = Educator
         fields = '__all__'
 
-    def save(self, commit=True):
-        educator = super().save(commit=False)
-
-        # Si un utilisateur est lié à l'éducateur, nous allons nous assurer qu'il est correctement enregistré
-        if 'user' in self.cleaned_data:
-            user = self.cleaned_data['user']
-            educator.user = user  # Assurez-vous que l'utilisateur est bien associé à l'éducateur
-
-        if commit:
-            educator.save()
-            user = educator.user
-            if user:
-                user.save()  # Sauvegarde de l'utilisateur si nécessaire
-
-        return educator
 
 
 class AddAcademicUEForm(forms.ModelForm):
