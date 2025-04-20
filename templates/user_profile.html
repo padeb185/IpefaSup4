@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Création d'un compte{% endblock %}
+
+{% block bodyId %}userProfilePage{% endblock %}
+
+{% block content %}
+    <h1>Création d'un compte</h1>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <label for="profileType">Vous êtes :</label>
+        <select name="profileType" id="profileType">
+            <option value="Student" {% if studentForm.is_bound %}selected="selected"{% endif %}>Etudiant</option>
+            <option value="Teacher" {% if teacherForm.is_bound %}selected="selected"{% endif %}>Professeur</option>
+            <option value="Educator" {% if educatorForm.is_bound %}selected="selected"{% endif %}>Educateur</option>
+            <option value="Administrator" {% if administratorForm.is_bound %}selected="selected"{% endif %}>Administrateur</option>
+        </select>
+
+        <div id="studentForm" style="display: none;">
+            {{ studentForm.as_p }}
+        </div>
+
+        <div id="teacherForm" style="display: none;">
+            {{ teacherForm.as_p }}
+        </div>
+
+        <div id="educatorForm" style="display: none;">
+            {{ educatorForm.as_p }}
+        </div>
+
+        <div id="administratorForm" style="display: none;">
+            {{ administratorForm.as_p }}
+        </div>
+
+        <button type="submit">Créer un compte</button>
+    </form>
+
+    <script type="text/javascript">
+        function displayRightForm() {
+            let profileType = $('#profileType').val();
+
+            // Cache tous les formulaires au départ
+            $('#studentForm').hide();
+            $('#teacherForm').hide();
+            $('#educatorForm').hide();
+            $('#administratorForm').hide();
+
+            // Affiche uniquement le formulaire correspondant au profil sélectionné
+            if (profileType === 'Student') {
+                $('#studentForm').show();
+            } else if (profileType === 'Teacher') {
+                $('#teacherForm').show();
+            } else if (profileType === 'Educator') {
+                $('#educatorForm').show();
+            } else if (profileType === 'Administrator') {
+                $('#administratorForm').show();
+            }
+        }
+
+        $(document).ready(function() {
+            // Initialisation du formulaire en fonction du type de profil sélectionné
+            displayRightForm();
+            // Réexécuter displayRightForm chaque fois que le type de profil change
+            $('#profileType').change(displayRightForm);
+        });
+    </script>
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Bienvenue Administrateur{% endblock %}
+
+{% block bodyId %}WelcomeAdminPage{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+     <header class="welcome-header">
+        <div class="user-info">
+            Bienvenue sur IpefaSup,  {{ logged_user.first_name }} {{ logged_user.last_name }}
+        </div>
+        <div class="date-time">
+            Nous sommes le {{ current_date_time }}
+        </div>
+    </header>
+
+    <h1>IpefaSup - Administrateur</h1>
+
+
+
+    <a href="{% url 'add_academic_ue' %}">Ajouter une unité académique</a>
+    <a href="{% url 'add_ue' %}">Ajouter une unité d'enseignement</a>
+    <a href="{% url 'student_list' %}">lister les étudiants</a>
+    <a href="{% url 'teacher_list' %}">lister les professeurs</a>
+
+{% endblock %}

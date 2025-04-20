@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Lister les professeurs{% endblock %}
+
+{% block bodyId %}teacherModifyList{% endblock %}
+
+{% block content %}
+
+<title>Modifier le professeur</title>
+    <header class="welcome-header">
+        <div class="user-info">
+            Bienvenue sur IpefaSup,  {{ logged_user.first_name }} {{ logged_user.last_name }}
+        </div>
+        <div class="date-time">
+            Nous sommes le {{ current_date_time }}
+        </div>
+    </header>
+
+
+    <h1>Modifier le professeur : {{ teacher.first_name }} {{ teacher.last_name }}</h1>
+
+    <form  method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Sauvegarder</button>
+    </form>
+
+    <a href="{% url 'teacher_list' %}">Retour à la liste des professeurs</a>
+{% endblock %}

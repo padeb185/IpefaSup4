@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block bodyId %}loginPage{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+    <form action="{% url 'login' %}" method="post">
+    {% csrf_token %}
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <p>
+        <label for="profileType">Vous êtes : </label>
+        <select id="profileType" name="profileType" required>
+            <option value="etudiant">Etudiant</option>
+            <option value="professeur">Professeur</option>
+            <option value="educateur">Educateur</option>
+            <option value="administrateur">Administrateur</option>
+        </select>
+    </p>
+
+    <p id="pmail">
+        <label for="email">E-mail : </label>
+        <input name="email" id="email" size="30" type="email" />
+    </p>
+
+    <p id="pmatricule">
+        <label for="matricule">Matricule : </label>
+        <input name="matricule" id="matricule" size="30" />
+    </p>
+
+    <p>
+        <label for="password">Mot de passe : </label>
+        <input name="password" id="password" size="30" type="password" required />
+    </p>
+
+    <p>
+        <button type="submit">Se connecter</button>
+        <a href="{% url 'register' %}">Créer un compte</a>
+    </p>
+</form>
+
+<script type="text/javascript">
+    function displayRightForm() {
+        // Get the selected profile type
+        let profileType = $('#profileType').val();
+
+        if (profileType === 'etudiant') {
+            // Show email input for student
+            $('#pmail').show();
+            $('#email').prop('required', true);
+            // Hide matricule input for student
+            $('#pmatricule').hide();
+            $('#matricule').prop('required', false);
+        } else {
+            // Show matricule input for others
+            $('#pmail').hide();
+            $('#email').prop('required', false);
+            $('#pmatricule').show();
+            $('#matricule').prop('required', true);
+        }
+    }
+
+    $(document).ready(function() {
+        // Initialize form based on selected profile type
+        displayRightForm();
+        // Call displayRightForm whenever the profile type changes
+        $('#profileType').change(displayRightForm);
+    });
+</script>
+{% endblock %}

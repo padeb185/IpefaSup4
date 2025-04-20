@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Lister les étudiants{% endblock %}
+
+{% block bodyId %}studentList{% endblock %}
+
+{% block content %}
+<h1>Liste des étudiants</h1>
+    <header class="welcome-header">
+        <div class="user-info">
+            Bienvenue sur IpefaSup,  {{ logged_user.first_name }} {{ logged_user.last_name }}
+        </div>
+        <div class="date-time">
+            Nous sommes le {{ current_date_time }}
+        </div>
+    </header>
+
+    <!-- Liens pour trier les étudiants -->
+    <p>
+        Trier par :
+        <a class="sort" href="?sort_by=first_name">Prénom</a> |
+        <a class="sort" href="?sort_by=last_name">Nom</a>
+    </p>
+
+    <ul>
+        {% for student in students %}
+            <li>
+                <!-- Lien cliquable pour modifier l'étudiant -->
+                <a href="{% url 'edit_student' student.id %}">{{ student.first_name }} {{ student.last_name }}</a>
+            </li>
+        {% empty %}
+            <li>Aucun étudiant trouvé.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+

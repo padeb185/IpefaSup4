@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Lister les étudiants{% endblock %}
+
+{% block bodyId %}studentList{% endblock %}
+
+{% block content %}
+
+<title>Modifier l'étudiant</title>
+    <header class="welcome-header">
+        <div class="user-info">
+            Bienvenue sur IpefaSup,  {{ logged_user.first_name }} {{ logged_user.last_name }}
+        </div>
+        <div class="date-time">
+            Nous sommes le {{ current_date_time }}
+        </div>
+    </header>
+
+
+    <h1>Modifier l'étudiant : {{ student.first_name }} {{ student.last_name }}</h1>
+
+    <form  method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Sauvegarder</button>
+    </form>
+
+    <a href="{% url 'student_list' %}">Retour à la liste des étudiants</a>
+{% endblock %}

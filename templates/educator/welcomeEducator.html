@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Bienvenue Educateur{% endblock %}
+
+{% block bodyId %}WelcomeEducatorPage{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+     <header class="welcome-header">
+        <div class="user-info">
+            Bienvenue sur IpefaSup,  {{ logged_user.first_name }} {{ logged_user.last_name }}
+        </div>
+        <div class="date-time">
+            Nous sommes le {{ current_date_time }}
+        </div>
+    </header>
+
+    <h1>IpefaSup - Educateur</h1>
+
+
+
+    <a href="{% url 'student_list' %}">lister les étudiants</a>
+    <a href="{% url 'teacher_list' %}">lister les professeurs</a>
+
+{% endblock %}

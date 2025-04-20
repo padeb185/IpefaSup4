@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Lister les professeurs{% endblock %}
+
+{% block bodyId %}teacherList{% endblock %}
+
+{% block content %}
+<h1>Liste des professeurs</h1>
+    <header class="welcome-header">
+        <div class="user-info">
+            Bienvenue sur IpefaSup,  {{ logged_user.first_name }} {{ logged_user.last_name }}
+        </div>
+        <div class="date-time">
+            Nous sommes le {{ current_date_time }}
+        </div>
+    </header>
+
+    <!-- Liens pour trier les étudiants -->
+    <p>
+        Trier par :
+        <a class="sort" href="?sort_by=first_name">Prénom</a> |
+        <a class="sort" href="?sort_by=last_name">Nom</a>
+    </p>
+
+    <ul>
+        {% for teacher in teachers %}
+            <li>
+                <!-- Lien cliquable pour modifier l'étudiant -->
+                <a href="{% url 'edit_teacher' teacher.id %}">{{ teacher.first_name }} {{ teacher.last_name }}</a>
+            </li>
+        {% empty %}
+            <li>Aucun professeur trouvé.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
