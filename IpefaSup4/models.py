@@ -8,7 +8,7 @@ def validate_student_email(email):
     Fonction pour valider un email d'étudiant sous le format nom.prenom@student.efpl.be
     """
     # Utilisation de la méthode get_model pour éviter l'import circulaire
-    Student = apps.get_model('IpefaSup3', 'Student')  # Charger le modèle 'Student'
+    Student = apps.get_model('IpefaSup4', 'Student')  # Charger le modèle 'Student'
 
     # Expression régulière pour valider le format nom.prenom@student.efpl.be
     student_email_pattern = r"^[a-zA-Z0-9._%+-]+(\.[a-zA-Z0-9._%+-]+)*@student\.efpl\.be$"
@@ -68,7 +68,7 @@ class Administrator(Educator):
         return f"{self.first_name} {self.last_name}  {self.matricule}- {self.role}"
 
     class Meta:
-        db_table = 'IpefaSup3_administrator'
+        db_table = 'IpefaSup4_administrator'
 
 
 

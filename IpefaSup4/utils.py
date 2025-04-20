@@ -2,7 +2,7 @@ import re
 
 from django.core.exceptions import ValidationError
 
-from IpefaSup3.models import Student, Teacher, Educator, Administrator
+from IpefaSup4.models import Student, Teacher, Educator, Administrator
 
 
 def get_logged_user_from_request(request):

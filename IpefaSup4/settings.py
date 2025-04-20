@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'IpefaSup3',
+    'IpefaSup4',
 ]
 
 MIDDLEWARE = [
@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'IpefaSup3.urls'
+ROOT_URLCONF = 'IpefaSup4.urls'
 
 TEMPLATES = [
     {
@@ -68,7 +68,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'IpefaSup3.wsgi.application'
+WSGI_APPLICATION = 'IpefaSup4.wsgi.application'
 
 
 # Database
@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'IpefaSup3.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'IpefaSup3',
+        'NAME': 'IpefaSup4',
         'USER': 'postgres',
         'PASSWORD': 'pierre',
         'HOST': 'localhost',  # Ou l'adresse de ton serveur PostgreSQL
