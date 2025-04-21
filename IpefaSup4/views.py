@@ -6,28 +6,31 @@ from .forms import LoginForm, StudentForm, TeacherForm, AdministratorForm, AddAc
     StudentProfileForm, EducatorForm, TeacherProfileForm
 from .models import Educator, Student, Teacher, \
      Administrator
-from django.shortcuts import render
 from .utils import get_logged_user_from_request
-
+from django.utils.timezone import now
 
 def welcome(request):
     logged_user = get_logged_user_from_request(request)
 
-    if logged_user:
-        if logged_user.person_type == 'etudiant':
-            return render(request, 'student/welcomeStudent.html', {'logged_user': logged_user})
-        elif logged_user.person_type == 'professeur':
-            return render(request, 'teacher/welcomeTeacher.html', {'logged_user': logged_user})
-        elif logged_user.person_type == 'educateur':
-            return render(request, 'educator/welcomeEducator.html', {'logged_user': logged_user})
-        elif logged_user.person_type == 'administrateur':
-            return render(request, 'administrator/welcomeAdmin.html', {'logged_user': logged_user})
-        else:
-            # Si le type est inconnu, redirection vers la page de connexion
-            return redirect(reverse('login'))
-    else:
-        # Si aucun utilisateur connecté, redirection vers la page de connexion
+    if not logged_user:
         return redirect(reverse('login'))
+
+    context = {
+        'logged_user': logged_user,
+        'current_date_time': now()
+    }
+
+    if logged_user.person_type == 'etudiant':
+        return render(request, 'student/welcomeStudent.html', context)
+    elif logged_user.person_type == 'professeur':
+        return render(request, 'teacher/welcomeTeacher.html', context)
+    elif isinstance(logged_user, Administrator):
+        return render(request, 'administrator/welcomeAdmin.html', context)
+    elif logged_user.person_type == 'educateur':
+        return render(request, 'educator/welcomeEducator.html', context)
+    else:
+        return redirect(reverse('login'))
+
 
 
 def login(request):
