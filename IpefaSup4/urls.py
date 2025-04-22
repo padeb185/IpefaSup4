@@ -19,7 +19,8 @@ from django.urls import path
 
 
 from django.urls import path
-from .views import login, welcome, register, add_academic_ue_views, add_ue_views, student_list, edit_student, teacher_list, edit_teacher
+from .views import login, welcome, register, add_academic_ue_views, add_ue_views, student_list, edit_student, \
+    teacher_list, edit_teacher, edit_own_profile, list_student_ues
 from django.contrib import admin
 
 urlpatterns = [
@@ -28,9 +29,23 @@ urlpatterns = [
     path('welcome/', welcome, name='welcome'),  # Accueil générique
     path('user_profile/', register, name='user_profile'),  # Profil utilisateur
     path('register/', register, name='register'),  # Inscription
-    path('welcomeStudent/', welcome, name='welcomeStudent'),  # Accueil étudiant
-    path('welcomeTeacher/', welcome, name='welcomeTeacher'),  # Accueil professeur
-    path('welcomeEducator/', welcome, name='welcomeEducator'),  # Accueil éducateur
+
+
+    path('welcomeStudent/', welcome, name='welcomeStudent'),
+    path('edit/', edit_own_profile, name='edit_own_profile'),
+    path('list-ues/', list_student_ues, name='list_student_ues'),
+
+
+
+    path('welcomeTeacher/', welcome, name='welcomeTeacher'),
+
+
+    # Accueil professeur
+    path('welcomeEducator/', welcome, name='welcomeEducator'),
+
+
+
+    # Accueil éducateur
     path('welcomeAdministrator/add_academic_ue/', add_academic_ue_views, name='add_academic_ue'),  # Ajouter UE académique
     path('welcomeAdministrator/add_ue/', add_ue_views, name='add_ue'),  # Ajouter UE
     path('admin/students/', student_list, name='student_list'),  # Liste des étudiants

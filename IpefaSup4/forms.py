@@ -143,3 +143,8 @@ class TeacherProfileForm(BaseListForm):
     class Meta:
         model = Teacher
         fields = '__all__'  # Corriger la syntaxe
+
+class StudentEditProfileForm(BaseListForm):
+    class Meta:
+        model = Student
+        exclude = ['academic_ues', 'sessions', 'ue']

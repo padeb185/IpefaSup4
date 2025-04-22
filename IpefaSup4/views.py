@@ -1,9 +1,10 @@
 from datetime import datetime
 from django.contrib.auth.hashers import check_password
+from django.http import HttpResponse
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse
 from .forms import LoginForm, StudentForm, TeacherForm, AdministratorForm, AddAcademicUEForm, AddUEForm, \
-    StudentProfileForm, EducatorForm, TeacherProfileForm
+    StudentProfileForm, EducatorForm, TeacherProfileForm, StudentEditProfileForm
 from .models import Educator, Student, Teacher, \
      Administrator
 from .utils import get_logged_user_from_request
@@ -21,6 +22,7 @@ def welcome(request):
     }
 
     if logged_user.person_type == 'etudiant':
+        context['student'] = logged_user
         return render(request, 'student/welcomeStudent.html', context)
     elif logged_user.person_type == 'professeur':
         return render(request, 'teacher/welcomeTeacher.html', context)
@@ -107,16 +109,16 @@ def register(request):
 
         if profile_type == 'Student' and studentForm.is_valid():
             studentForm.save()
-            return redirect('/login')  # Redirigez après la création du compte
+            return redirect('/welcome')  # Redirigez après la création du compte
         elif profile_type == 'Teacher' and teacherForm.is_valid():
             teacherForm.save()
-            return redirect('/login')
+            return redirect('/welcome')
         elif profile_type == 'Educator' and educatorForm.is_valid():
             educatorForm.save()
-            return redirect('/login')
+            return redirect('/welcome')
         elif profile_type == 'Administrator' and administratorForm.is_valid():
             administratorForm.save()
-            return redirect('/login')
+            return redirect('/welcome')
 
         # Si aucun formulaire n'est valide ou si un autre problème se produit
         return render(request, 'user_profile.html', {
@@ -150,7 +152,7 @@ def add_academic_ue_views(request):
         form = AddAcademicUEForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('success_page')  # Remplace par la page vers laquelle tu veux rediriger après ajout
+            return redirect('/welcome')  # Remplace par la page vers laquelle tu veux rediriger après ajout
     else:
         form = AddAcademicUEForm()
 
@@ -168,7 +170,7 @@ def add_ue_views(request):
             form = AddUEForm(request.POST)
             if form.is_valid():
                 form.save()  # Sauvegarde les données si le formulaire est valide
-                # Rediriger ou renvoyer une réponse après soumission
+                return redirect('/welcome')  # Re# Rediriger ou renvoyer une réponse après soumission
         else:
             form = AddUEForm()  # Crée une nouvelle instance du formulaire
 
@@ -236,3 +238,43 @@ def edit_teacher(request, teacher_id):
             form = TeacherProfileForm(instance=teacher)
 
         return render(request, 'administrator/edit_teacher.html', {'form': form, 'teacher': teacher, 'logged_user': logged_user, 'current_date_time': datetime.now})
+
+
+def edit_own_profile(request):
+    logged_user = get_logged_user_from_request(request)  # Méthode que tu utilises déjà
+
+    if not logged_user or not isinstance(logged_user, Student):
+        return redirect('login')  # Redirection si pas connecté ou si ce n’est pas un étudiant
+
+    student = get_object_or_404(Student, id=logged_user.id)
+
+    if request.method == 'POST':
+        form = StudentEditProfileForm(request.POST, instance=student)
+        if form.is_valid():
+            student_instance = form.save(commit=False)
+            # Conserve le mot de passe actuel
+            student_instance.password = student.password
+            student_instance.save()
+            return redirect('/welcome')  # Ou une autre page de confirmation
+    else:
+        form = StudentEditProfileForm(instance=student)
+
+    return render(request, 'student/edit_profile.html', {
+        'form': form,
+        'student': student,
+        'current_date_time': datetime.now(),
+    })
+
+
+def list_student_ues(request):
+    # Appeler la fonction pour obtenir l'étudiant connecté
+    student = get_logged_user_from_request(request)
+
+    if student is None:
+        return HttpResponse("Étudiant non trouvé ou non authentifié.", status=404)
+
+    # Récupérer les UEs associées à l'étudiant
+    ues = student.academic_ues.all()
+
+    # Passer la bonne variable au template
+    return render(request, 'student/list_student_ues.html', {'student': student, 'academic_ues': ues})
