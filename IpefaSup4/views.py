@@ -4,7 +4,8 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse
 from .forms import LoginForm, StudentForm, TeacherForm, AdministratorForm, AddAcademicUEForm, AddUEForm, \
-    StudentProfileForm, EducatorForm, TeacherProfileForm, StudentEditProfileForm, AddRegistrationForm
+    StudentProfileForm, EducatorForm, TeacherProfileForm, StudentEditProfileForm, AddRegistrationForm, \
+    AddParticipationForm
 from .models import Educator, Student, Teacher, \
      Administrator
 from .utils import get_logged_user_from_request
@@ -188,6 +189,19 @@ def add_registration_views(request):
         return render(request, 'administrator/registration.html',
                       {'form': form, 'logged_user': logged_user, 'current_date_time': datetime.now})
 
+def add_participation_views(request):
+    logged_user = get_logged_user_from_request(request)
+    if logged_user:
+        if request.method == 'POST':
+            form = AddParticipationForm(request.POST)
+            if form.is_valid():
+                form.save()  # Sauvegarde les données si le formulaire est valide
+                return redirect('/welcome')  # Re# Rediriger ou renvoyer une réponse après soumission
+        else:
+            form = AddParticipationForm()  # Crée une nouvelle instance du formulaire
+
+        return render(request, 'administrator/participation.html',
+                      {'form': form, 'logged_user': logged_user, 'current_date_time': datetime.now})
 
 
 

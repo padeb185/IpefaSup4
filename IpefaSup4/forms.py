@@ -1,5 +1,5 @@
 from django import forms
-from .models import Educator, Teacher, Student, Administrator, AcademicUE, UE, Registration
+from .models import Educator, Teacher, Student, Administrator, AcademicUE, UE, Registration, Participation
 from django.contrib.auth.hashers import make_password, check_password
 from .utils import validate_student_email
 from django import forms
@@ -131,7 +131,10 @@ class AddRegistrationForm(forms.ModelForm):
         model = Registration
         fields = '__all__'
 
-
+class AddParticipationForm(forms.ModelForm):
+    class Meta:
+        model = Participation
+        fields = '__all__'
 
 
 
