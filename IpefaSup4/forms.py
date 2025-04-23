@@ -1,5 +1,5 @@
 from django import forms
-from .models import  Educator,  Teacher, Student, Administrator, AcademicUE, UE
+from .models import Educator, Teacher, Student, Administrator, AcademicUE, UE, Registration
 from django.contrib.auth.hashers import make_password, check_password
 from .utils import validate_student_email
 from django import forms
@@ -56,9 +56,8 @@ class LoginForm(forms.Form):
 
 
 
-from django import forms
-from django.contrib.auth.hashers import make_password
-from .models import Student, Teacher, Administrator, Educator
+
+
 
 class BaseListForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput, required=False, label='Mot de passe')
@@ -122,6 +121,14 @@ class AddUEForm(forms.ModelForm):
 
     class Meta:
         model = UE
+        fields = '__all__'
+
+
+class AddRegistrationForm(forms.ModelForm):
+
+
+    class Meta:
+        model = Registration
         fields = '__all__'
 
 

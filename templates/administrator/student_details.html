@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Détails de l'étudiant {{ student.first_name }} {{ student.last_name }}</h1>
+
+  <h2>Inscriptions aux UEs :</h2>
+  <ul>
+    {% for registration in registrations %}
+      <li>{{ registration.academic_ue.idUE }} - {{ registration.academic_ue.wording }}</li>
+    {% empty %}
+      <li>Aucune inscription</li>
+    {% endfor %}
+  </ul>
+
+  <p><a href="{% url 'registration_view' student.id %}">Ajouter des UEs</a></p>
+{% endblock %}
