@@ -323,15 +323,19 @@ def edit_own_profile(request):
     })
 
 
-def list_student_ues(request):
-    # Appeler la fonction pour obtenir l'étudiant connecté
-    student = get_logged_user_from_request(request)
 
-    if student is None:
-        return HttpResponse("Étudiant non trouvé ou non authentifié.", status=404)
 
-    # Récupérer les UEs associées à l'étudiant
-    ues = student.academic_ues.all()
 
-    # Passer la bonne variable au template
-    return render(request, 'student/list_student_ues.html', {'student': student, 'academic_ues': ues})
+def student_registration_view(request):
+    user = get_logged_user_from_request(request)
+
+    if not user or not hasattr(user, 'person_type') or user.person_type != 'etudiant':
+        # Redirige vers une page d'erreur ou la page de login
+        return redirect('login')  # ou une autre vue adaptée
+
+    registrations = user.registrations.select_related('academic_ue', 'academic_ue__section').all()
+
+    return render(request, 'student/student_registration.html', {
+        'student': user,
+        'registrations': registrations,
+    })

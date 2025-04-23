@@ -4,19 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="add participation">
-      <change afterPath="$PROJECT_DIR$/templates/administrator/section.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/administrator/session.html" afterDir="false" />
+    <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="add section">
+      <change afterPath="$PROJECT_DIR$/templates/student/student_registration.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IpefaSup4/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/IpefaSup4/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/IpefaSup4/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/administrator/welcomeAdmin.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/administrator/welcomeAdmin.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/student/welcomeStudent.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/student/welcomeStudent.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -132,6 +133,8 @@
       <workItem from="1745329423405" duration="2114000" />
       <workItem from="1745400056333" duration="1776000" />
       <workItem from="1745402135889" duration="847000" />
+      <workItem from="1745412013926" duration="1171000" />
+      <workItem from="1745429919902" duration="777000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <option name="closed" value="true" />
@@ -245,7 +248,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745411217690</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="add section">
+      <option name="closed" value="true" />
+      <created>1745412049496</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1745412049496</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -255,6 +266,7 @@
     <MESSAGE value="first commit" />
     <MESSAGE value="add registration" />
     <MESSAGE value="add participation" />
-    <option name="LAST_COMMIT_MESSAGE" value="add participation" />
+    <MESSAGE value="add section" />
+    <option name="LAST_COMMIT_MESSAGE" value="add section" />
   </component>
 </project>

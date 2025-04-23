@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Bienvenue Etudiant - Page des cours{% endblock %}
+
+{% block bodyId %}StudentCoursesPage{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <header class="welcome-header">
+        <div class="user-info">
+            Bienvenue sur IpefaSup,  {{ logged_user.first_name }} {{ logged_user.last_name }}
+        </div>
+        <div class="date-time">
+            Nous sommes le {{ current_date_time }}
+        </div>
+    </header>
+
+    <h1>Profil étudiant - Cours</h1>
+
+    <h2>Inscriptions aux UEs</h2>
+    <ul>
+      {% for reg in registrations %}
+        <li>
+          {{ reg.academic_ue }} - Statut: {{ reg.get_status_display }} - Résultat:
+          {% if reg.result %} {{ reg.result }} {% else %} Non noté {% endif %}
+        </li>
+      {% empty %}
+        <li>Aucune inscription enregistrée.</li>
+      {% endfor %}
+</ul>
+
+{% endblock %}
