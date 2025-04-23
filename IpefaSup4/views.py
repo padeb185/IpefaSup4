@@ -5,7 +5,7 @@ from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse
 from .forms import LoginForm, StudentForm, TeacherForm, AdministratorForm, AddAcademicUEForm, AddUEForm, \
     StudentProfileForm, EducatorForm, TeacherProfileForm, StudentEditProfileForm, AddRegistrationForm, \
-    AddParticipationForm
+    AddParticipationForm, AddSessionForm, AddSectionForm
 from .models import Educator, Student, Teacher, \
      Administrator
 from .utils import get_logged_user_from_request
@@ -202,6 +202,38 @@ def add_participation_views(request):
 
         return render(request, 'administrator/participation.html',
                       {'form': form, 'logged_user': logged_user, 'current_date_time': datetime.now})
+
+
+def add_session_views(request):
+    logged_user = get_logged_user_from_request(request)
+    if logged_user:
+        if request.method == 'POST':
+            form = AddSessionForm(request.POST)
+            if form.is_valid():
+                form.save()  # Sauvegarde les données si le formulaire est valide
+                return redirect('/welcome')  # Re# Rediriger ou renvoyer une réponse après soumission
+        else:
+            form = AddSessionForm()  # Crée une nouvelle instance du formulaire
+
+        return render(request, 'administrator/session.html',
+                      {'form': form, 'logged_user': logged_user, 'current_date_time': datetime.now})
+
+
+
+def add_section_views(request):
+    logged_user = get_logged_user_from_request(request)
+    if logged_user:
+        if request.method == 'POST':
+            form = AddSectionForm(request.POST)
+            if form.is_valid():
+                form.save()  # Sauvegarde les données si le formulaire est valide
+                return redirect('/welcome')  # Re# Rediriger ou renvoyer une réponse après soumission
+        else:
+            form = AddSectionForm()  # Crée une nouvelle instance du formulaire
+
+        return render(request, 'administrator/section.html',
+                      {'form': form, 'logged_user': logged_user, 'current_date_time': datetime.now})
+
 
 
 

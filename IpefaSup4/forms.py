@@ -1,5 +1,6 @@
 from django import forms
-from .models import Educator, Teacher, Student, Administrator, AcademicUE, UE, Registration, Participation
+from .models import Educator, Teacher, Student, Administrator, AcademicUE, UE, Registration, Participation, Session, \
+    Section
 from django.contrib.auth.hashers import make_password, check_password
 from .utils import validate_student_email
 from django import forms
@@ -136,6 +137,15 @@ class AddParticipationForm(forms.ModelForm):
         model = Participation
         fields = '__all__'
 
+class AddSessionForm(forms.ModelForm):
+    class Meta:
+        model = Session
+        fields = '__all__'
+
+class AddSectionForm(forms.ModelForm):
+    class Meta:
+        model = Section
+        fields = '__all__'
 
 
 class StudentProfileForm(BaseListForm):#liste des étudiants
