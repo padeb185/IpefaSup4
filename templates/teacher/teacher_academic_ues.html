@@ -17,8 +17,15 @@
     </header>
 
 
-    <h1>IpefaSup - Professeur</h1>
+   <h1>Mes Unités d’Enseignement</h1>
 
-    <a href="{% url 'teacher_academic_ues' %}">lister mes cours</a>
+    <ul>
+      {% for ue in academic_ues %}
+        <li>{{ ue.idUE }} - {{ ue.wording }} ({{ ue.academicYear }}, Cycle {{ ue.yearCycle }})</li>
+      {% empty %}
+        <li>Vous n’avez aucune UE assignée pour l’instant.</li>
+      {% endfor %}
+    </ul>
+
 
 {% endblock %}

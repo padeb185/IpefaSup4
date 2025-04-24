@@ -7,7 +7,7 @@ from .forms import LoginForm, StudentForm, TeacherForm, AdministratorForm, AddAc
     StudentProfileForm, EducatorForm, TeacherProfileForm, StudentEditProfileForm, AddRegistrationForm, \
     AddParticipationForm, AddSessionForm, AddSectionForm
 from .models import Educator, Student, Teacher, \
-     Administrator
+    Administrator, AcademicUE
 from .utils import get_logged_user_from_request
 from django.utils.timezone import now
 
@@ -339,3 +339,18 @@ def student_registration_view(request):
         'student': user,
         'registrations': registrations,
     })
+def teacher_academic_ues(request):
+    logged_user = get_logged_user_from_request(request)
+
+    if not logged_user or not hasattr(logged_user, 'person_type') or logged_user.person_type != 'professeur':
+        return redirect('login')  # ou une page d'erreur
+
+    academic_ues = AcademicUE.objects.filter(teacher=logged_user)
+
+    return render(request, 'teacher/teacher_academic_ues.html', {
+        'teacher': logged_user,
+        'academic_ues': academic_ues,
+    })
+
+
+
