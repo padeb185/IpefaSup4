@@ -88,7 +88,7 @@ class BaseListForm(forms.ModelForm):
 class StudentForm(BaseListForm):
     class Meta:
         model = Student
-        exclude = ['academic_ues', 'session']
+        exclude = ['academic_ues', 'sessions']
 
 
 

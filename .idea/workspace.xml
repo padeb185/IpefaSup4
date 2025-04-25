@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="view logged">
-      <change beforePath="$PROJECT_DIR$/IpefaSup4/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IpefaSup4/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/forms.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
