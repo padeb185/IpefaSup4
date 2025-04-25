@@ -1,6 +1,6 @@
 from datetime import datetime
 from django.contrib.auth.hashers import check_password
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from .forms import LoginForm, StudentForm, TeacherForm, AdministratorForm, AddAcademicUEForm, AddUEForm, \
     StudentProfileForm, EducatorForm, TeacherProfileForm, StudentEditProfileForm, AddRegistrationForm, \
@@ -92,8 +92,7 @@ def login(request):
         return render(request, 'login.html', {'form1': form1})
 
 
-from django.shortcuts import render, redirect
-from .forms import StudentForm, TeacherForm, EducatorForm, AdministratorForm
+
 
 
 def register(request):
