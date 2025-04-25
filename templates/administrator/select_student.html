@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Inscrire un étudiant à un cycle</h1>
+
+<form method="get" action="{% url 'select_student' %}">
+    <label for="student">Choisir un étudiant :</label>
+    <select name="student_id" id="student_id">
+        {% for student in students %}
+            <option value="{{ student.id }}">{{ student.first_name }} {{ student.last_name }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="cycle">Choisir un cycle :</label>
+    <select name="cycle_id" id="cycle_id">
+        {% for cycle in cycles %}
+            <option value="{{ cycle.yearCycle }}">Cycle {{ cycle.yearCycle }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Inscrire</button>
+</form>
+
+{% endblock %}
