@@ -49,8 +49,10 @@ urlpatterns = [
 
 
 
-    # Accueil éducateur
+    # Accueil administrator
+
     path('welcomeAdministrator/add_academic_ue/', add_academic_ue_views, name='add_academic_ue'),  # Ajouter UE académique
+
     path('welcomeAdministrator/add_ue/', add_ue_views, name='add_ue'),  # Ajouter UE
 
     path('welcomeAdministrator/registration/', add_registration_views, name='registration'),  # A
@@ -61,9 +63,19 @@ urlpatterns = [
 
     path('welcomeAdministrator/participation/', add_participation_views, name='participation'),  # A
 
-    path('admin/students/', student_list, name='student_list'),  # Liste des étudiants
-    path('admin/students/edit/<int:student_id>/', edit_student, name='edit_student'),  # Modifier un étudiant
-    path('admin/teacher_list/', teacher_list, name='teacher_list'),  # Liste des professeurs
-    path('admin/teacher/edit/<int:teacher_id>/', edit_teacher, name='edit_teacher'),  # Modifier un professeur
+    path('welcomeAdministrator/students/', student_list, name='student_list'),  # Liste des étudiants
+
+    path('welcomeAdministrator/students/edit/<int:student_id>/', edit_student, name='edit_student'),  # Modifier un étudiant
+
+    path('welcomeAdministrator/teacher_list/', teacher_list, name='teacher_list'),  # Liste des professeurs
+
+    path('welcomeAdministrator/teacher/edit/<int:teacher_id>/', edit_teacher, name='edit_teacher'),  # Modifier un professeur
+
+
+
+
+
+
+
     path('admin/', admin.site.urls),  # Admin Django
 ]

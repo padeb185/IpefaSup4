@@ -88,7 +88,8 @@ class BaseListForm(forms.ModelForm):
 class StudentForm(BaseListForm):
     class Meta:
         model = Student
-        fields = '__all__'
+        exclude = ['AcademicUE', 'session']
+
 
 
 class TeacherForm(BaseListForm):
@@ -149,11 +150,9 @@ class AddSectionForm(forms.ModelForm):
 
 
 class StudentProfileForm(BaseListForm):#liste des étudiants
-
-
     class Meta:
         model = Student
-        fields = '__all__'  # Corriger la syntaxe
+        exclude =  ['academic_ues', 'sessions'] # Corriger la syntaxe
 
 
 
