@@ -335,6 +335,7 @@ def student_registration_view(request):
 
     return render(request, 'student/student_registration.html', {
         'student': user,
+        'logged_user': user,
         'registrations': registrations,
     })
 def teacher_academic_ues(request):
@@ -347,6 +348,7 @@ def teacher_academic_ues(request):
 
     return render(request, 'teacher/teacher_academic_ues.html', {
         'teacher': logged_user,
+        'logged_user': logged_user,
         'academic_ues': academic_ues,
     })
 
