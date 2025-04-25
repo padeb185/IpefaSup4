@@ -171,8 +171,13 @@ def add_ue_views(request):
                 form.save()  # Sauvegarde les données si le formulaire est valide
                 return redirect('/welcome')  # Re# Rediriger ou renvoyer une réponse après soumission
         else:
-            form = AddUEForm()  # Crée une nouvelle instance du formulaire
+            form = AddUEForm() # Crée une nouvelle instance du formulaire
+        return render(request, 'administrator/add_ue.html', {
+            'form': form,
+            'logged_user': logged_user,
+            'current_date_time': datetime.now(),
 
+        })
 def add_registration_views(request):
     logged_user = get_logged_user_from_request(request)
     if logged_user:
@@ -336,6 +341,7 @@ def student_registration_view(request):
     return render(request, 'student/student_registration.html', {
         'student': user,
         'logged_user': user,
+        'current_date_time': datetime.now(),
         'registrations': registrations,
     })
 def teacher_academic_ues(request):
@@ -349,6 +355,7 @@ def teacher_academic_ues(request):
     return render(request, 'teacher/teacher_academic_ues.html', {
         'teacher': logged_user,
         'logged_user': logged_user,
+        'current_date_time': datetime.now(),
         'academic_ues': academic_ues,
     })
 
