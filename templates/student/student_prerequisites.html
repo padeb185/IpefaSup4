@@ -10,7 +10,41 @@
         </div>
     </header>
 <h1>Mes Prérequis 📚</h1>
+ <div>
+        <p>
+            <label for="wording">Filter par UE</label>
+            <select id="wording">
+                <option value="">Tout</option>
+                {% for word in wording %}
+                    <option value="{{ word }}">{{ word }}</option>
+                {% endfor %}
+            </select>
 
+            <label for="section">Filter par section</label>
+            <select id="section">
+                <option value="">Tout</option>
+                {% for words in section.wording %}
+                    <option value="{{ words }}">{{ words }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="yearCycle">Filter par année académique</label>
+            <select id="yearCycle">
+                <option value="">Tout</option>
+                {% for year in AcademicYear %}
+                    <option value="{{ year }}">{{ year }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="prerequis">Filter par prérequis</label>
+            <select id="prerequis">
+                <option value="">Tout</option>
+                {% for prerequis in ue_with_prerequisites %}
+                    <option value="{{ prerequis }}">{{ prerequis }}</option>
+                {% endfor %}
+            </select>
+        </p>
+    </div>
 
 
 <table>
@@ -51,4 +85,27 @@
 <br>
 
 <a href="{% url 'student_registration' %}">🔙 Retour à toutes mes inscriptions</a>
+
+ <script>
+        $(document).ready(function() {
+            var table = $('table').dataTable();
+
+            $('#wording').on('change', function() {
+                var val = $(this).val();
+                table.column(0).search(val).draw();
+            });
+            $('#section').on('change', function() {
+                var val = $(this).val();
+                table.column(1).search(val).draw();
+            });
+            $('#yearCycle').on('change', function() {
+                var val = $(this).val();
+                table.column(2).search(val).draw();
+            });
+            $('#prerequis').on('change', function() {
+                var val = $(this).val();
+                table.column(2).search(val).draw();
+            });
+        })
+    </script>
 {% endblock %}
