@@ -85,3 +85,48 @@ h1 {
 .sort {
 	display: inline;
 }
+
+/* Style de base pour le tableau */
+table {
+  width: 100%;                /* occupe toute la largeur du conteneur */
+  border-collapse: collapse;  /* fusionne les bordures pour un aspect net */
+  margin: 20px 0;             /* espacement vertical autour du tableau */
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+/* Style pour les cellules d'en-tête */
+thead th {
+  background-color: #f2f2f2;  /* couleur de fond douce pour l'en-tête */
+  color: #333;                /* couleur de texte sombre pour un bon contraste */
+  padding: 12px 8px;          /* espacement interne pour une meilleure lisibilité */
+  border: 1px solid #ddd;     /* bordure légère autour des cellules */
+  text-align: left;
+}
+
+/* Style pour les cellules du corps de tableau */
+tbody td {
+  padding: 10px 8px;
+  border: 1px solid #ddd;
+}
+
+/* Alternance des couleurs pour les lignes du corps */
+tbody tr:nth-child(odd) {
+  background-color: #fff;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Effet survol pour les lignes */
+tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Gestion du cas sans données */
+tbody tr:last-child td[colspan] {
+  text-align: center;
+  font-style: italic;
+  color: #777;
+}
