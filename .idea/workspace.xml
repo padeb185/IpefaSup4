@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="sessions">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IpefaSup4/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/static/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/student/student_passed_registrations.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/student/student_passed_registrations.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/student/student_registration.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/student/student_registration.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -142,6 +142,8 @@
       <workItem from="1745665672275" duration="169000" />
       <workItem from="1745671078642" duration="4409000" />
       <workItem from="1745675779226" duration="287000" />
+      <workItem from="1745676099839" duration="21000" />
+      <workItem from="1745676470204" duration="777000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <option name="closed" value="true" />
@@ -383,5 +385,17 @@
     <MESSAGE value="view logged" />
     <MESSAGE value="sessions" />
     <option name="LAST_COMMIT_MESSAGE" value="sessions" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/templates/student/student_passed_registrations.html</url>
+          <line>106</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
