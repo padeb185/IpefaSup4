@@ -27,7 +27,7 @@
         {% for student in students %}
             <li>
                 <!-- Lien cliquable pour modifier l'étudiant -->
-                <a href="{% url 'edit_student' student.id %}">{{ student.first_name }} {{ student.last_name }}</a>
+                <a href="{% url 'edit_student' student.id %}">{{ student.first_name }} {{ student.last_name }} {{ student.studentMail }}</a>
             </li>
         {% empty %}
             <li>Aucun étudiant trouvé.</li>

@@ -27,7 +27,7 @@
         {% for teacher in teachers %}
             <li>
                 <!-- Lien cliquable pour modifier l'étudiant -->
-                <a href="{% url 'edit_teacher' teacher.id %}">{{ teacher.first_name }} {{ teacher.last_name }}</a>
+                <a href="{% url 'edit_teacher' teacher.id %}">{{ teacher.first_name }} {{ teacher.last_name }} {{ teacher.matricule }}</a>
             </li>
         {% empty %}
             <li>Aucun professeur trouvé.</li>
