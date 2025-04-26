@@ -17,6 +17,9 @@
     </header>
 
     <h1>Ajout d'une session</h1>
+    {% if success %}
+        <p>La session a été ajoutée avec succès</p>
+    {% endif %}
     <form action="{% url 'session' %}" method="post">
 
         {% csrf_token %}
@@ -25,4 +28,8 @@
             <input type="submit" value="Ajouter">
         </p>
     </form>
+     <br>
+    <br>
+    <br>
+      <a href="{% url 'welcome' %}">retour</a>
 {% endblock %}

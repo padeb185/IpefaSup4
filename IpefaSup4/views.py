@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.contrib.auth.hashers import check_password
+from django.contrib.messages import success
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from .forms import LoginForm, StudentForm, TeacherForm, AdministratorForm, AddAcademicUEForm, AddUEForm, \
@@ -210,33 +211,44 @@ def add_participation_views(request):
 def add_session_views(request):
     logged_user = get_logged_user_from_request(request)
     if logged_user:
-        if request.method == 'POST':
-            form = AddSessionForm(request.POST)
-            if form.is_valid():
-                form.save()  # Sauvegarde les données si le formulaire est valide
-                return redirect('/welcome')  # Re# Rediriger ou renvoyer une réponse après soumission
-        else:
-            form = AddSessionForm()  # Crée une nouvelle instance du formulaire
-
-        return render(request, 'administrator/session.html',
+        if logged_user.person_type in ('administrateur', 'educateur'):
+            if request.method == 'POST':
+                form = AddSessionForm(request.POST)
+                if form.is_valid():
+                    form.save()  # Sauvegarde les données si le formulaire est valide
+                    form = AddSessionForm()
+                    return render(request, 'administrator/session.html',
+                                  {'form': form, success :True})  # Re# Rediriger ou renvoyer une réponse après soumission
+            else:
+                form = AddSessionForm()  # Crée une nouvelle instance du formulaire
+                return render(request, 'administrator/session.html',
                       {'form': form, 'logged_user': logged_user, 'current_date_time': datetime.now})
-
+        else:
+            return redirect('login')
+    else:
+        return redirect('login')
 
 
 def add_section_views(request):
     logged_user = get_logged_user_from_request(request)
     if logged_user:
-        if request.method == 'POST':
-            form = AddSectionForm(request.POST)
-            if form.is_valid():
-                form.save()  # Sauvegarde les données si le formulaire est valide
-                return redirect('/welcome')  # Re# Rediriger ou renvoyer une réponse après soumission
-        else:
-            form = AddSectionForm()  # Crée une nouvelle instance du formulaire
-
-        return render(request, 'administrator/section.html',
+        if logged_user.person_type in 'administrateur':
+            if request.method == 'POST':
+                form = AddSectionForm(request.POST)
+                if form.is_valid():
+                    form.save() # Sauvegarde les données si le formulaire est valide
+                    form = AddSectionForm()
+                    return render(request, 'administrator/section.html',
+                                  {'form': form, 'success': True,
+                                            'logged_user': logged_user, 'current_date_time': datetime.now})  # Re# Rediriger ou renvoyer une réponse après soumission
+            else:
+                form = AddSectionForm()
+                return render(request, 'administrator/section.html',
                       {'form': form, 'logged_user': logged_user, 'current_date_time': datetime.now})
-
+        else:
+            return redirect('login')
+    else:
+        return redirect('login')
 
 
 
