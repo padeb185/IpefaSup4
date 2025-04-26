@@ -10,7 +10,40 @@
         </div>
     </header>
 <h1>Mes Inscriptions Non Passées</h1>
+<div>
+        <p>
+            <label for="ueFilter">Filter par UE</label>
+            <select id="ueFilter">
+                <option value="">Tout</option>
+                {% for registration in registrations %}
+                    <option value="{{ registration }}">{{ registration }}</option>
+                {% endfor %}
+            </select>
 
+            <label for="academicYear">Filter par année académique</label>
+            <select id="academicYear">
+                <option value="">Tout</option>
+                {% for academic in academicYear %}
+                    <option value="{{ academic }}">{{ academic }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="yearCycle">Filter par cycle</label>
+            <select id="yearCycle">
+                <option value="">Tout</option>
+                {% for year in yearCycle %}
+                    <option value="{{ year }}">{{ year }}</option>
+                {% endfor %}
+            </select>
+             <label for="status">Filter par status</label>
+            <select id="status">
+                <option value="">Tout</option>
+                {% for stat in status %}
+                    <option value="{{ stat }}">{{ stat }}</option>
+                {% endfor %}
+            </select>
+        </p>
+    </div>
 
 <table>
     <thead>
@@ -43,7 +76,31 @@
             </tr>
         {% endfor %}
     </tbody>
-</table>
+</table
+
+    <script>
+     $(document).ready(function() {
+            var table = $('table').dataTable();
+
+            $('#ueFilter').on('change', function() {
+                var val = $(this).val();
+                table.column(0).search(val).draw();
+            });
+            $('#academicYear').on('change', function() {
+                var val = $(this).val();
+                table.column(1).search(val).draw();
+            });
+            $('#yearCycle').on('change', function() {
+                var val = $(this).val();
+                table.column(2).search(val).draw();
+            });
+             $('#status').on('change', function() {
+                var val = $(this).val();
+                table.column(3).search(val).draw();
+            });
+        })
+    </script>
+
     <a href="{% url 'student_prerequisites' %}">lister les prérequis</a>
 <a href="{% url 'student_registration' %}">🔙 Retour à toutes mes inscriptions</a>
 
