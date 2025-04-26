@@ -4,20 +4,9 @@ from django.core.exceptions import ValidationError
 from django.db import models
 
 def validate_student_email(email):
-    """
-    Fonction pour valider un email d'étudiant sous le format nom.prenom@student.efpl.be
-    """
-    # Utilisation de la méthode get_model pour éviter l'import circulaire
-    Student = apps.get_model('IpefaSup4', 'Student')  # Charger le modèle 'Student'
-
-    # Expression régulière pour valider le format nom.prenom@student.efpl.be
-    student_email_pattern = r"^[a-zA-Z0-9._%+-]+(\.[a-zA-Z0-9._%+-]+)*@student\.efpl\.be$"
-
-    # Vérification si l'email correspond au pattern
-    if re.match(student_email_pattern, email):
-        return True
-    return False
-
+    pattern = r"^[a-z]+\.[a-z]+@student\.efpl\.be$"
+    if not re.match(pattern, email):
+        raise ValidationError("L'adresse email doit être du type nom.prenom@student.efpl.be")
 
 class Person(models.Model):
     SEXE_CHOICES = [
@@ -313,7 +302,3 @@ class Registration(models.Model):
 
 #John Doe (johndoe@student.university.com) inscrit à MATH101 - Mathématiques (2024-2025, Cycle 1) - Statut: AP
 #John Doe (johndoe@student.university.com) inscrit à MATH101 - Mathématiques (2024-2025, Cycle 1) - Statut: AP
-def custom_email_validator(email):
-    pattern = r"^[a-z]+\.[a-z]+@student\.efpl\.be$"
-    if not re.match(pattern, email):
-        raise ValidationError("L'adresse email doit être du type nom.prenom@student.efpl.be")

@@ -7,11 +7,13 @@
     <title>Ipefa Sup - {% block title %}Bienvenue{% endblock %}</title>
 
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
 </head>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <body id="{% block bodyId %}genericPage{% endblock %}">
     <header>
         {% block headerContent %}{% endblock %}

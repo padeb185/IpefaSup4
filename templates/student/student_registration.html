@@ -5,9 +5,10 @@
 
 {% block bodyId %}StudentCoursesPage{% endblock %}
 
+
+
 {% block content %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-    <header class="welcome-header">
+ <header class="welcome-header">
         <div class="user-info">
             Bienvenue sur IpefaSup,  {{ logged_user.first_name }} {{ logged_user.last_name }}
         </div>
@@ -15,19 +16,80 @@
             Nous sommes le {{ current_date_time }}
         </div>
     </header>
+    <h1>Mes Inscriptions</h1>
+    <div>
+        <p>
+            <label for="ueFilter">Filter par UE</label>
+            <select id="ueFilter">
+                <option value="">Tout</option>
+                {% for registration in registrations %}
+                    <option value="{{ registration }}">{{ registration }}</option>
+                {% endfor %}
+            </select>
 
-    <h1>Profil étudiant - Cours</h1>
+            <label for="academicYear">Filter par année académique</label>
+            <select id="academicYear">
+                <option value="">Tout</option>
+                {% for academic in academicYear %}
+                    <option value="{{ academic }}">{{ academic }}</option>
+                {% endfor %}
+            </select>
 
-    <h2>Inscriptions aux UEs</h2>
-    <ul>
-      {% for reg in registrations %}
-        <li>
-          {{ reg.academic_ue }} - Statut: {{ reg.get_status_display }} - Résultat:
-          {% if reg.result %} {{ reg.result }} {% else %} Non noté {% endif %}
-        </li>
-      {% empty %}
-        <li>Aucune inscription enregistrée.</li>
-      {% endfor %}
-</ul>
+            <label for="yearCycle">Filter par cycle</label>
+            <select id="yearCycle">
+                <option value="">Tout</option>
+                {% for year in yearCycle %}
+                    <option value="{{ year }}">{{ year }}</option>
+                {% endfor %}
+            </select>
+        </p>
+    </div>
 
+<table>
+    <thead>
+        <tr>
+            <th>UE</th>
+            <th>Année académique</th>
+            <th>Cycle</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for registration in registrations %}
+            <tr>
+                <td>{{ registration.academic_ue.wording }}</td>
+                <td>{{ registration.academic_ue.academicYear }}</td>
+                <td>Cycle {{ registration.academic_ue.yearCycle }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="4">Aucune inscription trouvée.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+     <a href="{% url 'student_non_passed_registrations' %}">lister mes cours non réussis</a>
+     <a href="{% url 'student_passed_registrations' %}">lister mes cours réussis</a>
+    <a href="welcomeStudent.html">Retour</a>
+
+
+    <script>
+        $(document).ready(function() {
+            var table = $('table').dataTable();
+
+            $('#ueFilter').on('change', function() {
+                var val = $(this).val();
+                table.column(0).search(val).draw();
+            });
+            $('#academicYaer').on('change', function() {
+                var val = $(this).val();
+                table.column(1).search(val).draw();
+            });
+            $('#yearCycle').on('change', function() {
+                var val = $(this).val();
+                table.column(2).search(val).draw();
+            });
+        })
+    </script>
 {% endblock %}

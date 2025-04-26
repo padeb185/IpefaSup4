@@ -21,7 +21,8 @@ from django.urls import path
 from django.urls import path
 from .views import login, welcome, register, add_academic_ue_views, add_ue_views, student_list, edit_student, \
     teacher_list, edit_teacher, edit_own_profile, add_registration_views, add_participation_views, \
-    add_session_views, add_section_views, student_registration_view, teacher_academic_ues
+    add_session_views, add_section_views, student_registration_view, teacher_academic_ues, \
+    student_non_passed_registrations_view, student_passed_registrations_view, student_prerequisites_view
 from django.contrib import admin
 
 urlpatterns = [
@@ -35,6 +36,12 @@ urlpatterns = [
     path('welcomeStudent/', welcome, name='welcomeStudent'),
     path('edit/', edit_own_profile, name='edit_own_profile'),
     path ('student/student_registration', student_registration_view, name='student_registration' ),
+
+    path('student/non_passed_registrations/', student_non_passed_registrations_view,
+         name='student_non_passed_registrations'),
+    path('student/passed_registrations/', student_passed_registrations_view, name='student_passed_registrations'),
+
+    path('student/prerequisites/', student_prerequisites_view, name='student_prerequisites'),
 
 
 

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+     <header class="welcome-header">
+        <div class="user-info">
+            Bienvenue sur IpefaSup,  {{ logged_user.first_name }} {{ logged_user.last_name }}
+        </div>
+        <div class="date-time">
+            Nous sommes le {{ current_date_time }}
+        </div>
+    </header>
+<h1>Mes Prérequis 📚</h1>
+
+
+
+<table>
+    <thead>
+        <tr>
+            <th>UE</th>
+            <th>Section</th>
+            <th>Année</th>
+            <th>Prérequis</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in ue_with_prerequisites %}
+            <tr>
+                <td>{{ item.ue.wording }}</td>
+                <td>{{ item.ue.section.wording }}</td>
+                <td>{{ item.ue.academicYear }}</td>
+                <td>
+                    {% if item.prerequisites %}
+                        <ul>
+                        {% for prereq in item.prerequisites %}
+                            <li>{{ prereq.wording }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% else %}
+                        Aucun prérequis
+                    {% endif %}
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="4">Aucune UE enregistrée.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<br>
+
+<a href="{% url 'student_registration' %}">🔙 Retour à toutes mes inscriptions</a>
+{% endblock %}

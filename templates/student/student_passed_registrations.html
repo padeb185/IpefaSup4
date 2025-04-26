@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+     <header class="welcome-header">
+        <div class="user-info">
+            Bienvenue sur IpefaSup,  {{ logged_user.first_name }} {{ logged_user.last_name }}
+        </div>
+        <div class="date-time">
+            Nous sommes le {{ current_date_time }}
+        </div>
+    </header>
+<h1>Mes UE Réussies 🎓</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Code UE</th>
+            <th>Nom</th>
+            <th>Section</th>
+            <th>Année</th>
+            <th>Résultat</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for registration in registrations %}
+            <tr>
+                <td>{{ registration.academic_ue.idUE }}</td>
+                <td>{{ registration.academic_ue.wording }}</td>
+                <td>{{ registration.academic_ue.section.wording }}</td>
+                <td>{{ registration.academic_ue.academicYear }}</td>
+                <td>{{ registration.result }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="5">Aucune UE réussie pour l'instant.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<br>
+
+<a href="{% url 'student_registration' %}">🔙 Retour à toutes mes inscriptions</a>
+{% endblock %}

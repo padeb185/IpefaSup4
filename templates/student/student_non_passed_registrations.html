@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+     <header class="welcome-header">
+        <div class="user-info">
+            Bienvenue sur IpefaSup,  {{ logged_user.first_name }} {{ logged_user.last_name }}
+        </div>
+        <div class="date-time">
+            Nous sommes le {{ current_date_time }}
+        </div>
+    </header>
+<h1>Mes Inscriptions Non Passées</h1>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>UE</th>
+            <th>Année académique</th>
+            <th>Cycle</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for registration in registrations %}
+            <tr>
+                <td>{{ registration.academic_ue.wording }}</td>
+                <td>{{ registration.academic_ue.academicYear }}</td>
+                <td>Cycle {{ registration.academic_ue.yearCycle }}</td>
+                <td>
+                    {% if registration.status == 'NP' %}
+                        Non Passé
+                    {% elif registration.status == 'AP' %}
+                        Approuvé
+                    {% else %}
+                        Inconnu
+                    {% endif %}
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="3">Aucune inscription non passée.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+    <a href="{% url 'student_prerequisites' %}">lister les prérequis</a>
+<a href="{% url 'student_registration' %}">🔙 Retour à toutes mes inscriptions</a>
+
+{% endblock %}
