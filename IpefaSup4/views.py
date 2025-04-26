@@ -182,16 +182,24 @@ def add_ue_views(request):
 def add_registration_views(request):
     logged_user = get_logged_user_from_request(request)
     if logged_user:
-        if request.method == 'POST':
-            form = AddRegistrationForm(request.POST)
-            if form.is_valid():
-                form.save()  # Sauvegarde les données si le formulaire est valide
-                return redirect('/welcome')  # Re# Rediriger ou renvoyer une réponse après soumission
+        if logged_user.person_type in ('administrateur', 'educateur'):
+            if request.method == 'POST':
+                form = AddRegistrationForm(request.POST)
+                if form.is_valid():
+                    form.save()  # Sauvegarde les données si le formulaire est valide
+                    form = AddRegistrationForm()
+                    return render(request, 'administrator/registration.html',
+                                  {'form': form, 'success': True, 'logged_user': logged_user, 'current_date_time': datetime.now})# Rediriger ou renvoyer une réponse après soumission
+            else:
+                form = AddRegistrationForm()  # Crée une nouvelle instance du formulaire
+                return render(request, 'administrator/registration.html',
+                          {'form': form, 'logged_user': logged_user, 'current_date_time': datetime.now})
         else:
-            form = AddRegistrationForm()  # Crée une nouvelle instance du formulaire
+            return redirect('login')
+    else:
+        return redirect('login')
 
-        return render(request, 'administrator/registration.html',
-                      {'form': form, 'logged_user': logged_user, 'current_date_time': datetime.now})
+
 
 def add_participation_views(request):
     logged_user = get_logged_user_from_request(request)
@@ -216,9 +224,10 @@ def add_session_views(request):
                 form = AddSessionForm(request.POST)
                 if form.is_valid():
                     form.save()  # Sauvegarde les données si le formulaire est valide
+
                     form = AddSessionForm()
                     return render(request, 'administrator/session.html',
-                                  {'form': form, success :True})  # Re# Rediriger ou renvoyer une réponse après soumission
+                                  {'form': form, 'success' :True})  # Re# Rediriger ou renvoyer une réponse après soumission
             else:
                 form = AddSessionForm()  # Crée une nouvelle instance du formulaire
                 return render(request, 'administrator/session.html',
