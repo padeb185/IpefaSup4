@@ -3,7 +3,41 @@
 
 {% block content %}
   <h1>Étudiants inscrits à {{ academic_ue.wording }} ({{ academic_ue.academicYear }}, Cycle {{ academic_ue.yearCycle }})</h1>
+     <div>
+        <p>
+            <label for="student">Filter par étudiant</label>
+            <select id="student">
+                <option value="">Tout</option>
+                {% for student in registrations %}
+                    <option value="{{ student }}">{{ student }}</option>
+                {% endfor %}
+            </select>
 
+            <label for="email">Filter par email</label>
+            <select id="email">
+                <option value="">Tout</option>
+                {% for mail in email %}
+                    <option value="{{ mail }}">{{ mail }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="status">Filter par status</label>
+            <select id="status">
+                <option value="">Tout</option>
+                {% for stat in status %}
+                    <option value="{{ stat }}">{{ stat }}</option>
+                {% endfor %}
+            </select>
+
+             <label for="result">Filter par Résultat</label>
+                <select id="result">
+                    <option value="">Tout</option>
+                    {% for result in resultats %}
+                        <option value="{{ result }}">{{ result }}</option>
+                    {% endfor %}
+                </select>
+        </p>
+    </div>
   {% if registrations %}
     <table>
       <thead>
@@ -28,4 +62,26 @@
   {% else %}
     <p>Aucun étudiant inscrit à cette unité académique.</p>
   {% endif %}
+    <script>
+        $(document).ready(function() {
+            var table = $('table').dataTable();
+
+            $('#student').on('change', function() {
+                var val = $(this).val();
+                table.column(0).search(val).draw();
+            });
+            $('#email').on('change', function() {
+                var val = $(this).val();
+                table.column(1).search(val).draw();
+            });
+            $('#status').on('change', function() {
+                var val = $(this).val();
+                table.column(2).search(val).draw();
+            });
+             $('#result').on('change', function() {
+                var val = $(this).val();
+                table.column(2).search(val).draw();
+            });
+        })
+    </script>
 {% endblock %}

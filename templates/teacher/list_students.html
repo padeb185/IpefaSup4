@@ -8,6 +8,7 @@
 {% block content %}
 <h1>Liste des étudiants par Unité d'Enseignement</h1>
 
+
   {% if ue_registrations %}
     <table border="1">
       <thead>
@@ -43,4 +44,7 @@
   {% endif %}
 
   <p><small>Accès à la page effectué à {{ current_date_time }}</small></p>
+
+
+
 {% endblock %}
