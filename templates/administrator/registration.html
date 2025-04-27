@@ -19,7 +19,7 @@
     <h1>Ajout d'une registration</h1>
      {% if success %}
         <p>La registration a été ajoutée avec succès</p>
-    {% endif %}
+     {% endif %}
     <form action="{% url 'registration' %}" method="post">
 
         {% csrf_token %}
@@ -32,6 +32,6 @@
     <br>
     <br>
     <br>
-    <a href="{% url 'welcome' %}">retour</a>
+    <a href="{% url 'welcome' %}">Retour</a>
 
 {% endblock %}
