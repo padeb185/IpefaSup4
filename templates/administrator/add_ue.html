@@ -17,6 +17,9 @@
     </header>
 
     <h1>Ajout d'une unité d'enseignement</h1>
+    {% if success %}
+        <p>L'unité d'enseignement a été ajoutée avec succès</p>
+    {% endif %}
     <form action="{% url 'add_ue' %}" method="post">
 
         {% csrf_token %}
@@ -25,4 +28,9 @@
             <input type="submit" value="Ajouter">
         </p>
     </form>
+
+    <br>
+    <br>
+    <br>
+    <a href="{% url 'welcome' %}">Retour</a>
 {% endblock %}
