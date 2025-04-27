@@ -147,24 +147,24 @@ def register(request):
 
 def add_academic_ue_views(request):
     logged_user = get_logged_user_from_request(request)
-    if not logged_user:
-        return redirect('login')  # Ou une autre redirection en cas d'absence d'utilisateur connecté
-
-    if request.method == 'POST':
-        form = AddAcademicUEForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('/welcome')  # Remplace par la page vers laquelle tu veux rediriger après ajout
+    if logged_user:
+        if logged_user.person_type in ('administrateur', 'educateur'):
+            if request.method == 'POST':
+                form = AddAcademicUEForm(request.POST)
+                if form.is_valid():
+                    form.save()  # Sauvegarde les données si le formulaire est valide
+                    form = AddAcademicUEForm()
+                    return render(request, 'administrator/add_academic_ue.html',
+                                  {'form': form, 'success': True, 'logged_user': logged_user,
+                                   'current_date_time': datetime.now})
+            else:
+                form = AddAcademicUEForm()
+                return render(request, 'administrator/add_academic_ue.html',
+                              {'form': form, 'logged_user': logged_user, 'current_date_time': datetime.now})
+        else:
+            return redirect('login')
     else:
-        form = AddAcademicUEForm()
-
-    return render(request, 'administrator/add_academic_ue.html', {
-        'form': form,
-        'logged_user': logged_user,
-        'current_date_time': datetime.now(),
-    })
-
-
+        return redirect('login')
 
 
 def add_ue_views(request):
