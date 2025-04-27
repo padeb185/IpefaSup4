@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Liste des étudiants par Unité d'Enseignement{% endblock %}
+
+{% block bodyId %}listStudentByCoursePage{% endblock %}
+
+{% block content %}
+<h1>Liste des étudiants par Unité d'Enseignement</h1>
+
+  {% if ue_registrations %}
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Unité d'Enseignement</th>
+          <th>Étudiant</th>
+          <th>Email</th>
+          <th>Statut</th>
+          <th>Résultat</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for ue, registrations in ue_registrations.items %}
+          <!-- Affiche l'UE dans la première ligne pour chaque groupe d'étudiants -->
+          {% for registration in registrations %}
+            <tr>
+              {% if forloop.first %}
+                <td rowspan="{{ registrations|length }}">
+                  <strong>{{ ue.idUE }} - {{ ue.wording }} ({{ ue.academicYear }}, Cycle {{ ue.yearCycle }})</strong>
+                </td>
+              {% endif %}
+              <td>{{ registration.student.first_name }} {{ registration.student.last_name }}</td>
+              <td><a href="mailto:{{ registration.student.studentMail }}">{{ registration.student.studentMail }}</a></td>
+              <td>{{ registration.status }}</td>
+              <td>{% if registration.result %}{{ registration.result }}{% else %}Non renseigné{% endif %}</td>
+            </tr>
+          {% endfor %}
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>Aucune inscription trouvée pour ce professeur.</p>
+  {% endif %}
+
+  <p><small>Accès à la page effectué à {{ current_date_time }}</small></p>
+{% endblock %}

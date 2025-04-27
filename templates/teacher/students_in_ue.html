@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Étudiants dans {{ academic_ue.wording }}{% endblock %}
+
+{% block content %}
+  <h1>Étudiants inscrits à {{ academic_ue.wording }} ({{ academic_ue.academicYear }}, Cycle {{ academic_ue.yearCycle }})</h1>
+
+  {% if registrations %}
+    <table>
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Email</th>
+          <th>Statut</th>
+          <th>Résultat</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for registration in registrations %}
+          <tr>
+            <td>{{ registration.student.first_name }} {{ registration.student.last_name }}</td>
+            <td><a href="mailto:{{ registration.student.studentMail }}">{{ registration.student.studentMail }}</a></td>
+            <td>{{ registration.status }}</td>
+            <td>{{ registration.result }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>Aucun étudiant inscrit à cette unité académique.</p>
+  {% endif %}
+{% endblock %}

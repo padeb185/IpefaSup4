@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Mes Unités Académiques{% endblock %}
+
+{% block content %}
+  <h1>Mes Unités Académiques</h1>
+
+  <ul>
+    {% for ue in academic_ues %}
+      <li>
+        <a href="{% url 'students_in_academic_ue' academic_ue_id=ue.idUE %}">{{ ue.wording }} ({{ ue.academicYear }}, Cycle {{ ue.yearCycle }})</a>
+      </li>
+    {% empty %}
+      <li>Aucune unité académique assignée à ce professeur.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

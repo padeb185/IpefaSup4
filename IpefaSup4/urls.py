@@ -22,7 +22,8 @@ from django.urls import path
 from .views import login, welcome, register, add_academic_ue_views, add_ue_views, student_list, edit_student, \
     teacher_list, edit_teacher, edit_own_profile, add_registration_views, add_participation_views, \
     add_session_views, add_section_views, student_registration_view, teacher_academic_ues, \
-    student_non_passed_registrations_view, student_passed_registrations_view, student_prerequisites_view
+    student_non_passed_registrations_view, student_passed_registrations_view, student_prerequisites_view, \
+    academic_ues_for_teacher, students_in_academic_ue
 from django.contrib import admin
 
 urlpatterns = [
@@ -50,8 +51,15 @@ urlpatterns = [
     path('welcomeTeacher/', welcome, name='welcomeTeacher'),
     path('teacher/teacher_academic_ues/', teacher_academic_ues, name='teacher_academic_ues'),
 
+    path('teacher/academic-ues/', academic_ues_for_teacher, name='academic_ue_for_teacher'),
 
-    # Accueil professeur
+    path('welcomeTeacher/students-in-ue/<str:academic_ue_id>/', students_in_academic_ue, name='students_in_academic_ue'),
+
+
+
+
+
+    # Accueil éducateur
     path('welcomeEducator/', welcome, name='welcomeEducator'),
 
 

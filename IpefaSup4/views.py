@@ -1,13 +1,15 @@
+from collections import defaultdict
 from datetime import datetime
 from django.contrib.auth.hashers import check_password
 from django.contrib.messages import success
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from .forms import LoginForm, StudentForm, TeacherForm, AdministratorForm, AddAcademicUEForm, AddUEForm, \
     StudentProfileForm, EducatorForm, TeacherProfileForm, StudentEditProfileForm, AddRegistrationForm, \
     AddParticipationForm, AddSessionForm, AddSectionForm
 from .models import Educator, Student, Teacher, \
-    Administrator, AcademicUE
+    Administrator, AcademicUE, Registration
 from .utils import get_logged_user_from_request
 from django.utils.timezone import now
 
@@ -459,3 +461,38 @@ def teacher_academic_ues(request):
 
 
 
+
+
+def academic_ues_for_teacher(request):
+    logged_user = get_logged_user_from_request(request)
+    if logged_user:
+        if logged_user.person_type == 'professeur':
+            # Récupère les unités académiques du professeur connecté
+            academic_ues = AcademicUE.objects.filter(teacher=logged_user)
+            return render(request, 'teacher/academic_ues_list.html', {
+                'academic_ues': academic_ues,
+                'logged_user': logged_user,
+                'current_date_time': datetime.now()
+            })
+        else:
+            return redirect('login')
+    else:
+        return redirect('login')
+
+def students_in_academic_ue(request, academic_ue_id):
+    logged_user = get_logged_user_from_request(request)
+    if logged_user:
+        if logged_user.person_type == 'professeur':
+            # Récupère l'unité académique spécifique et ses inscriptions
+            academic_ue = get_object_or_404(AcademicUE, idUE=academic_ue_id)
+            registrations = Registration.objects.filter(academic_ue=academic_ue)
+            return render(request, 'teacher/students_in_ue.html', {
+                'academic_ue': academic_ue,
+                'registrations': registrations,
+                'logged_user': logged_user,
+                'current_date_time': datetime.now()
+            })
+        else:
+            return redirect('login')
+    else:
+        return redirect('login')
