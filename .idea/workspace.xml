@@ -7,9 +7,6 @@
     <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="sessions">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/IpefaSup4/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/administrator/add_ue.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/administrator/add_ue.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/administrator/student_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/administrator/student_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/administrator/teacher_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/administrator/teacher_list.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -149,7 +146,7 @@
       <workItem from="1745678321276" duration="1158000" />
       <workItem from="1745681395779" duration="23000" />
       <workItem from="1745685957176" duration="2678000" />
-      <workItem from="1745744627131" duration="2562000" />
+      <workItem from="1745744627131" duration="3126000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <option name="closed" value="true" />
@@ -423,7 +420,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745745289248</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="sessions">
+      <option name="closed" value="true" />
+      <created>1745747418435</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1745747418435</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

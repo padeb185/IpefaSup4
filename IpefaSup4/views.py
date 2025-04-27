@@ -163,34 +163,28 @@ def add_academic_ue_views(request):
     })
 
 
-from django.shortcuts import render, redirect
-from datetime import datetime
-from .forms import AddUEForm
-from .utils import get_logged_user_from_request
+
 
 def add_ue_views(request):
     logged_user = get_logged_user_from_request(request)
     if logged_user:
-        if logged_user.person_type == 'administrateur':  # CORRECTION ici (== au lieu de in)
+        if logged_user.person_type == 'administrateur':
             if request.method == 'POST':
                 form = AddUEForm(request.POST)
                 if form.is_valid():
                     form.save()  # Sauvegarde les données si le formulaire est valide
-                    form = AddUEForm()  # Recrée un formulaire vide après la sauvegarde
+                    form = AddUEForm()
                     return render(request, 'administrator/add_ue.html',
-                                  {'form': form, 'success': True,
-                                   'logged_user': logged_user,
-                                   'current_date_time': datetime.now()})  # CORRECTION ici (ajouter les parenthèses)
+                                  {'form': form, 'success': True, 'logged_user': logged_user, 'current_date_time': datetime.now})
             else:
                 form = AddUEForm()
                 return render(request, 'administrator/add_ue.html',
-                              {'form': form,
-                               'logged_user': logged_user,
-                               'current_date_time': datetime.now()})  # idem ici
+                              {'form': form, 'logged_user': logged_user, 'current_date_time': datetime.now})
         else:
             return redirect('login')
     else:
         return redirect('login')
+
 
 
 
