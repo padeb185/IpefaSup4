@@ -34,6 +34,8 @@ urlpatterns = [
     path('register/', register, name='register'),  # Inscription
 
 
+
+
     path('welcomeStudent/', welcome, name='welcomeStudent'),
     path('edit/', edit_own_profile, name='edit_own_profile'),
     path ('student/student_registration', student_registration_view, name='student_registration' ),
