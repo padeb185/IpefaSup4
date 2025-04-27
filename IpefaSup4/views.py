@@ -168,7 +168,7 @@ def add_academic_ue_views(request):
 def add_ue_views(request):
     logged_user = get_logged_user_from_request(request)
     if logged_user:
-        if logged_user.person_type == 'administrateur':
+        if logged_user.person_type in ('administrateur', 'educateur'):
             if request.method == 'POST':
                 form = AddUEForm(request.POST)
                 if form.is_valid():
@@ -255,7 +255,7 @@ def add_session_views(request):
 def add_section_views(request):
     logged_user = get_logged_user_from_request(request)
     if logged_user:
-        if logged_user.person_type in 'administrateur':
+        if logged_user.person_type in ('administrateur', 'educateur'):
             if request.method == 'POST':
                 form = AddSectionForm(request.POST)
                 if form.is_valid():
