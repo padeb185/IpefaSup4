@@ -496,3 +496,30 @@ def students_in_academic_ue(request, academic_ue_id):
             return redirect('login')
     else:
         return redirect('login')
+
+
+def encode_results(request, academic_ue_id):
+    logged_user = get_logged_user_from_request(request)
+    if logged_user and logged_user.person_type == 'professeur':
+        academic_ue = get_object_or_404(AcademicUE, idUE=academic_ue_id)
+        registrations = Registration.objects.filter(academic_ue=academic_ue)
+
+        if request.method == 'POST':
+            for registration in registrations:
+                result = request.POST.get(f'result_{registration.id}')
+                status = request.POST.get(f'status_{registration.id}')
+                if result:
+                    registration.result = result
+                if status:
+                    registration.status = status
+                registration.save()
+
+            return redirect('welcomeTeacher')
+
+        return render(request, 'teacher/encode_results.html', {
+            'academic_ue': academic_ue,
+            'registrations': registrations,
+            'logged_user': logged_user,
+        })
+    else:
+        return redirect('login')
