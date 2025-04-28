@@ -7,37 +7,52 @@
 
 {% block content %}
 <h1>Liste des professeurs</h1>
-    <header class="welcome-header">
-        <div class="user-info">
-            Bienvenue sur IpefaSup,  {{ logged_user.first_name }} {{ logged_user.last_name }}
-        </div>
-        <div class="date-time">
-            Nous sommes le {{ current_date_time }}
-        </div>
-    </header>
+<header class="welcome-header">
+    <div class="user-info">
+        Bienvenue sur IpefaSup, {{ logged_user.first_name }} {{ logged_user.last_name }}
+    </div>
+    <div class="date-time">
+        Nous sommes le {{ current_date_time }}
+    </div>
+</header>
 
-    <!-- Liens pour trier les étudiants -->
-    <p>
-        Trier par :
-        <a class="sort" href="?sort_by=first_name">Prénom</a> |
-        <a class="sort" href="?sort_by=last_name">Nom</a>
-    </p>
+<!-- Liens pour trier les professeurs -->
+<p>
+    Trier par :
+    <a class="sort" href="?sort_by=first_name">Prénom</a> |
+    <a class="sort" href="?sort_by=last_name">Nom</a>
+</p>
 
-    <ul>
+<!-- Tableau des professeurs -->
+<table>
+    <thead>
+        <tr>
+            <th>Prénom</th>
+            <th>Nom</th>
+            <th>Matricule</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for teacher in teachers %}
-            <li>
-                <!-- Lien cliquable pour modifier l'étudiant -->
-                <a href="{% url 'edit_teacher' teacher.id %}">{{ teacher.first_name }} {{ teacher.last_name }} {{ teacher.matricule }}</a>
-            </li>
+        <tr>
+            <td>{{ teacher.first_name }}</td>
+            <td>{{ teacher.last_name }}</td>
+            <td>{{ teacher.matricule }}</td>
+            <td>
+                <!-- Lien cliquable pour modifier le professeur -->
+                <a href="{% url 'edit_teacher' teacher.id %}">Modifier</a>
+            </td>
+        </tr>
         {% empty %}
-            <li>Aucun professeur trouvé.</li>
+        <tr>
+            <td colspan="4">Aucun professeur trouvé.</td>
+        </tr>
         {% endfor %}
-    </ul>
+    </tbody>
+</table>
 
-    <br>
-    <br>
-    <br>
-    <a href="{% url 'welcome' %}">Retour</a>
+<br><br>
+<a href="{% url 'welcome' %}">Retour</a>
 
 {% endblock %}
-

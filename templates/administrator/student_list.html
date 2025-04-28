@@ -7,37 +7,52 @@
 
 {% block content %}
 <h1>Liste des étudiants</h1>
-    <header class="welcome-header">
-        <div class="user-info">
-            Bienvenue sur IpefaSup,  {{ logged_user.first_name }} {{ logged_user.last_name }}
-        </div>
-        <div class="date-time">
-            Nous sommes le {{ current_date_time }}
-        </div>
-    </header>
+<header class="welcome-header">
+    <div class="user-info">
+        Bienvenue sur IpefaSup, {{ logged_user.first_name }} {{ logged_user.last_name }}
+    </div>
+    <div class="date-time">
+        Nous sommes le {{ current_date_time }}
+    </div>
+</header>
 
-    <!-- Liens pour trier les étudiants -->
-    <p>
-        Trier par :
-        <a class="sort" href="?sort_by=first_name">Prénom</a> |
-        <a class="sort" href="?sort_by=last_name">Nom</a>
-    </p>
+<!-- Liens pour trier les étudiants -->
+<p>
+    Trier par :
+    <a class="sort" href="?sort_by=first_name">Prénom</a> |
+    <a class="sort" href="?sort_by=last_name">Nom</a>
+</p>
 
-    <ul>
+<!-- Tableau des étudiants -->
+<table>
+    <thead>
+        <tr>
+            <th>Prénom</th>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for student in students %}
-            <li>
+        <tr>
+            <td>{{ student.first_name }}</td>
+            <td>{{ student.last_name }}</td>
+            <td>{{ student.studentMail }}</td>
+            <td>
                 <!-- Lien cliquable pour modifier l'étudiant -->
-                <a href="{% url 'edit_student' student.id %}">{{ student.first_name }} {{ student.last_name }} {{ student.studentMail }}</a>
-            </li>
+                <a href="{% url 'edit_student' student.id %}">Modifier</a>
+            </td>
+        </tr>
         {% empty %}
-            <li>Aucun étudiant trouvé.</li>
+        <tr>
+            <td colspan="4">Aucun étudiant trouvé.</td>
+        </tr>
         {% endfor %}
-    </ul>
+    </tbody>
+</table>
 
-    <br>
-    <br>
-    <br>
-    <a href="{% url 'welcome' %}">Retour</a>
+<br><br>
+<a href="{% url 'welcome' %}">Retour</a>
 
 {% endblock %}
-
