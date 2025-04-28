@@ -46,6 +46,13 @@
             {% endfor %}
         </select>
 
+         <label for="result">Filtrer par résultat</label>
+        <select id="result">
+            <option value="">Tout</option>
+            {% for registration in registrations %}
+                <option value="{{ registration.result }}">{{ registration.result }}</option>
+            {% endfor %}
+        </select>
 
     </p>
 </div>

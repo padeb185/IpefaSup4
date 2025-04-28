@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="student registration">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/student/student_non_passed_registrations.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/student/student_non_passed_registrations.html" afterDir="false" />
+    <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="student passed">
       <change beforePath="$PROJECT_DIR$/templates/student/student_passed_registrations.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/student/student_passed_registrations.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -155,7 +153,7 @@
       <workItem from="1745776574424" duration="676000" />
       <workItem from="1745777555572" duration="1112000" />
       <workItem from="1745778698837" duration="50000" />
-      <workItem from="1745838498669" duration="3121000" />
+      <workItem from="1745838498669" duration="3237000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <option name="closed" value="true" />
@@ -509,7 +507,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745841140453</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="student passed">
+      <option name="closed" value="true" />
+      <created>1745841693703</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1745841693703</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -527,6 +533,7 @@
     <MESSAGE value="professeur list etudiants" />
     <MESSAGE value="filtre professeur" />
     <MESSAGE value="student registration" />
-    <option name="LAST_COMMIT_MESSAGE" value="student registration" />
+    <MESSAGE value="student passed" />
+    <option name="LAST_COMMIT_MESSAGE" value="student passed" />
   </component>
 </project>
