@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="professeur list etudiants">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/teacher/list_students.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/teacher/list_students.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/teacher/students_in_ue.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/teacher/students_in_ue.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -154,6 +153,8 @@
       <workItem from="1745771037994" duration="993000" />
       <workItem from="1745776574424" duration="676000" />
       <workItem from="1745777555572" duration="1112000" />
+      <workItem from="1745778698837" duration="50000" />
+      <workItem from="1745838498669" duration="874000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <option name="closed" value="true" />
@@ -475,7 +476,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745772071896</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="professeur list etudiants">
+      <option name="closed" value="true" />
+      <created>1745778729768</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1745778729768</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
