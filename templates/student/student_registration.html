@@ -1,49 +1,49 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Bienvenue Etudiant - Page des cours{% endblock %}
+{% block title %}Bienvenue Étudiant - Page des cours{% endblock %}
 
 {% block bodyId %}StudentCoursesPage{% endblock %}
 
-
-
 {% block content %}
- <header class="welcome-header">
-        <div class="user-info">
-            Bienvenue sur IpefaSup,  {{ logged_user.first_name }} {{ logged_user.last_name }}
-        </div>
-        <div class="date-time">
-            Nous sommes le {{ current_date_time }}
-        </div>
-    </header>
-    <h1>Mes Inscriptions</h1>
-    <div>
-        <p>
-            <label for="ueFilter">Filter par UE</label>
-            <select id="ueFilter">
-                <option value="">Tout</option>
-                {% for registration in registrations %}
-                    <option value="{{ registration }}">{{ registration }}</option>
-                {% endfor %}
-            </select>
-
-            <label for="academicYear">Filter par année académique</label>
-            <select id="academicYear">
-                <option value="">Tout</option>
-                {% for academic in academicYear %}
-                    <option value="{{ academic }}">{{ academic }}</option>
-                {% endfor %}
-            </select>
-
-            <label for="yearCycle">Filter par cycle</label>
-            <select id="yearCycle">
-                <option value="">Tout</option>
-                {% for year in yearCycle %}
-                    <option value="{{ year }}">{{ year }}</option>
-                {% endfor %}
-            </select>
-        </p>
+<header class="welcome-header">
+    <div class="user-info">
+        Bienvenue sur IpefaSup, {{ logged_user.first_name }} {{ logged_user.last_name }}
     </div>
+    <div class="date-time">
+        Nous sommes le {{ current_date_time }}
+    </div>
+</header>
+
+<h1>Mes Inscriptions</h1>
+
+<div>
+    <p>
+        <label for="ueFilter">Filtrer par UE</label>
+        <select id="ueFilter">
+            <option value="">Tout</option>
+            {% for registration in registrations %}
+                <option value="{{ registration.academic_ue.wording }}">{{ registration.academic_ue.wording }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="academicYear">Filtrer par année académique</label>
+        <select id="academicYear">
+            <option value="">Tout</option>
+            {% for registration in registrations %}
+                <option value="{{ registration.academic_ue.academicYear }}">{{ registration.academic_ue.academicYear }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="yearCycle">Filtrer par cycle</label>
+        <select id="yearCycle">
+            <option value="">Tout</option>
+            {% for registration in registrations %}
+                <option value="{{ registration.academic_ue.yearCycle }}">{{ registration.academic_ue.yearCycle }}</option>
+            {% endfor %}
+        </select>
+    </p>
+</div>
 
 <table>
     <thead>
@@ -58,38 +58,38 @@
             <tr>
                 <td>{{ registration.academic_ue.wording }}</td>
                 <td>{{ registration.academic_ue.academicYear }}</td>
-                <td>Cycle {{ registration.academic_ue.yearCycle }}</td>
+                <td>{{ registration.academic_ue.yearCycle }}</td> {# ✅ plus de "Cycle" devant ! #}
             </tr>
         {% empty %}
             <tr>
-                <td colspan="4">Aucune inscription trouvée.</td>
+                <td colspan="3">Aucune inscription trouvée.</td>
             </tr>
         {% endfor %}
     </tbody>
 </table>
 
+<a href="{% url 'student_non_passed_registrations' %}">Lister mes cours non réussis</a>
+<a href="{% url 'student_passed_registrations' %}">Lister mes cours réussis</a>
+<a href="{% url 'welcomeStudent' %}">Retour</a>
 
-     <a href="{% url 'student_non_passed_registrations' %}">lister mes cours non réussis</a>
-     <a href="{% url 'student_passed_registrations' %}">lister mes cours réussis</a>
-      <a href="{% url 'welcomeStudent' %}">Retour</a>
+<script>
+    $(document).ready(function() {
+        var table = $('table').DataTable();
 
+        $('#ueFilter').on('change', function() {
+            var val = $(this).val();
+            table.column(0).search(val).draw();
+        });
 
-    <script>
-        $(document).ready(function() {
-            var table = $('table').dataTable();
+        $('#academicYear').on('change', function() {
+            var val = $(this).val();
+            table.column(1).search(val).draw();
+        });
 
-            $('#ueFilter').on('change', function() {
-                var val = $(this).val();
-                table.column(0).search(val).draw();
-            });
-            $('#academicYear').on('change', function() {
-                var val = $(this).val();
-                table.column(1).search(val).draw();
-            });
-            $('#yearCycle').on('change', function() {
-                var val = $(this).val();
-                table.column(2).search(val).draw();
-            });
-        })
-    </script>
+        $('#yearCycle').on('change', function() {
+            var val = $(this).val();
+            table.column(2).search(val).draw();
+        });
+    });
+</script>
 {% endblock %}

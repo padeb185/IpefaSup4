@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="professeur list etudiants">
+    <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="filtre professeur">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/teacher/students_in_ue.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/teacher/students_in_ue.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/student/student_registration.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/student/student_registration.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,7 +154,7 @@
       <workItem from="1745776574424" duration="676000" />
       <workItem from="1745777555572" duration="1112000" />
       <workItem from="1745778698837" duration="50000" />
-      <workItem from="1745838498669" duration="874000" />
+      <workItem from="1745838498669" duration="1670000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <option name="closed" value="true" />
@@ -484,7 +484,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745778729768</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="filtre professeur">
+      <option name="closed" value="true" />
+      <created>1745839449613</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1745839449613</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -501,6 +509,7 @@
     <MESSAGE value="sessions" />
     <MESSAGE value="sectio et addueform" />
     <MESSAGE value="professeur list etudiants" />
-    <option name="LAST_COMMIT_MESSAGE" value="professeur list etudiants" />
+    <MESSAGE value="filtre professeur" />
+    <option name="LAST_COMMIT_MESSAGE" value="filtre professeur" />
   </component>
 </project>
