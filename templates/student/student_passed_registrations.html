@@ -1,58 +1,54 @@
 {% extends "base.html" %}
 
 {% block content %}
-     <header class="welcome-header">
-        <div class="user-info">
-            Bienvenue sur IpefaSup,  {{ logged_user.first_name }} {{ logged_user.last_name }}
-        </div>
-        <div class="date-time">
-            Nous sommes le {{ current_date_time }}
-        </div>
-    </header>
-<h1>Mes UE Réussies 🎓</h1>
-<div>
-        <p>
-            <label for="CodeUE">Filter par Code UE</label>
-            <select id="Code UE">
-                <option value="">Tout</option>
-                {% for id in idUE %}
-                    <option value="{{ id }}">{{ id }}</option>
-                {% endfor %}
-            </select>
-
-            <label for="name">Filter par nom</label>
-            <select id="name">
-                <option value="">Tout</option>
-                {% for word in wording %}
-                    <option value="{{ word }}">{{ word }}</option>
-                {% endfor %}
-            </select>
-
-            <label for="section">Filter par Section</label>
-            <select id="section">
-                <option value="">Tout</option>
-                {% for section in section.wording %}
-                    <option value="{{ section }}">{{ section }}</option>
-                {% endfor %}
-            </select>
-
-            <label for="academicYear">Filter par année académique</label>
-            <select id="academicYear">
-                <option value="">Tout</option>
-                {% for academic in academicYear %}
-                    <option value="{{ academic }}">{{ academic }}</option>
-                {% endfor %}
-            </select>
-
-            <label for="resultat">Filter par Résultat</label>
-            <select id="resultat">
-                <option value="">Tout</option>
-                {% for academic in academicYear %}
-                    <option value="{{ academic }}">{{ academic }}</option>
-                {% endfor %}
-            </select>
-        </p>
+<header class="welcome-header">
+    <div class="user-info">
+        Bienvenue sur IpefaSup, {{ logged_user.first_name }} {{ logged_user.last_name }}
     </div>
+    <div class="date-time">
+        Nous sommes le {{ current_date_time }}
+    </div>
+</header>
+
+<h1>Mes UE Réussies 🎓</h1>
+
+<div>
+    <p>
+        <label for="CodeUE">Filtrer par Code UE</label>
+        <select id="CodeUE">
+            <option value="">Tout</option>
+            {% for registration in registrations %}
+                <option value="{{ registration.academic_ue.idUE }}">{{ registration.academic_ue.idUE }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="name">Filtrer par nom</label>
+        <select id="name">
+            <option value="">Tout</option>
+            {% for registration in registrations %}
+                <option value="{{ registration.academic_ue.wording }}">{{ registration.academic_ue.wording }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="section">Filtrer par Section</label>
+        <select id="section">
+            <option value="">Tout</option>
+            {% for registration in registrations %}
+                <option value="{{ registration.academic_ue.section.wording }}">{{ registration.academic_ue.section.wording }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="academicYear">Filtrer par année académique</label>
+        <select id="academicYear">
+            <option value="">Tout</option>
+            {% for registration in registrations %}
+                <option value="{{ registration.academic_ue.academicYear }}">{{ registration.academic_ue.academicYear }}</option>
+            {% endfor %}
+        </select>
+
+
+    </p>
+</div>
 
 <table>
     <thead>
@@ -82,32 +78,38 @@
 </table>
 
 <br>
-     <script>
-        $(document).ready(function() {
-            var table = $('table').dataTable();
 
-            $('#CodeUE').on('change', function() {
-                var val = $(this).val();
-                table.column(0).search(val).draw();
-            });
-            $('#name').on('change', function() {
-                var val = $(this).val();
-                table.column(1).search(val).draw();
-            });
-            $('#section').on('change', function() {
-                var val = $(this).val();
-                table.column(2).search(val).draw();
-            });
-            $('#academicYear').on('change', function() {
-                var val = $(this).val();
-                table.column(3).search(val).draw();
-            });
-            $('#resultat').on('change', function() {
-                var val = $(this).val();
-                table.column(4).search(val).draw();
-            });
-        })
-    </script>
+<script>
+    $(document).ready(function() {
+        var table = $('table').DataTable();
+
+        $('#CodeUE').on('change', function() {
+            var val = $(this).val();
+            table.column(0).search(val).draw();
+        });
+
+        $('#name').on('change', function() {
+            var val = $(this).val();
+            table.column(1).search(val).draw();
+        });
+
+        $('#section').on('change', function() {
+            var val = $(this).val();
+            table.column(2).search(val).draw();
+        });
+
+        $('#academicYear').on('change', function() {
+            var val = $(this).val();
+            table.column(3).search(val).draw();
+        });
+
+        $('#resultat').on('change', function() {
+            var val = $(this).val();
+            table.column(4).search(val).draw();
+        });
+    });
+</script>
 
 <a href="{% url 'student_registration' %}">🔙 Retour à toutes mes inscriptions</a>
+
 {% endblock %}
