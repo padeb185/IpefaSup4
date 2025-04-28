@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="filtre professeur">
+    <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="student registration">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/student/student_registration.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/student/student_registration.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/student/student_prerequisites.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/student/student_prerequisites.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,7 +154,7 @@
       <workItem from="1745776574424" duration="676000" />
       <workItem from="1745777555572" duration="1112000" />
       <workItem from="1745778698837" duration="50000" />
-      <workItem from="1745838498669" duration="1670000" />
+      <workItem from="1745838498669" duration="2512000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <option name="closed" value="true" />
@@ -492,7 +492,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745839449613</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="student registration">
+      <option name="closed" value="true" />
+      <created>1745840363682</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1745840363682</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -503,13 +511,13 @@
     <MESSAGE value="add registration" />
     <MESSAGE value="add participation" />
     <MESSAGE value="add section" />
-    <MESSAGE value="student registration" />
     <MESSAGE value="student form" />
     <MESSAGE value="view logged" />
     <MESSAGE value="sessions" />
     <MESSAGE value="sectio et addueform" />
     <MESSAGE value="professeur list etudiants" />
     <MESSAGE value="filtre professeur" />
-    <option name="LAST_COMMIT_MESSAGE" value="filtre professeur" />
+    <MESSAGE value="student registration" />
+    <option name="LAST_COMMIT_MESSAGE" value="student registration" />
   </component>
 </project>

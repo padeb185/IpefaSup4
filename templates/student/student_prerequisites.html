@@ -1,51 +1,54 @@
 {% extends "base.html" %}
 
 {% block content %}
-     <header class="welcome-header">
-        <div class="user-info">
-            Bienvenue sur IpefaSup,  {{ logged_user.first_name }} {{ logged_user.last_name }}
-        </div>
-        <div class="date-time">
-            Nous sommes le {{ current_date_time }}
-        </div>
-    </header>
-<h1>Mes Prérequis 📚</h1>
- <div>
-        <p>
-            <label for="wording">Filter par UE</label>
-            <select id="wording">
-                <option value="">Tout</option>
-                {% for word in wording %}
-                    <option value="{{ word }}">{{ word }}</option>
-                {% endfor %}
-            </select>
-
-            <label for="section">Filter par section</label>
-            <select id="section">
-                <option value="">Tout</option>
-                {% for words in section.wording %}
-                    <option value="{{ words }}">{{ words }}</option>
-                {% endfor %}
-            </select>
-
-            <label for="yearCycle">Filter par année académique</label>
-            <select id="yearCycle">
-                <option value="">Tout</option>
-                {% for year in AcademicYear %}
-                    <option value="{{ year }}">{{ year }}</option>
-                {% endfor %}
-            </select>
-
-            <label for="prerequis">Filter par prérequis</label>
-            <select id="prerequis">
-                <option value="">Tout</option>
-                {% for prerequis in ue_with_prerequisites %}
-                    <option value="{{ prerequis }}">{{ prerequis }}</option>
-                {% endfor %}
-            </select>
-        </p>
+<header class="welcome-header">
+    <div class="user-info">
+        Bienvenue sur IpefaSup, {{ logged_user.first_name }} {{ logged_user.last_name }}
     </div>
+    <div class="date-time">
+        Nous sommes le {{ current_date_time }}
+    </div>
+</header>
 
+<h1>Mes Prérequis 📚</h1>
+
+<div>
+    <p>
+        <label for="wording">Filtrer par UE</label>
+        <select id="wording">
+            <option value="">Tout</option>
+            {% for item in ue_with_prerequisites %}
+                <option value="{{ item.ue.wording }}">{{ item.ue.wording }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="section">Filtrer par section</label>
+        <select id="section">
+            <option value="">Tout</option>
+            {% for item in ue_with_prerequisites %}
+                <option value="{{ item.ue.section.wording }}">{{ item.ue.section.wording }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="yearCycle">Filtrer par année académique</label>
+        <select id="yearCycle">
+            <option value="">Tout</option>
+            {% for item in ue_with_prerequisites %}
+                <option value="{{ item.ue.academicYear }}">{{ item.ue.academicYear }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="prerequis">Filtrer par prérequis</label>
+        <select id="prerequis">
+            <option value="">Tout</option>
+            {% for item in ue_with_prerequisites %}
+                {% for prereq in item.prerequisites %}
+                    <option value="{{ prereq.wording }}">{{ prereq.wording }}</option>
+                {% endfor %}
+            {% endfor %}
+        </select>
+    </p>
+</div>
 
 <table>
     <thead>
@@ -64,11 +67,9 @@
                 <td>{{ item.ue.academicYear }}</td>
                 <td>
                     {% if item.prerequisites %}
-                        <ul>
                         {% for prereq in item.prerequisites %}
-                            <li>{{ prereq.wording }}</li>
+                            {{ prereq.wording }}{% if not forloop.last %}, {% endif %}
                         {% endfor %}
-                        </ul>
                     {% else %}
                         Aucun prérequis
                     {% endif %}
@@ -86,26 +87,29 @@
 
 <a href="{% url 'student_registration' %}">🔙 Retour à toutes mes inscriptions</a>
 
- <script>
-        $(document).ready(function() {
-            var table = $('table').dataTable();
+<script>
+$(document).ready(function() {
+    var table = $('table').DataTable(); // D majuscule important
 
-            $('#wording').on('change', function() {
-                var val = $(this).val();
-                table.column(0).search(val).draw();
-            });
-            $('#section').on('change', function() {
-                var val = $(this).val();
-                table.column(1).search(val).draw();
-            });
-            $('#yearCycle').on('change', function() {
-                var val = $(this).val();
-                table.column(2).search(val).draw();
-            });
-            $('#prerequis').on('change', function() {
-                var val = $(this).val();
-                table.column(2).search(val).draw();
-            });
-        })
-    </script>
+    $('#wording').on('change', function() {
+        var val = $(this).val();
+        table.column(0).search(val).draw(); // Colonne 0 = UE
+    });
+
+    $('#section').on('change', function() {
+        var val = $(this).val();
+        table.column(1).search(val).draw(); // Colonne 1 = Section
+    });
+
+    $('#yearCycle').on('change', function() {
+        var val = $(this).val();
+        table.column(2).search(val).draw(); // Colonne 2 = Année
+    });
+
+    $('#prerequis').on('change', function() {
+        var val = $(this).val();
+        table.column(3).search(val).draw(); // Colonne 3 = Prérequis
+    });
+});
+</script>
 {% endblock %}
