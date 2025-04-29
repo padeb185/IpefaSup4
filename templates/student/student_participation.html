@@ -9,8 +9,8 @@
             <label for="ueFilter">Filtrer par UE</label>
                 <select id="ueFilter">
                     <option value="">Tout</option>
-                    {% for registration in registrations %}
-                        <option value="{{ registration.academic_ue.wording }}">{{ registration.academic_ue.wording }}</option>
+                    {% for participation in participations %}
+                        <option value="{{ participation.session.academicUE.wording }}">{{ participation.session.academicUE.wording }}</option>
                     {% endfor %}
                 </select>
         </p>
