@@ -23,7 +23,7 @@ from .views import login, welcome, register, add_academic_ue_views, add_ue_views
     teacher_list, edit_teacher, edit_own_profile, add_registration_views, add_participation_views, \
     add_session_views, add_section_views, student_registration_view, teacher_academic_ues, \
     student_non_passed_registrations_view, student_passed_registrations_view, student_prerequisites_view, \
-    academic_ues_for_teacher, students_in_academic_ue, encode_results
+    academic_ues_for_teacher, students_in_academic_ue, encode_results, student_participation_view
 from django.contrib import admin
 
 urlpatterns = [
@@ -45,6 +45,8 @@ urlpatterns = [
     path('student/passed_registrations/', student_passed_registrations_view, name='student_passed_registrations'),
 
     path('student/prerequisites/', student_prerequisites_view, name='student_prerequisites'),
+
+path('student/participations/', student_participation_view, name='student_participation'),
 
 
 

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+    <h1>Participations de {{ student.first_name }} {{ student.last_name }}</h1>
+
+    <div>
+        <p>
+            <label for="ueFilter">Filtrer par UE</label>
+                <select id="ueFilter">
+                    <option value="">Tout</option>
+                    {% for registration in registrations %}
+                        <option value="{{ registration.academic_ue.wording }}">{{ registration.academic_ue.wording }}</option>
+                    {% endfor %}
+                </select>
+        </p>
+    </div>
+
+    {% if participations %}
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Unité d'Enseignement</th>
+            <th>Session</th>
+            <th>Date</th>
+            <th>Statut</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for participation in participations %}
+            <tr>
+              <td>{{ participation.session.academicUE.wording }}</td>
+              <td>{{ participation.session.jour }}/{{ participation.session.mois }}</td>
+              <td>{{ participation.session.academicUE.academicYear }} - Cycle {{ participation.session.academicUE.yearCycle }}</td>
+              <td>{{ participation.status }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>Aucune participation trouvée pour cet étudiant dans cette UE.</p>
+    {% endif %}
+
+    <br>
+    <a href="{% url 'welcome' %}">Retour à la page d'accueil</a>
+  </div>
+
+  <script>
+    $(document).ready(function() {
+        var table = $('table').DataTable();
+
+        $('#ueFilter').on('change', function() {
+            var val = $(this).val();
+            table.column(0).search(val).draw();
+        });
+    });
+  </script>
+{% endblock %}
+
