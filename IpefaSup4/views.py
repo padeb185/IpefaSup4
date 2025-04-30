@@ -1,8 +1,5 @@
-from collections import defaultdict
 from datetime import datetime
 from django.contrib.auth.hashers import check_password
-from django.contrib.messages import success
-from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from .forms import LoginForm, StudentForm, TeacherForm, AdministratorForm, AddAcademicUEForm, AddUEForm, \
@@ -12,6 +9,8 @@ from .models import Educator, Student, Teacher, \
     Administrator, AcademicUE, Registration, Participation
 from .utils import get_logged_user_from_request
 from django.utils.timezone import now
+
+
 
 def welcome(request):
     logged_user = get_logged_user_from_request(request)
@@ -565,3 +564,37 @@ def student_participation_view(request):
         'academic_ues': academic_ues,  # Passer les UE de l'étudiant pour le filtrage
         'selected_academic_ue': selected_academic_ue  # Passer l'UE sélectionné pour la gestion de l'affichage
     })
+def encode_participations(request, academic_ue_id):
+    logged_user = get_logged_user_from_request(request)
+
+    if not logged_user or logged_user.person_type != 'professeur':
+        return redirect('login')
+
+    academic_ue = get_object_or_404(AcademicUE, idUE=academic_ue_id, teacher=logged_user)
+    sessions = academic_ue.sessions.all().order_by('mois', 'jour')
+
+    # Ne prendre que les étudiants inscrits via Registration
+    registrations = Registration.objects.filter(academic_ue=academic_ue).select_related('student')
+    students = [reg.student for reg in registrations]
+
+    ALLOWED_STATUSES = ['presentiel', 'distanciel', 'absence']
+
+    if request.method == 'POST':
+        for session in sessions:
+            for student in students:
+                key = f'status_{session.id}_{student.id}'
+                status = request.POST.get(key)
+                if status in ALLOWED_STATUSES:
+                    participation, _ = Participation.objects.get_or_create(session=session, student=student)
+                    participation.status = status
+                    participation.save()
+            return redirect('welcomeTeacher')
+
+    return render(request, 'teacher/encode_participations.html', {
+        'academic_ue': academic_ue,
+        'sessions': sessions,
+        'students': students,
+        'logged_user': logged_user,
+        'status_choices': dict(Participation._meta.get_field('status').choices),
+    })
+

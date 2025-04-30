@@ -88,7 +88,7 @@ h1 {
 
 /* Style de base pour le tableau */
 table {
-  width: 100%;                /* occupe toute la largeur du conteneur */
+  width: 90%;                /* occupe toute la largeur du conteneur */
   border-collapse: collapse;  /* fusionne les bordures pour un aspect net */
   margin: 20px 0;             /* espacement vertical autour du tableau */
   font-family: Arial, sans-serif;
