@@ -577,7 +577,7 @@ def encode_participations(request, academic_ue_id):
     registrations = Registration.objects.filter(academic_ue=academic_ue).select_related('student')
     students = [reg.student for reg in registrations]
 
-    ALLOWED_STATUSES = ['presentiel', 'distanciel', 'absence']
+    ALLOWED_STATUSES = ['P', 'D', 'A']
 
     if request.method == 'POST':
         for session in sessions:
