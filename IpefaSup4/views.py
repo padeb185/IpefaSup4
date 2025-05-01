@@ -590,7 +590,7 @@ def participations_in_ue(request, academic_ue_id):
 
     if request.method == 'POST':
         for key, value in request.POST.items():
-            if key.startswith('status_') and value in allowed_statuses:
+            if key.startswith('status_'):
                 parts = key.split('_')  # format attendu: status_<session_id>_<student_id>
                 if len(parts) == 3:
                     _, session_id, student_id = parts
@@ -599,11 +599,16 @@ def participations_in_ue(request, academic_ue_id):
                         student = Student.objects.get(id=student_id)
 
                         participation = Participation.objects.filter(session=session, student=student).first()
-                        if not participation:
-                            participation = Participation(session=session, student=student)
 
-                        participation.status = value
-                        participation.save()
+                        if value in allowed_statuses:
+                            if not participation:
+                                participation = Participation(session=session, student=student)
+                            participation.status = value
+                            participation.save()
+                        elif participation:
+                            # Si l'utilisateur efface le statut, on supprime la participation
+                            participation.delete()
+
                     except (Session.DoesNotExist, Student.DoesNotExist):
                         continue  # Ignore si la session ou l'étudiant est introuvable
 
@@ -624,10 +629,17 @@ def participations_in_ue(request, academic_ue_id):
             })
         session_data.append(row)
 
+    # Préparer la liste unique des étudiants pour le filtre
+    all_students = sorted(
+        students,
+        key=lambda s: (s.last_name.lower(), s.first_name.lower())
+    )
+
     return render(request, 'teacher/participations_in_ue.html', {
         'academic_ue': academic_ue,
         'session_data': session_data,
         'status_choices': [choice for choice in Participation._meta.get_field('status').choices if choice[0] in allowed_statuses],
+        'students': all_students,  # Pour le filtre dans le template
         'logged_user': logged_user,
         'current_date_time': datetime.now
     })
