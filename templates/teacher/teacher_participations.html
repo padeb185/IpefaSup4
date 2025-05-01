@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Bienvenue Professeur{% endblock %}
+
+{% block bodyId %}WelcomeTeacherPage{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <header class="welcome-header">
+        <div class="user-info">
+            Bienvenue sur IpefaSup,  {{ logged_user.first_name }} {{ logged_user.last_name }}
+        </div>
+        <div class="date-time">
+            Nous sommes le {{ current_date_time }}
+        </div>
+    </header>
+
+     <h1>Participations des étudiants</h1>
+
+    {% if participations_by_ue %}
+        {% for academic_ue, participations in participations_by_ue.items %}
+            <h2>{{ academic_ue.idUE }} - {{ academic_ue.wording }} ({{ academic_ue.academicYear }}, Cycle {{ academic_ue.yearCycle }})</h2>
+
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Étudiant</th>
+                        <th>Session</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for participation in participations %}
+                        <tr>
+                            <td>{{ participation.student.first_name }} {{ participation.student.last_name }}</td>
+                            <td>{{ participation.session.jour }}/{{ participation.session.mois }}</td>
+                            <td>{{ participation.status }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endfor %}
+    {% else %}
+        <p>Aucune participation trouvée pour vos UE.</p>
+    {% endif %}
+
+{% endblock %}

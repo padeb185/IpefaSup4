@@ -529,6 +529,35 @@ def encode_results(request, academic_ue_id):
 
 
 
+
+
+def teacher_participations(request):
+    logged_user = get_logged_user_from_request(request)
+    if logged_user and logged_user.person_type == 'professeur':
+    # Récupérer toutes les UE liées à cet enseignant
+
+        academic_ues = logged_user.academic_ues.all()
+
+    # Récupérer les participations des étudiants aux UE de l'enseignant
+    participations = Participation.objects.filter(session__academicUE__in=academic_ues)
+
+    # Regrouper les participations par UE
+    participations_by_ue = {}
+    for participation in participations:
+        academic_ue = participation.session.academicUE
+        if academic_ue not in participations_by_ue:
+            participations_by_ue[academic_ue] = []
+        participations_by_ue[academic_ue].append(participation)
+
+    # Passer les données au template
+    context = {
+        'logged_user': logged_user,
+        'participations_by_ue': participations_by_ue,
+    }
+
+    return render(request, 'teacher/teacher_participations.html', context)
+
+
 def student_participation_view(request):
     user = get_logged_user_from_request(request)
 
