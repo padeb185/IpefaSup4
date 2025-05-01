@@ -575,6 +575,7 @@ def student_participation_view(request):
 
 
 
+
 def participations_in_ue(request, academic_ue_id):
     logged_user = get_logged_user_from_request(request)
 
@@ -585,57 +586,48 @@ def participations_in_ue(request, academic_ue_id):
     sessions = academic_ue.sessions.all()
     students = Student.objects.filter(registrations__academic_ue=academic_ue).distinct()
 
+    allowed_statuses = {"P", "M", "A"}  # Seuls les statuts autorisés pour un professeur
+
     if request.method == 'POST':
-        # Pour chaque étudiant et session, mettre à jour les participations
         for key, value in request.POST.items():
-            if key.startswith('status_'):
-                parts = key.split('_')  # format: status_<session_id>_<student_id>
+            if key.startswith('status_') and value in allowed_statuses:
+                parts = key.split('_')  # format attendu: status_<session_id>_<student_id>
                 if len(parts) == 3:
                     _, session_id, student_id = parts
                     try:
                         session = Session.objects.get(id=session_id)
                         student = Student.objects.get(id=student_id)
 
-                        # Filtrer les participations existantes
-                        participations = Participation.objects.filter(session=session, student=student)
-
-                        if participations.exists():
-                            # Si plusieurs participations existent, vous pouvez les gérer (par exemple, en en gardant une seule)
-                            # Par exemple, on peut simplement prendre la première participation
-                            participation = participations.first()  # Choisir la première ou appliquer un autre critère
-                        else:
-                            # Créer une nouvelle participation si aucune n'existe
+                        participation = Participation.objects.filter(session=session, student=student).first()
+                        if not participation:
                             participation = Participation(session=session, student=student)
 
-                        # Mettre à jour le statut
                         participation.status = value
                         participation.save()
                     except (Session.DoesNotExist, Student.DoesNotExist):
-                        continue
+                        continue  # Ignore si la session ou l'étudiant est introuvable
 
         messages.success(request, "Participations mises à jour avec succès.")
         return redirect('participations_in_ue', academic_ue_id=academic_ue_id)
 
     session_data = []
-    # Collecte des données de participation pour chaque session et chaque étudiant
     for session in sessions:
         row = {
             'session': session,
             'participations': []
         }
         for student in students:
-            # Récupère ou crée une participation pour chaque session et étudiant
             participation = Participation.objects.filter(session=session, student=student).first()
             row['participations'].append({
                 'student': student,
-                'participation': participation  # Peut être None si la participation n'existe pas
+                'participation': participation  # Peut être None si non existant
             })
         session_data.append(row)
 
     return render(request, 'teacher/participations_in_ue.html', {
         'academic_ue': academic_ue,
         'session_data': session_data,
-        'status_choices': Participation._meta.get_field('status').choices,
+        'status_choices': [choice for choice in Participation._meta.get_field('status').choices if choice[0] in allowed_statuses],
         'logged_user': logged_user,
         'current_date_time': datetime.now
     })

@@ -5,14 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="teacher participation">
-      <change afterPath="$PROJECT_DIR$/templates/teacher/participations_in_ue.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IpefaSup4/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/IpefaSup4/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/teacher/encode_participations.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/teacher/encode_results.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/teacher/students_in_ue.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/teacher/students_in_ue.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/teacher/welcomeTeacher.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/teacher/welcomeTeacher.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -170,15 +164,8 @@
       <workItem from="1746028414354" duration="145000" />
       <workItem from="1746028589292" duration="54000" />
       <workItem from="1746034228812" duration="1264000" />
-      <workItem from="1746088229483" duration="2878000" />
-    </task>
-    <task id="LOCAL-00003" summary="first commit">
-      <option name="closed" value="true" />
-      <created>1745137273772</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1745137273772</updated>
+      <workItem from="1746088229483" duration="2999000" />
+      <workItem from="1746105813182" duration="467000" />
     </task>
     <task id="LOCAL-00004" summary="first commit">
       <option name="closed" value="true" />
@@ -564,7 +551,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746088274135</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="teacher participation">
+      <option name="closed" value="true" />
+      <created>1746091234947</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1746091234947</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
