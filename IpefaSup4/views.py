@@ -1,4 +1,6 @@
 from datetime import datetime
+
+from django.contrib import messages
 from django.contrib.auth.hashers import check_password
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -6,7 +8,7 @@ from .forms import LoginForm, StudentForm, TeacherForm, AdministratorForm, AddAc
     StudentProfileForm, EducatorForm, TeacherProfileForm, StudentEditProfileForm, AddRegistrationForm, \
     AddParticipationForm, AddSessionForm, AddSectionForm
 from .models import Educator, Student, Teacher, \
-    Administrator, AcademicUE, Registration, Participation
+    Administrator, AcademicUE, Registration, Participation, Session
 from .utils import get_logged_user_from_request
 from django.utils.timezone import now
 
@@ -531,31 +533,6 @@ def encode_results(request, academic_ue_id):
 
 
 
-def teacher_participations(request):
-    logged_user = get_logged_user_from_request(request)
-    if logged_user and logged_user.person_type == 'professeur':
-    # Récupérer toutes les UE liées à cet enseignant
-
-        academic_ues = logged_user.academic_ues.all()
-
-    # Récupérer les participations des étudiants aux UE de l'enseignant
-    participations = Participation.objects.filter(session__academicUE__in=academic_ues)
-
-    # Regrouper les participations par UE
-    participations_by_ue = {}
-    for participation in participations:
-        academic_ue = participation.session.academicUE
-        if academic_ue not in participations_by_ue:
-            participations_by_ue[academic_ue] = []
-        participations_by_ue[academic_ue].append(participation)
-
-    # Passer les données au template
-    context = {
-        'logged_user': logged_user,
-        'participations_by_ue': participations_by_ue,
-    }
-
-    return render(request, 'teacher/teacher_participations.html', context)
 
 
 def student_participation_view(request):
@@ -593,37 +570,72 @@ def student_participation_view(request):
         'academic_ues': academic_ues,  # Passer les UE de l'étudiant pour le filtrage
         'selected_academic_ue': selected_academic_ue  # Passer l'UE sélectionné pour la gestion de l'affichage
     })
-def encode_participations(request, academic_ue_id):
+
+
+
+
+
+def participations_in_ue(request, academic_ue_id):
     logged_user = get_logged_user_from_request(request)
 
     if not logged_user or logged_user.person_type != 'professeur':
         return redirect('login')
 
     academic_ue = get_object_or_404(AcademicUE, idUE=academic_ue_id, teacher=logged_user)
-    sessions = academic_ue.sessions.all().order_by('mois', 'jour')
-
-    # Ne prendre que les étudiants inscrits via Registration
-    registrations = Registration.objects.filter(academic_ue=academic_ue).select_related('student')
-    students = [reg.student for reg in registrations]
-
-    ALLOWED_STATUSES = ['P', 'D', 'A']
+    sessions = academic_ue.sessions.all()
+    students = Student.objects.filter(registrations__academic_ue=academic_ue).distinct()
 
     if request.method == 'POST':
-        for session in sessions:
-            for student in students:
-                key = f'status_{session.id}_{student.id}'
-                status = request.POST.get(key)
-                if status in ALLOWED_STATUSES:
-                    participation, _ = Participation.objects.get_or_create(session=session, student=student)
-                    participation.status = status
-                    participation.save()
-            return redirect('welcomeTeacher')
+        # Pour chaque étudiant et session, mettre à jour les participations
+        for key, value in request.POST.items():
+            if key.startswith('status_'):
+                parts = key.split('_')  # format: status_<session_id>_<student_id>
+                if len(parts) == 3:
+                    _, session_id, student_id = parts
+                    try:
+                        session = Session.objects.get(id=session_id)
+                        student = Student.objects.get(id=student_id)
 
-    return render(request, 'teacher/encode_participations.html', {
+                        # Filtrer les participations existantes
+                        participations = Participation.objects.filter(session=session, student=student)
+
+                        if participations.exists():
+                            # Si plusieurs participations existent, vous pouvez les gérer (par exemple, en en gardant une seule)
+                            # Par exemple, on peut simplement prendre la première participation
+                            participation = participations.first()  # Choisir la première ou appliquer un autre critère
+                        else:
+                            # Créer une nouvelle participation si aucune n'existe
+                            participation = Participation(session=session, student=student)
+
+                        # Mettre à jour le statut
+                        participation.status = value
+                        participation.save()
+                    except (Session.DoesNotExist, Student.DoesNotExist):
+                        continue
+
+        messages.success(request, "Participations mises à jour avec succès.")
+        return redirect('participations_in_ue', academic_ue_id=academic_ue_id)
+
+    session_data = []
+    # Collecte des données de participation pour chaque session et chaque étudiant
+    for session in sessions:
+        row = {
+            'session': session,
+            'participations': []
+        }
+        for student in students:
+            # Récupère ou crée une participation pour chaque session et étudiant
+            participation = Participation.objects.filter(session=session, student=student).first()
+            row['participations'].append({
+                'student': student,
+                'participation': participation  # Peut être None si la participation n'existe pas
+            })
+        session_data.append(row)
+
+    return render(request, 'teacher/participations_in_ue.html', {
         'academic_ue': academic_ue,
-        'sessions': sessions,
-        'students': students,
+        'session_data': session_data,
+        'status_choices': Participation._meta.get_field('status').choices,
         'logged_user': logged_user,
-        'status_choices': dict(Participation._meta.get_field('status').choices),
+        'current_date_time': datetime.now
     })
-
