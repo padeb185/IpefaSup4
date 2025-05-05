@@ -738,28 +738,34 @@ def manage_sessions(request, ue_id):
             ue = get_object_or_404(AcademicUE, idUE=ue_id)
 
             if request.method == 'POST':
-                # Récupérer les informations pour ajouter ou modifier une session
-                session_id = request.POST.get('session_id')  # session_id pourrait être vide s'il s'agit d'un ajout
-                session_date = request.POST.get('session_date')
+                # Récupérer les informations du formulaire
+                session_id = request.POST.get('session_id')  # optionnel
+                jour = request.POST.get('jour')
+                mois = request.POST.get('mois')
 
-                if session_id:  # Si un ID de session est fourni, modifier la session existante
-                    session = get_object_or_404(Session, id=session_id)
-                    session.session_date = session_date
-                    session.save()
-                else:  # Sinon, créer une nouvelle session
-                    Session.objects.create(ue=ue, session_date=session_date)
+                # Valider que jour et mois sont bien fournis
+                if jour and mois:
+                    jour = int(jour)
+                    mois = int(mois)
 
-                # Rediriger vers la même page pour voir les mises à jour
-                return redirect('manage_sessions', ue_id=ue.idUE)
+                    if session_id:  # Modifier une session existante
+                        session = get_object_or_404(Session, id=session_id)
+                        session.jour = jour
+                        session.mois = mois
+                        session.save()
+                    else:  # Créer une nouvelle session
+                        Session.objects.create(academicUE=ue, jour=jour, mois=mois)
 
-            # Récupérer toutes les sessions associées à cette UE
-            sessions = Session.objects.filter(academicUE=ue)  # correction ici
+                    return redirect('manage_sessions', ue_id=ue.idUE)
+
+                # Récupérer toutes les sessions liées à cette UE
+            sessions = Session.objects.filter(academicUE=ue)
 
             return render(request, 'educator/manage_sessions.html', {
                 'ue': ue,
                 'sessions': sessions,
-                'logged_user': request.user,  # Assurez-vous de passer l'utilisateur connecté si nécessaire
-                'current_date_time': datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # Date et heure actuelles
+                'logged_user': request.user,
+                'current_date_time': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             })
 
         else:
@@ -775,11 +781,15 @@ def edit_session(request, session_id):
             session = get_object_or_404(Session, id=session_id)
 
             if request.method == 'POST':
-                # Modifier la session
-                session.session_date = request.POST.get('session_date')
-                session.save()
-                return redirect('manage_sessions',
-                                ue_id=session.ue.idUE)  # Rediriger vers la gestion des sessions de l'UE
+                # Récupérer les nouvelles valeurs depuis le formulaire
+                jour = request.POST.get('jour')
+                mois = request.POST.get('mois')
+
+                if jour and mois:
+                    session.jour = int(jour)
+                    session.mois = int(mois)
+                    session.save()
+                    return redirect('manage_sessions', ue_id=session.academicUE.idUE)
 
             return render(request, 'educator/edit_session.html', {
                 'session': session,

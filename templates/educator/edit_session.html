@@ -3,29 +3,20 @@
 
 {% block title %}Modifier la session{% endblock %}
 
-{% block bodyId %}editSessionPage{% endblock %}
-
 {% block content %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-    
-    <header class="welcome-header">
-        <div class="user-info">
-            Bienvenue sur IpefaSup,  {{ logged_user.first_name }} {{ logged_user.last_name }}
-        </div>
-        <div class="date-time">
-            Nous sommes le {{ current_date_time }}
-        </div>
-    </header>
+    <h1>Modifier la session de l'UE : {{ session.academicUE.wording }}</h1>
 
-    <h1>Modifier la session de l'UE : {{ session.ue.wording }}</h1>
-    
     <form method="POST">
         {% csrf_token %}
-        <label for="session_date">Date de la session :</label>
-        <input type="date" id="session_date" name="session_date" value="{{ session.session_date }}" required>
-        <button type="submit">Modifier</button>
+        <label for="jour">Jour :</label>
+        <input type="number" name="jour" min="1" max="31" value="{{ session.jour }}" required>
+
+        <label for="mois">Mois :</label>
+        <input type="number" name="mois" min="1" max="12" value="{{ session.mois }}" required>
+
+        <button type="submit">Enregistrer les modifications</button>
     </form>
 
     <br>
-    <a href="{% url 'manage_sessions' session.ue.idUE %}">Retour à la gestion des sessions</a>
+    <a href="{% url 'manage_sessions' session.academicUE.idUE %}">Retour à la gestion des sessions</a>
 {% endblock %}

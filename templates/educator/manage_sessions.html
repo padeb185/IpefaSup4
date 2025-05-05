@@ -6,47 +6,18 @@
 {% block bodyId %}manageSessionsPage{% endblock %}
 
 {% block content %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-    
-    <header class="welcome-header">
-        <div class="user-info">
-            Bienvenue sur IpefaSup,  {{ logged_user.first_name }} {{ logged_user.last_name }}
-        </div>
-        <div class="date-time">
-            Nous sommes le {{ current_date_time }}
-        </div>
-    </header>
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 
-    <h1>Gestion des sessions pour l'UE : {{ ue.wording }}</h1>
-    
-    <h2>Sessions existantes</h2>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Date de la session</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for session in sessions %}
-                <tr>
-                    <td>{{ session.session_date }}</td>
-                    <td>
-                        <!-- Lien pour modifier la session -->
-                        <a href="{% url 'edit_session' session.id %}">Modifier</a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<header class="welcome-header">
+    <div class="user-info">
+        Bienvenue sur IpefaSup, {{ logged_user.first_name }} {{ logged_user.last_name }}
+    </div>
+    <div class="date-time">
+        Nous sommes le {{ current_date_time }}
+    </div>
+</header>
 
-   <h2>Ajouter une nouvelle session</h2>
-<form method="POST">
-    {% csrf_token %}
-    <label for="session_date">Date de la session :</label>
-    <input type="date" id="session_date" name="session_date" required>
-    <button type="submit">Ajouter</button>
-</form>
+<h1>Gestion des sessions pour l'UE : {{ ue.wording }}</h1>
 
 <h2>Sessions existantes</h2>
 <table border="1">
@@ -59,15 +30,32 @@
     <tbody>
         {% for session in sessions %}
             <tr>
-                <td>{{ session.session_date }}</td>
+                <td>{{ session.jour }}/{{ session.mois }}</td>
                 <td>
+                    <!-- Lien pour modifier la session (si une vue 'edit_session' existe) -->
                     <a href="{% url 'edit_session' session.id %}">Modifier</a>
                 </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="2">Aucune session enregistrée pour cette UE.</td>
             </tr>
         {% endfor %}
     </tbody>
 </table>
 
-    <br>
-    <a href="{% url 'ues_by_section' ue.section.id %}">Retour à la liste des UEs de la section</a>
+<h2>Ajouter une nouvelle session</h2>
+<form method="post">
+    {% csrf_token %}
+    <label for="jour">Jour:</label>
+    <input type="number" name="jour" min="1" max="31" required>
+
+    <label for="mois">Mois:</label>
+    <input type="number" name="mois" min="1" max="12" required>
+
+    <button type="submit">Enregistrer</button>
+</form>
+
+<br>
+<a href="{% url 'ues_by_section' ue.section.id %}">Retour à la liste des UEs de la section</a>
 {% endblock %}
