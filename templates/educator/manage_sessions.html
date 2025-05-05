@@ -17,7 +17,7 @@
     </div>
 </header>
 
-<h1>Gestion des sessions pour l'UE : {{ ue.wording }}</h1>
+<h1>Gestion des sessions pour l'UE : {{ academic_ue.wording }}</h1>
 
 <h2>Sessions existantes</h2>
 <table border="1">
@@ -32,7 +32,7 @@
             <tr>
                 <td>{{ session.jour }}/{{ session.mois }}</td>
                 <td>
-                    <!-- Lien pour modifier la session (si une vue 'edit_session' existe) -->
+                    <!-- Lien pour modifier la session -->
                     <a href="{% url 'edit_session' session.id %}">Modifier</a>
                 </td>
             </tr>
@@ -56,6 +56,12 @@
     <button type="submit">Enregistrer</button>
 </form>
 
+<a href="{% url 'manage_participations_in_ue' academic_ue.idUE %}">
+    Gérer les participations
+</a>
+
 <br>
-<a href="{% url 'ues_by_section' ue.section.id %}">Retour à la liste des UEs de la section</a>
+<a href="{% url 'ues_by_section' academic_ue.section.id %}">
+    Retour à la liste des UEs de la section
+</a>
 {% endblock %}

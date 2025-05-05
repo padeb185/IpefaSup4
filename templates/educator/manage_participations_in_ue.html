@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Participations – {{ academic_ue.wording }} ({{ academic_ue.academicYear }})</h1>
+
+<div>
+    <p>
+        <label for="studentFilter">Filtrer par nom</label>
+        <select id="studentFilter">
+            <option value="">Tout</option>
+            {% for student in students %}
+                <option value="{{ student.first_name }} {{ student.last_name }}">
+                    {{ student.first_name }} {{ student.last_name }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label for="statusFilter">Filtrer par statut</label>
+        <select id="statusFilter">
+            <option value="">Tout</option>
+            {% for code, label in status_choices %}
+                <option value="{{ label }}">{{ label }}</option>
+            {% endfor %}
+        </select>
+    </p>
+</div>
+
+<form method="POST">
+    {% csrf_token %}
+    {% for row in session_data %}
+        <h3>Session du {{ row.session.jour }}/{{ row.session.mois }}</h3>
+        <table border="1" cellpadding="5">
+            <thead>
+                <tr>
+                    <th>Étudiant</th>
+                    <th>Statut</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in row.participations %}
+                    <tr data-student="{{ item.student.first_name }} {{ item.student.last_name }}"
+                        data-status="{% if item.participation %}{{ item.participation.get_status_display }}{% else %}Choisir...{% endif %}">
+                        <td>{{ item.student.first_name }} {{ item.student.last_name }}</td>
+                        <td>
+                            <select name="status_{{ row.session.id }}_{{ item.student.id }}">
+                                <option value="" {% if not item.participation %}selected{% endif %}>Choisir...</option>
+                                {% for code, label in status_choices %}
+                                    <option value="{{ code }}" {% if item.participation and item.participation.status == code %}selected{% endif %}>
+                                        {{ label }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endfor %}
+
+    <button type="submit">Enregistrer les modifications</button>
+</form>
+
+<p>
+    <a href="{% url 'students_in_academic_ue' academic_ue_id=academic_ue.idUE %}">
+        ← Retour à la liste des étudiants pour {{ academic_ue.wording }} ({{ academic_ue.academicYear }}, Cycle {{ academic_ue.yearCycle }})
+    </a>
+</p>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        function filterRows() {
+            const studentVal = $('#studentFilter').val().toLowerCase();
+            const statusVal = $('#statusFilter').val().toLowerCase();
+
+            $('tr[data-student]').each(function () {
+                const student = $(this).data('student').toLowerCase();
+                const status = $(this).data('status').toLowerCase();
+
+                const showStudent = !studentVal || student.includes(studentVal);
+                const showStatus = !statusVal || status.includes(statusVal);
+
+                $(this).toggle(showStudent && showStatus);
+            });
+        }
+
+        $('#studentFilter, #statusFilter').on('change', filterRows);
+    });
+</script>
+{% endblock %}
+
+

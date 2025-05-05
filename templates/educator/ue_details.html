@@ -76,17 +76,7 @@
     <a href="{% url 'manage_sessions' ue.idUE %}">Gérer les sessions de cette UE</a>
     <br>
 
-    <h2>Sessions associées à cette UE</h2>
-    <ul>
-        {% for session in sessions %}
-            <li>
-                {{ session.session_date }}
-                <a href="{% url 'edit_session' session.id %}">Modifier</a>
-            </li>
-        {% empty %}
-            <li>Aucune session à afficher</li>
-        {% endfor %}
-    </ul>
+   
 
     <br>
     <a href="{% url 'ues_by_section' ue.section.id %}">Retour à la liste des UEs de la section</a>

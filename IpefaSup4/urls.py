@@ -25,7 +25,7 @@ from .views import login, welcome, register, add_academic_ue_views, add_ue_views
     student_non_passed_registrations_view, student_passed_registrations_view, student_prerequisites_view, \
     academic_ues_for_teacher, students_in_academic_ue, encode_results, \
     participations_in_ue, student_participation_view, student_manage_view, add_student_view, ue_manage_view, \
-    select_section, ues_by_section, ue_detail, manage_sessions, edit_session
+    select_section, ues_by_section, ue_detail, manage_sessions, edit_session, manage_participations_in_ue
 from django.contrib import admin
 
 urlpatterns = [
@@ -93,6 +93,8 @@ urlpatterns = [
 
     path('educator/ues/<int:ue_id>/sessions/', manage_sessions, name='manage_sessions'),
     path('educator/sessions/edit/<int:session_id>/', edit_session, name='edit_session'),
+
+    path('educator/ue/<int:academic_ue_id>/participations/', manage_participations_in_ue, name='manage_participations_in_ue'),
 
 
 
