@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="teacher participation status">
-      <change afterPath="$PROJECT_DIR$/templates/teacher/encode_results.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IpefaSup4/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/views.py" afterDir="false" />
+    <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="teacher encode result">
+      <change beforePath="$PROJECT_DIR$/templates/teacher/encode_results.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/teacher/encode_results.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -169,15 +167,7 @@
       <workItem from="1746105813182" duration="467000" />
       <workItem from="1746106295095" duration="392000" />
       <workItem from="1746111489475" duration="2035000" />
-      <workItem from="1746435266870" duration="937000" />
-    </task>
-    <task id="LOCAL-00006" summary="first commit">
-      <option name="closed" value="true" />
-      <created>1745140583712</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1745140583712</updated>
+      <workItem from="1746435266870" duration="1048000" />
     </task>
     <task id="LOCAL-00007" summary="first commit">
       <option name="closed" value="true" />
@@ -563,7 +553,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746113539203</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="teacher encode result">
+      <option name="closed" value="true" />
+      <created>1746436269072</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1746436269072</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -586,6 +584,7 @@
     <MESSAGE value="student result teacher view" />
     <MESSAGE value="teacher participation" />
     <MESSAGE value="teacher participation status" />
-    <option name="LAST_COMMIT_MESSAGE" value="teacher participation status" />
+    <MESSAGE value="teacher encode result" />
+    <option name="LAST_COMMIT_MESSAGE" value="teacher encode result" />
   </component>
 </project>

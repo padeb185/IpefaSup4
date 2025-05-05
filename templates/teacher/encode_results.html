@@ -68,5 +68,26 @@
     <br>
     <button type="submit">Enregistrer</button>
 </form>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function() {
+        var table = $('table').DataTable();
+
+        $('#student').on('change', function() {
+            var val = $(this).val();
+            table.column(0).search(val).draw();
+        });
+        $('#status').on('change', function() {
+            var val = $(this).val();
+            table.column(2).search(val).draw();
+        });
+        $('#result').on('change', function() {
+            var val = $(this).val();
+            table.column(3).search(val).draw();
+        });
+    });
+</script>
 {% endblock %}
 
