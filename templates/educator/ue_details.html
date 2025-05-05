@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Détail de l'UE{% endblock %}
+
+{% block bodyId %}ueDetailPage{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+    <header class="welcome-header">
+        <div class="user-info">
+            Bienvenue sur IpefaSup,  {{ logged_user.first_name }} {{ logged_user.last_name }}
+        </div>
+        <div class="date-time">
+            Nous sommes le {{ current_date_time }}
+        </div>
+    </header>
+
+    <h1>Détails de l'Unité d'Enseignement - {{ ue.idUE }}</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Attribut</th>
+                <th>Valeur</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>ID UE</td>
+                <td>{{ ue.idUE }}</td>
+            </tr>
+            <tr>
+                <td>Libellé</td>
+                <td>{{ ue.wording }}</td>
+            </tr>
+            <tr>
+                <td>Nombre d'heures</td>
+                <td>{{ ue.numberPeriods }}</td>
+            </tr>
+            <tr>
+                <td>Section</td>
+                <td>{{ ue.section.wording }}</td>
+            </tr>
+            <tr>
+                <td>Année académique</td>
+                <td>{{ ue.academicYear }}</td>
+            </tr>
+            <tr>
+                <td>Cycle</td>
+                <td>{{ ue.yearCycle }}</td>
+            </tr>
+            <tr>
+                <td>Prérequis</td>
+                <td>
+                    {% if ue.prerequisites.all %}
+                        <ul>
+                        {% for prerequisite in ue.prerequisites.all %}
+                            <li>{{ prerequisite.wording }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% else %}
+                        Aucun prérequis
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>Enseignant responsable</td>
+                <td>{{ ue.teacher.first_name }} {{ ue.teacher.last_name }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{% url 'ues_by_section' ue.section.id %}">Retour à la liste des UEs de la section</a>
+{% endblock %}

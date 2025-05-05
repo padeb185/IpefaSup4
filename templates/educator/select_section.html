@@ -1,0 +1,18 @@
+<!-- educator/select_section.html -->
+{% extends "base.html" %}
+{% block title %}Choisir une Section{% endblock %}
+
+{% block bodyId %}sectionSelectPage{% endblock %}
+
+{% block content %}
+    <h1>Choisir une Section</h1>
+    
+    <!-- Affichage des sections avec lien vers leurs UEs -->
+    <ul>
+        {% for section in sections %}
+            <li>
+                <a href="{% url 'ues_by_section' section.id %}">{{ section.wording }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

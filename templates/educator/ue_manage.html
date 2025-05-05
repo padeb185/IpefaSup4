@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Gérer les UES{% endblock %}
+
+{% block bodyId %}ueManagePage{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <header class="welcome-header">
+        <div class="user-info">
+            Bienvenue sur IpefaSup, {{ logged_user.first_name }} {{ logged_user.last_name }}
+        </div>
+        <div class="date-time">
+            Nous sommes le {{ current_date_time }}
+        </div>
+    </header>
+
+    <main>
+        <h1>IpefaSup - Gérer les UEs</h1>
+        <p><a href="{% url 'select_section' %}">Choisir une section</a></p>
+    </main>
+{% endblock %}

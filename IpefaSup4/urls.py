@@ -24,7 +24,8 @@ from .views import login, welcome, register, add_academic_ue_views, add_ue_views
     add_session_views, add_section_views, student_registration_view, teacher_academic_ues, \
     student_non_passed_registrations_view, student_passed_registrations_view, student_prerequisites_view, \
     academic_ues_for_teacher, students_in_academic_ue, encode_results, \
-    participations_in_ue, student_participation_view, student_manage_view, add_student_view
+    participations_in_ue, student_participation_view, student_manage_view, add_student_view, ue_manage_view, \
+    select_section, ues_by_section, ue_detail
 from django.contrib import admin
 
 urlpatterns = [
@@ -71,11 +72,24 @@ urlpatterns = [
 
 
     # Accueil éducateur
-    path('welcomeEducator/', welcome, name='welcomeEducator'),
+    path('welcomeEducator/', welcome, name='welcomeEducator'),  # Page de bienvenue pour l'éducateur
 
-    path('educator/', student_manage_view, name='student_manage'),
+    # Gestion des étudiants (chemin unique pour chaque vue)
+    path('educator/students/', student_manage_view, name='student_manage'),
 
-    path('educator/add/', add_student_view, name='add_student'),
+    # Gestion des UEs (chemin unique pour chaque vue)
+    path('educator/ues/', ue_manage_view, name='ue_manage'),
+
+    # Ajouter un étudiant (chemin unique pour l'ajout d'un étudiant)
+    path('educator/students/add/', add_student_view, name='add_student'),
+
+    # Sélection de la section
+    path('educator/sections/', select_section, name='select_section'),
+
+    # Lister les UEs par section
+    path('educator/sections/<int:section_id>/ues/', ues_by_section, name='ues_by_section'),
+
+    path('educator/ues/<str:ue_id>/', ue_detail, name='ue_details'),  # Détail de l'UE
 
 
 

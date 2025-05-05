@@ -8,7 +8,7 @@ from .forms import LoginForm, StudentForm, TeacherForm, AdministratorForm, AddAc
     StudentProfileForm, EducatorForm, TeacherProfileForm, StudentEditProfileForm, AddRegistrationForm, \
     AddParticipationForm, AddSessionForm, AddSectionForm
 from .models import Educator, Student, Teacher, \
-    Administrator, AcademicUE, Registration, Participation, Session
+    Administrator, AcademicUE, Registration, Participation, Session, Section
 from .utils import get_logged_user_from_request
 from django.utils.timezone import now
 
@@ -669,3 +669,60 @@ def add_student_view(request):
             form = StudentForm()
         return render(request, 'educator/add_student.html', {'form': form})
     return redirect('login')  # Ou une page d'accès refusé
+
+
+def ue_manage_view(request):
+    logged_user = get_logged_user_from_request(request)
+
+    if not logged_user:
+        # Si l'utilisateur n'est pas connecté, redirection vers la page de login
+        return redirect('login')
+
+    # Vérifie si l'utilisateur est un éducateur ou administrateur
+    if logged_user.person_type in ('educateur', 'administrateur'):
+        return render(request, 'educator/ue_manage.html', {
+            'logged_user': logged_user,
+            'current_date_time': datetime.now().strftime("%d/%m/%Y %H:%M"),  # Date et heure actuelle
+        })
+    else:
+        # Optionnel : redirige vers une page d'accès non autorisé ou affiche un message
+        return redirect('login')  # ou
+
+def select_section(request):
+    logged_user = get_logged_user_from_request(request)
+    if logged_user:
+        if logged_user.person_type in ('educateur', 'administrateur'):
+
+            sections = Section.objects.all()
+            return render(request, 'educator/select_section.html', {'sections': sections})
+        else:
+            return redirect('login')
+    else:
+        return redirect('login')
+
+
+def ues_by_section(request, section_id):
+    logged_user = get_logged_user_from_request(request)
+    if logged_user:
+        if logged_user.person_type in ('educateur', 'administrateur'):
+
+            section = get_object_or_404(Section, id=section_id)
+            ues = section.ues.all()  # grâce au related_name='ues' dans le modèle UE
+            return render(request, 'educator/ues_by_section.html', {'section': section, 'ues': ues})
+        else:
+            return redirect('login')
+    else:
+        return redirect('login')
+
+
+def ue_detail(request, ue_id):
+    # Récupérer l'UE spécifique
+    logged_user = get_logged_user_from_request(request)
+    if logged_user:
+        if logged_user.person_type in ('educateur', 'administrateur'):
+
+            ue = get_object_or_404(AcademicUE, idUE=ue_id)
+
+            return render(request, 'educator/ue_details.html', {
+                    'ue': ue,
+    })

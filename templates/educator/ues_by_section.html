@@ -1,0 +1,20 @@
+<!-- educator/ues_by_section.html -->
+{% extends "base.html" %}
+{% block title %}UEs de {{ section.wording }}{% endblock %}
+
+{% block bodyId %}uesBySectionPage{% endblock %}
+
+{% block content %}
+    <h1>Unités d'Enseignement pour la section : {{ section.wording }}</h1>
+
+    <ul>
+        {% for ue in ues %}
+            <li>
+                <!-- Lien vers le détail de l'UE -->
+                <a href="{% url 'ue_details' ue.idUE %}">
+                    {{ ue.idUE }} - {{ ue.wording }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
