@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Gérer les Sessions de l'UE{% endblock %}
+
+{% block bodyId %}manageSessionsPage{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    
+    <header class="welcome-header">
+        <div class="user-info">
+            Bienvenue sur IpefaSup,  {{ logged_user.first_name }} {{ logged_user.last_name }}
+        </div>
+        <div class="date-time">
+            Nous sommes le {{ current_date_time }}
+        </div>
+    </header>
+
+    <h1>Gestion des sessions pour l'UE : {{ ue.wording }}</h1>
+    
+    <h2>Sessions existantes</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Date de la session</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for session in sessions %}
+                <tr>
+                    <td>{{ session.session_date }}</td>
+                    <td>
+                        <!-- Lien pour modifier la session -->
+                        <a href="{% url 'edit_session' session.id %}">Modifier</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+   <h2>Ajouter une nouvelle session</h2>
+<form method="POST">
+    {% csrf_token %}
+    <label for="session_date">Date de la session :</label>
+    <input type="date" id="session_date" name="session_date" required>
+    <button type="submit">Ajouter</button>
+</form>
+
+<h2>Sessions existantes</h2>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Date de la session</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for session in sessions %}
+            <tr>
+                <td>{{ session.session_date }}</td>
+                <td>
+                    <a href="{% url 'edit_session' session.id %}">Modifier</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+    <br>
+    <a href="{% url 'ues_by_section' ue.section.id %}">Retour à la liste des UEs de la section</a>
+{% endblock %}

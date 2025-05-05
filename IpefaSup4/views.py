@@ -722,7 +722,69 @@ def ue_detail(request, ue_id):
         if logged_user.person_type in ('educateur', 'administrateur'):
 
             ue = get_object_or_404(AcademicUE, idUE=ue_id)
-
+            sessions = Session.objects.filter(academicUE=ue)
             return render(request, 'educator/ue_details.html', {
                     'ue': ue,
+                    'sessions': sessions,
     })
+
+
+def manage_sessions(request, ue_id):
+    logged_user = get_logged_user_from_request(request)
+    if logged_user:
+        if logged_user.person_type in ('educateur', 'administrateur'):
+
+            # Récupérer l'UE spécifique par son identifiant
+            ue = get_object_or_404(AcademicUE, idUE=ue_id)
+
+            if request.method == 'POST':
+                # Récupérer les informations pour ajouter ou modifier une session
+                session_id = request.POST.get('session_id')  # session_id pourrait être vide s'il s'agit d'un ajout
+                session_date = request.POST.get('session_date')
+
+                if session_id:  # Si un ID de session est fourni, modifier la session existante
+                    session = get_object_or_404(Session, id=session_id)
+                    session.session_date = session_date
+                    session.save()
+                else:  # Sinon, créer une nouvelle session
+                    Session.objects.create(ue=ue, session_date=session_date)
+
+                # Rediriger vers la même page pour voir les mises à jour
+                return redirect('manage_sessions', ue_id=ue.idUE)
+
+            # Récupérer toutes les sessions associées à cette UE
+            sessions = Session.objects.filter(academicUE=ue)  # correction ici
+
+            return render(request, 'educator/manage_sessions.html', {
+                'ue': ue,
+                'sessions': sessions,
+                'logged_user': request.user,  # Assurez-vous de passer l'utilisateur connecté si nécessaire
+                'current_date_time': datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # Date et heure actuelles
+            })
+
+        else:
+            return redirect('login')
+    else:
+        return redirect('login')
+
+def edit_session(request, session_id):
+    logged_user = get_logged_user_from_request(request)
+    if logged_user:
+        if logged_user.person_type in ('educateur', 'administrateur'):
+
+            session = get_object_or_404(Session, id=session_id)
+
+            if request.method == 'POST':
+                # Modifier la session
+                session.session_date = request.POST.get('session_date')
+                session.save()
+                return redirect('manage_sessions',
+                                ue_id=session.ue.idUE)  # Rediriger vers la gestion des sessions de l'UE
+
+            return render(request, 'educator/edit_session.html', {
+                'session': session,
+            })
+        else:
+            return redirect('login')
+    else:
+        return redirect('login')
