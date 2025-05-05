@@ -507,9 +507,9 @@ def encode_results(request, academic_ue_id):
     logged_user = get_logged_user_from_request(request)
     if logged_user and logged_user.person_type == 'professeur':
         academic_ue = get_object_or_404(AcademicUE, idUE=academic_ue_id)
-        registrations = Registration.objects.filter(academic_ue=academic_ue)
 
         if request.method == 'POST':
+            registrations = Registration.objects.filter(academic_ue=academic_ue)
             for registration in registrations:
                 result = request.POST.get(f'result_{registration.id}')
                 status = request.POST.get(f'status_{registration.id}')
@@ -519,7 +519,11 @@ def encode_results(request, academic_ue_id):
                     registration.status = status
                 registration.save()
 
-            return redirect('welcomeTeacher')
+            # Recharger les enregistrements à jour depuis la BDD
+            registrations = Registration.objects.filter(academic_ue=academic_ue)
+
+        else:
+            registrations = Registration.objects.filter(academic_ue=academic_ue)
 
         return render(request, 'teacher/encode_results.html', {
             'academic_ue': academic_ue,
@@ -528,11 +532,6 @@ def encode_results(request, academic_ue_id):
         })
     else:
         return redirect('login')
-
-
-
-
-
 
 
 def student_participation_view(request):
