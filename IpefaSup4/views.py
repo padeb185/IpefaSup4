@@ -642,3 +642,30 @@ def participations_in_ue(request, academic_ue_id):
         'logged_user': logged_user,
         'current_date_time': datetime.now
     })
+
+
+def student_manage_view(request):
+    logged_user = get_logged_user_from_request(request)
+    if not logged_user:
+        return redirect('login')  # Redirection si l'utilisateur n'est pas connecté
+
+    if logged_user.person_type in ('educateur', 'administrateur'):
+        return render(request, 'educator/student_manage.html', {
+            'logged_user': logged_user,
+        })
+    else:
+        return redirect('login')  # Optionnel : page pour accès non autorisé
+
+
+def add_student_view(request):
+    logged_user = get_logged_user_from_request(request)
+    if logged_user and logged_user.person_type in ('educateur', 'administrateur'):
+        if request.method == 'POST':
+            form = StudentProfileForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('student_manage')  # Redirige vers la liste des étudiants
+        else:
+            form = StudentForm()
+        return render(request, 'educator/add_student.html', {'form': form})
+    return redirect('login')  # Ou une page d'accès refusé

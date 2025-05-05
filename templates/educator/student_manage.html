@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Bienvenue Educateur{% endblock %}
+{% block title %}Gérer les étudiants{% endblock %}
 
-{% block bodyId %}WelcomeEducatorPage{% endblock %}
+{% block bodyId %}studentManagePage{% endblock %}
 
 {% block content %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
@@ -16,10 +16,10 @@
         </div>
     </header>
 
-    <h1>IpefaSup - Educateur</h1>
+    <h1>IpefaSup - Gérer les étudiants</h1>
 
 
 
-    <a href="{% url 'student_manage' %}">Gérer les étudiants</a>
-
+    <a href="{% url 'student_list' %}">lister les étudiants</a>
+    <a href="{% url 'add_student' %}">Ajouter un étudiant</a>
 {% endblock %}
