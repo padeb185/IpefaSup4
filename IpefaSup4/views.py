@@ -890,16 +890,43 @@ def registration_list(request, section_id):
         return redirect('login')
 
     section = get_object_or_404(Section, pk=section_id)
-    registrations = Registration.objects.filter(academic_ue__section=section)
+
+    registrations = Registration.objects.filter(
+        academic_ue__section=section
+    ).select_related(
+        'student', 'academic_ue'
+    ).prefetch_related(
+        'academic_ue__prerequisites'
+    )
+
+    # Extraire les noms uniques des étudiants
+    student_names = sorted(set(
+        f"{r.student.first_name} {r.student.last_name}" for r in registrations
+    ))
+
+    # Extraire les statuts uniques
+    statuses = sorted(set(r.status for r in registrations))
+
+    # Extraire les UE uniques
+    ue_wordings = sorted(set(r.academic_ue.wording for r in registrations))
+
+    # Extraire les prérequis uniques
+    prereqs = set()
+    for r in registrations:
+        for prereq in r.academic_ue.prerequisites.all():
+            prereqs.add(prereq.wording)
+    prereq_wordings = sorted(prereqs)
 
     return render(request, 'educator/registration_list.html', {
         'logged_user': logged_user,
         'current_date_time': now(),
         'section': section,
         'registrations': registrations,
+        'student_names': student_names,
+        'statuses': statuses,
+        'ue_wordings': ue_wordings,
+        'prereq_wordings': prereq_wordings,
     })
-
-
 
 
 def add_registration(request, section_id, registration_id=None):

@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="teacher encode result">
-      <change afterPath="$PROJECT_DIR$/templates/educator/add_registrations_by_cycle.html" afterDir="false" />
+    <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="year cycle">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IpefaSup4/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/IpefaSup4/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/educator/registration_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/educator/registration_list.html" afterDir="false" />
     </list>
@@ -177,15 +175,7 @@
       <workItem from="1746533983941" duration="99000" />
       <workItem from="1746534341936" duration="3868000" />
       <workItem from="1746538420885" duration="952000" />
-      <workItem from="1746539404248" duration="1934000" />
-    </task>
-    <task id="LOCAL-00018" summary="student registration">
-      <option name="closed" value="true" />
-      <created>1745508494759</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1745508494759</updated>
+      <workItem from="1746539404248" duration="3185000" />
     </task>
     <task id="LOCAL-00019" summary="student form">
       <option name="closed" value="true" />
@@ -571,7 +561,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746540271195</updated>
     </task>
-    <option name="localTasksCounter" value="67" />
+    <task id="LOCAL-00067" summary="year cycle">
+      <option name="closed" value="true" />
+      <created>1746546649412</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1746546649412</updated>
+    </task>
+    <option name="localTasksCounter" value="68" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -606,7 +604,8 @@
     <MESSAGE value="teacher participation" />
     <MESSAGE value="teacher participation status" />
     <MESSAGE value="teacher encode result" />
-    <option name="LAST_COMMIT_MESSAGE" value="teacher encode result" />
+    <MESSAGE value="year cycle" />
+    <option name="LAST_COMMIT_MESSAGE" value="year cycle" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -5,7 +5,44 @@
       <a href="{% url 'add_registration' section.id %}" >Ajouter une inscription</a>
       <a href="{% url 'add_registrations_by_cycle' section.id %}">Ajouter inscriptions par cycle</a>
 
-  <table>
+    <div id="filters">
+   <label>Filtrer par étudiant:</label>
+        <select id="studentFilter">
+            <option value="">Tous</option>
+            {% for name in student_names %}
+                <option value="{{ name }}">{{ name }}</option>
+            {% endfor %}
+        </select>
+
+        <!-- Statut -->
+        <label>Filtrer par statut:</label>
+        <select id="statusFilter">
+            <option value="">Tous</option>
+            {% for status in statuses %}
+                <option value="{{ status }}">{{ status }}</option>
+            {% endfor %}
+        </select>
+
+        <!-- UE -->
+        <label>Filtrer par UE:</label>
+        <select id="ueFilter">
+            <option value="">Toutes</option>
+            {% for ue in ue_wordings %}
+                <option value="{{ ue }}">{{ ue }}</option>
+            {% endfor %}
+        </select>
+
+<!-- Prérequis -->
+    <label>Filtrer par prérequis:</label>
+    <select id="prereqFilter">
+        <option value="">Tous</option>
+        {% for prereq in prereq_wordings %}
+            <option value="{{ prereq }}">{{ prereq }}</option>
+        {% endfor %}
+    </select>
+</div>
+
+  <table id="registrationTable">
     <thead>
       <tr>
         <th>Étudiant</th>
@@ -39,6 +76,32 @@
       {% endfor %}
     </tbody>
   </table>
+<script>
+  $(document).ready(function () {
+    function filterTable() {
+        var student = $('#studentFilter').val().toLowerCase().trim();
+        var status = $('#statusFilter').val().toLowerCase().trim();
+        var ue = $('#ueFilter').val().toLowerCase().trim();
+        var prereq = $('#prereqFilter').val().toLowerCase().trim();
 
+        $('#registrationTable tbody tr').each(function () {
+            var tds = $(this).find('td');
+            var studentText = tds.eq(0).text().toLowerCase().trim();
+            var statusText = tds.eq(1).text().toLowerCase().trim();
+            var ueText = tds.eq(2).text().toLowerCase().trim();
+            var prereqText = tds.eq(3).text().toLowerCase().trim();
 
+            var show = (!student || studentText.includes(student)) &&
+                       (!status || statusText.includes(status)) &&
+                       (!ue || ueText.includes(ue)) &&
+                       (!prereq || prereqText.includes(prereq));
+
+            $(this).toggle(show);
+        });
+    }
+
+    $('#studentFilter, #statusFilter, #ueFilter, #prereqFilter').on('change', filterTable);
+});
+
+</script>
 {% endblock %}
