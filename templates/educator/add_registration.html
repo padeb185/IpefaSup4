@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{% if registration %}Modifier{% else %}Ajouter{% endif %} une inscription</h1>
+
+  <form method="POST">
+    {% csrf_token %}
+
+    <!-- Sélection de l'étudiant -->
+    <div>
+      <label for="student">Étudiant :</label>
+      <select name="student" id="student" required>
+        {% for student in students %}
+          <option value="{{ student.id }}" {% if registration and registration.student.id == student.id %}selected{% endif %}>
+            {{ student.name }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Sélection des unités d'enseignement -->
+    <div>
+      <label for="academic_ue">Unités d'enseignement :</label>
+      <select name="academic_ue" id="academic_ue" multiple required>
+        {% for ue in ues %}
+          <option value="{{ ue.id }}" {% if registration and registration.academic_ue.id == ue.id %}selected{% endif %}>
+            {{ ue.name }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Champ pour le statut -->
+    <div>
+      <label for="status">Statut :</label>
+      <input type="text" id="status" name="status" value="{% if registration %}{{ registration.status }}{% endif %}" required>
+    </div>
+
+    <!-- Champ pour le résultat -->
+    <div>
+      <label for="result">Résultat :</label>
+      <input type="text" id="result" name="result" value="{% if registration %}{{ registration.result }}{% endif %}">
+    </div>
+
+    <!-- Case à cocher pour l'approbation -->
+    <div>
+      <label for="approved">Approuvé :</label>
+      <input type="checkbox" id="approved" name="approved" {% if registration and registration.approved %}checked{% endif %}>
+    </div>
+
+    <!-- Soumettre le formulaire -->
+    <div>
+      <button type="submit">
+        {% if registration %}Mettre à jour{% else %}Ajouter{% endif %}
+      </button>
+    </div>
+  </form>
+
+  <p><a href="{% url 'registration_list' section.id %}">Retour à la liste des inscriptions</a></p>
+
+{% endblock %}

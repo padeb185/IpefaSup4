@@ -99,7 +99,7 @@ urlpatterns = [
 
     path('educator/sections-list/', section_list, name='section_list'),
     path('educator/sections/<int:section_id>/registrations/', registration_list, name='registration_list'),
-    path('educator/add-registration/<int:section_id>/', add_registration, name='add-registration'),
+    path('section/<int:section_id>/add_registration/', add_registration, name='add_registration'),
 
 
 
