@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="teacher encode result">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IpefaSup4/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/educator/add_registration.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/educator/add_registration.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -174,14 +175,7 @@
       <workItem from="1746533983941" duration="99000" />
       <workItem from="1746534341936" duration="3868000" />
       <workItem from="1746538420885" duration="952000" />
-    </task>
-    <task id="LOCAL-00016" summary="student registration">
-      <option name="closed" value="true" />
-      <created>1745430870332</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1745430870332</updated>
+      <workItem from="1746539404248" duration="621000" />
     </task>
     <task id="LOCAL-00017" summary="student registration">
       <option name="closed" value="true" />
@@ -567,7 +561,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746539046390</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="teacher encode result">
+      <option name="closed" value="true" />
+      <created>1746539425887</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1746539425887</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

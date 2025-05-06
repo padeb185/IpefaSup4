@@ -899,7 +899,14 @@ def registration_list(request, section_id):
         'registrations': registrations,
     })
 
-# Ajouter une inscription
+
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import AddRegistrationForm
+from .models import Section, AcademicUE, Student, Registration
+from .utils import get_logged_user_from_request
+from datetime import datetime
+
+
 def add_registration(request, section_id, registration_id=None):
     logged_user = get_logged_user_from_request(request)
 
@@ -907,53 +914,30 @@ def add_registration(request, section_id, registration_id=None):
         return redirect('login')
 
     section = get_object_or_404(Section, pk=section_id)
-    students = Student.objects.all()
-    ues = AcademicUE.objects.filter(section=section)  # Filtrer par section
+    academic_ues = AcademicUE.objects.filter(section=section)
 
-    # Si registration_id est fourni, on modifie l'inscription existante
+    registration = None
     if registration_id:
         registration = get_object_or_404(Registration, pk=registration_id)
-    else:
-        registration = None
-
-    current_date_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     if request.method == 'POST':
-        student_id = request.POST.get('student')
-        academic_ue_ids = request.POST.getlist('academic_ue')
-        status = request.POST.get('status')
-        result = request.POST.get('result')
-        approved = 'approved' in request.POST
+        form = AddRegistrationForm(request.POST, instance=registration)
 
-        student = get_object_or_404(Student, pk=student_id)
+        if form.is_valid():
+            registration = form.save()
+            return redirect('registration_list', section_id=section.id)
+    else:
+        form = AddRegistrationForm(instance=registration)
 
-        if registration:
-            # Mise à jour d'une inscription existante
-            registration.student = student
-            registration.status = status
-            registration.result = result if result else None
-            registration.approved = approved
-            registration.save()
-        else:
-            # Création d'une nouvelle inscription
-            for ue_id in academic_ue_ids:
-                ue = get_object_or_404(AcademicUE, pk=ue_id)
-                Registration.objects.create(
-                    student=student,
-                    academic_ue=ue,
-                    status=status,
-                    result=result if result else None,
-                    approved=approved
-                )
-
-        # Redirige vers la liste des inscriptions de la section
-        return redirect('registration_list', section_id=section.id)
+    # Restreindre dynamiquement le queryset de academic_ue aux UE de la section
+    form.fields['academic_ue'].queryset = academic_ues
 
     return render(request, 'educator/add_registration.html', {
-        'students': students,
-        'ues': ues,
-        'section': section,
+        'form': form,
         'registration': registration,
+        'section': section,
+        'section_id': section_id,
         'logged_user': logged_user,
-        'current_date_time': current_date_time,
+        'current_date_time': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
     })
+

@@ -3,62 +3,16 @@
 {% block content %}
   <h1>{% if registration %}Modifier{% else %}Ajouter{% endif %} une inscription</h1>
 
-  <form method="POST">
-    {% csrf_token %}
+   <form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
 
-    <!-- Sélection de l'étudiant -->
-    <div>
-      <label for="student">Étudiant :</label>
-      <select name="student" id="student" required>
-        {% for student in students %}
-          <option value="{{ student.id }}" {% if registration and registration.student.id == student.id %}selected{% endif %}>
-            {{ student.first_name }} {{ student.last_name }} ({{ student.studentMail }})
-          </option>
-        {% endfor %}
-      </select>
-    </div>
+  <button type="submit">
+    {% if registration %}Mettre à jour{% else %}Ajouter{% endif %}
+  </button>
+</form>
 
-    <!-- Sélection des unités d'enseignement -->
-    <div>
-      <label for="academic_ue">Unités d'enseignement :</label>
-      <select name="academic_ue" id="academic_ue" required>
-        {% for ue in academic_ues %}
-          <option value="{{ ue.id }}" {% if registration and registration.academic_ue.id == ue.id %}selected{% endif %}>
-            {{ ue.idUE }} - {{ ue.wording }} ({{ ue.academicYear }}, Cycle {{ ue.yearCycle }})
-          </option>
-        {% endfor %}
-      </select>
-    </div>
+<p><a href="{% url 'registration_list' section_id %}">Retour à la liste des inscriptions</a></p>
 
-    <!-- Statut de l'inscription -->
-    <div>
-      <label for="status">Statut :</label>
-      <select name="status" id="status" required>
-        <option value="NP" {% if registration and registration.status == "NP" %}selected{% endif %}>Non Passé</option>
-        <option value="AP" {% if registration and registration.status == "AP" %}selected{% endif %}>Approuvé</option>
-      </select>
-    </div>
 
-    <!-- Résultat de l'inscription -->
-    <div>
-      <label for="result">Résultat :</label>
-      <input type="number" id="result" name="result" step="0.1" min="0" max="20"
-             value="{% if registration %}{{ registration.result }}{% endif %}">
-    </div>
-
-    <!-- Case à cocher pour l'approbation -->
-    <div>
-      <label for="approved">Approuvé :</label>
-      <input type="checkbox" id="approved" name="approved" {% if registration and registration.approved %}checked{% endif %}>
-    </div>
-
-    <!-- Soumettre le formulaire -->
-    <div>
-      <button type="submit">
-        {% if registration %}Mettre à jour{% else %}Ajouter{% endif %}
-      </button>
-    </div>
-  </form>
-
-<p><a href="{% url 'registration_list' section.id %}">Retour à la liste des inscriptions</a></p>
 {% endblock %}
