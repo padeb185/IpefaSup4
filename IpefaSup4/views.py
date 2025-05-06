@@ -861,3 +861,99 @@ def manage_participations_in_ue(request, academic_ue_id):
         'logged_user': logged_user,
         'current_date_time': datetime.now
     })
+
+
+
+
+# Liste des sections accessibles par l'éducateur ou l'administrateur
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Section, Student, AcademicUE, Registration
+from datetime import datetime
+
+
+# Liste des sections accessibles par l'éducateur ou l'administrateur
+def section_list(request):
+    logged_user = get_logged_user_from_request(request)
+
+    if not logged_user or logged_user.person_type not in ('educateur', 'administrateur'):
+        return redirect('login')
+
+    sections = Section.objects.all()
+    return render(request, 'educator/section_list.html', {'sections': sections})
+
+
+
+def registration_list(request, section_id):
+    logged_user = get_logged_user_from_request(request)
+
+    if not logged_user or logged_user.person_type not in ('educateur', 'administrateur'):
+        return redirect('login')
+
+    section = get_object_or_404(Section, pk=section_id)
+    registrations = Registration.objects.filter(academic_ue__section=section)
+
+    return render(request, 'educator/registration_list.html', {
+        'logged_user': logged_user,
+        'current_date_time': now(),
+        'section': section,
+        'registrations': registrations,
+    })
+
+# Ajouter une inscription
+def add_registration(request, section_id, registration_id=None):
+    logged_user = get_logged_user_from_request(request)
+
+    if not logged_user or logged_user.person_type not in ('educateur', 'administrateur'):
+        return redirect('login')
+
+    section = get_object_or_404(Section, pk=section_id)
+    students = Student.objects.all()
+    ues = AcademicUE.objects.filter(section=section)  # Filtrer par section
+
+    # Si registration_id est fourni, on modifie l'inscription existante
+    if registration_id:
+        registration = get_object_or_404(Registration, pk=registration_id)
+    else:
+        registration = None
+
+    current_date_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    if request.method == 'POST':
+        student_id = request.POST.get('student')
+        academic_ue_ids = request.POST.getlist('academic_ue')
+        status = request.POST.get('status')
+        result = request.POST.get('result')
+        approved = 'approved' in request.POST
+
+        student = get_object_or_404(Student, pk=student_id)
+
+        if registration:
+            # Mise à jour d'une inscription existante
+            registration.student = student
+            registration.status = status
+            registration.result = result if result else None
+            registration.approved = approved
+            registration.save()
+        else:
+            # Création d'une nouvelle inscription
+            for ue_id in academic_ue_ids:
+                ue = get_object_or_404(AcademicUE, pk=ue_id)
+                Registration.objects.create(
+                    student=student,
+                    academic_ue=ue,
+                    status=status,
+                    result=result if result else None,
+                    approved=approved
+                )
+
+        # Redirige vers la liste des inscriptions de la section
+        return redirect('registration_list', section_id=section.id)
+
+    return render(request, 'educator/add_registration.html', {
+        'students': students,
+        'ues': ues,
+        'section': section,
+        'registration': registration,
+        'logged_user': logged_user,
+        'current_date_time': current_date_time,
+    })
