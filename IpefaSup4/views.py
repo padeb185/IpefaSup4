@@ -900,11 +900,6 @@ def registration_list(request, section_id):
     })
 
 
-from django.shortcuts import render, redirect, get_object_or_404
-from .forms import AddRegistrationForm
-from .models import Section, AcademicUE, Student, Registration
-from .utils import get_logged_user_from_request
-from datetime import datetime
 
 
 def add_registration(request, section_id, registration_id=None):
@@ -941,3 +936,46 @@ def add_registration(request, section_id, registration_id=None):
         'current_date_time': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
     })
 
+
+
+
+def add_registrations_by_cycle(request, section_id):
+    logged_user = get_logged_user_from_request(request)
+
+    if not logged_user or logged_user.person_type not in ('educateur', 'administrateur'):
+        return redirect('login')
+
+    section = get_object_or_404(Section, pk=section_id)
+    students = Student.objects.all()
+
+    if request.method == 'POST':
+        student_id = request.POST.get('student')
+        year_cycle = request.POST.get('year_cycle')
+
+        if not student_id or not year_cycle:
+            messages.error(request, "Veuillez sélectionner un étudiant et un cycle.")
+            return redirect('add_registrations_by_cycle', section_id=section.id)
+
+        student = get_object_or_404(Student, pk=student_id)
+        year_cycle = int(year_cycle)
+
+        academic_ues = AcademicUE.objects.filter(section=section, yearCycle=year_cycle)
+
+        created_count = 0
+        for ue in academic_ues:
+            try:
+                Registration.objects.create(student=student, academic_ue=ue)
+                created_count += 1
+            except IntegrityError:
+                # Ignore duplicate registration
+                pass
+
+        messages.success(request, f"{created_count} inscriptions ajoutées pour {student.first_name} {student.last_name}.")
+        return redirect('registration_list', section_id=section.id)
+
+    return render(request, 'educator/add_registrations_by_cycle.html', {
+        'students': students,
+        'section': section,
+        'logged_user': logged_user,
+        'current_date_time': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+    })

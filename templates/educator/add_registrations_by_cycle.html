@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Inscrire un étudiant à toutes les UE du cycle</h1>
+
+  <form method="post">
+    {% csrf_token %}
+
+    <label for="student">Étudiant :</label>
+    <select name="student" required>
+      {% for student in students %}
+        <option value="{{ student.id }}">{{ student.first_name }} {{ student.last_name }}</option>
+      {% endfor %}
+    </select>
+
+    <label for="year_cycle">Cycle :</label>
+    <select name="year_cycle" required>
+      <option value="">-- Choisir un cycle --</option>
+      <option value="1">Cycle 1</option>
+      <option value="2">Cycle 2</option>
+      <option value="3">Cycle 3</option>
+      <option value="4">Cycle 4</option>
+    </select>
+
+    <button type="submit">Inscrire</button>
+  </form>
+{% endblock %}

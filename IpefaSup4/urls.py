@@ -26,7 +26,7 @@ from .views import login, welcome, register, add_academic_ue_views, add_ue_views
     academic_ues_for_teacher, students_in_academic_ue, encode_results, \
     participations_in_ue, student_participation_view, student_manage_view, add_student_view, ue_manage_view, \
     select_section, ues_by_section, ue_detail, manage_sessions, edit_session, manage_participations_in_ue, section_list, \
-    add_registration, registration_list
+    add_registration, registration_list, add_registrations_by_cycle
 from django.contrib import admin
 
 urlpatterns = [
@@ -101,10 +101,15 @@ urlpatterns = [
     path('educator/sections/<int:section_id>/registrations/', registration_list, name='registration_list'),
     path('section/<int:section_id>/add_registration/', add_registration, name='add_registration'),
 
+    path('section/<int:section_id>/add_registrations_by_cycle/', add_registrations_by_cycle, name='add_registrations_by_cycle'),
+
+
+
 
 
 
     # Accueil administrator
+
 
     path('welcomeAdministrator/add_academic_ue/', add_academic_ue_views, name='add_academic_ue'),  # Ajouter UE académique
 

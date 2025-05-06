@@ -2,13 +2,16 @@
 
 {% block content %}
   <h1>Liste des Inscriptions pour la Section {{ section.wording }}</h1>
+      <a href="{% url 'add_registration' section.id %}" >Ajouter une inscription</a>
+      <a href="{% url 'add_registrations_by_cycle' section.id %}">Ajouter inscriptions par cycle</a>
 
-    <table>
+  <table>
     <thead>
       <tr>
         <th>Étudiant</th>
         <th>Statut</th>
         <th>Unité d'enseignement</th>
+        <th>Prérequis</th>  {# Nouvelle colonne #}
       </tr>
     </thead>
     <tbody>
@@ -17,6 +20,17 @@
           <td>{{ registration.student.first_name }} {{ registration.student.last_name }}</td>
           <td>{{ registration.status }}</td>
           <td>{{ registration.academic_ue.wording }}</td>
+          <td>
+            {% if registration.academic_ue.prerequisites.all %}
+              <ul>
+                {% for prereq in registration.academic_ue.prerequisites.all %}
+                  <li>{{ prereq.wording }}</li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              Aucun
+            {% endif %}
+          </td>
         </tr>
       {% empty %}
         <tr>
@@ -26,5 +40,5 @@
     </tbody>
   </table>
 
-    <a href="{% url 'add_registration' section.id %}" class="btn btn-primary">Ajouter une inscription</a>
+
 {% endblock %}
