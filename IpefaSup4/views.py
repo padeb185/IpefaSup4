@@ -904,6 +904,11 @@ def registration_list(request, section_id):
         f"{r.student.first_name} {r.student.last_name}" for r in registrations
     ))
 
+    # Extraire les emails uniques des étudiants (utilisation de 'student.email' au lieu de 'student.studentMail')
+    student_mail = sorted(set(
+        r.student.studentMail for r in registrations if r.student.studentMail  # Utiliser r.student.email pour accéder à l'email
+    ))
+
     # Extraire les statuts uniques
     statuses = sorted(set(r.status for r in registrations))
 
@@ -923,10 +928,12 @@ def registration_list(request, section_id):
         'section': section,
         'registrations': registrations,
         'student_names': student_names,
+        'studentMail': student_mail,  # Corrigé ici : 'studentMail' contiendra maintenant les emails
         'statuses': statuses,
         'ue_wordings': ue_wordings,
         'prereq_wordings': prereq_wordings,
     })
+
 
 
 def add_registration(request, section_id, registration_id=None):

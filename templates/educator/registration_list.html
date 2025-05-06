@@ -2,37 +2,34 @@
 
 {% block content %}
   <h1>Liste des Inscriptions pour la Section {{ section.wording }}</h1>
-      <a href="{% url 'add_registration' section.id %}" >Ajouter une inscription</a>
-      <a href="{% url 'add_registrations_by_cycle' section.id %}">Ajouter inscriptions par cycle</a>
+  <a href="{% url 'add_registration' section.id %}">Ajouter une inscription</a>
+  <a href="{% url 'add_registrations_by_cycle' section.id %}">Ajouter inscriptions par cycle</a>
 
-    <div id="filters">
-   <label>Filtrer par étudiant:</label>
-        <select id="studentFilter">
-            <option value="">Tous</option>
-            {% for name in student_names %}
-                <option value="{{ name }}">{{ name }}</option>
-            {% endfor %}
-        </select>
+  <div id="filters">
+    <label>Filtrer par étudiant:</label>
+    <select id="studentFilter">
+        <option value="">Tous</option>
+        {% for name in student_names %}
+            <option value="{{ name }}">{{ name }}</option>
+        {% endfor %}
+    </select>
 
-        <!-- Statut -->
-        <label>Filtrer par statut:</label>
-        <select id="statusFilter">
-            <option value="">Tous</option>
-            {% for status in statuses %}
-                <option value="{{ status }}">{{ status }}</option>
-            {% endfor %}
-        </select>
+    <label>Filtrer par statut:</label>
+    <select id="statusFilter">
+        <option value="">Tous</option>
+        {% for status in statuses %}
+            <option value="{{ status }}">{{ status }}</option>
+        {% endfor %}
+    </select>
 
-        <!-- UE -->
-        <label>Filtrer par UE:</label>
-        <select id="ueFilter">
-            <option value="">Toutes</option>
-            {% for ue in ue_wordings %}
-                <option value="{{ ue }}">{{ ue }}</option>
-            {% endfor %}
-        </select>
+    <label>Filtrer par UE:</label>
+    <select id="ueFilter">
+        <option value="">Toutes</option>
+        {% for ue in ue_wordings %}
+            <option value="{{ ue }}">{{ ue }}</option>
+        {% endfor %}
+    </select>
 
-<!-- Prérequis -->
     <label>Filtrer par prérequis:</label>
     <select id="prereqFilter">
         <option value="">Tous</option>
@@ -40,21 +37,31 @@
             <option value="{{ prereq }}">{{ prereq }}</option>
         {% endfor %}
     </select>
-</div>
+
+    <label>Filtrer par email:</label>
+    <select id="emailFilter">
+        <option value="">Tous</option>
+        {% for email in studentMail %}
+            <option value="{{ email }}">{{ email }}</option>
+        {% endfor %}
+    </select>
+  </div>
 
   <table id="registrationTable">
     <thead>
       <tr>
         <th>Étudiant</th>
+        <th>Email</th>
         <th>Statut</th>
         <th>Unité d'enseignement</th>
-        <th>Prérequis</th>  {# Nouvelle colonne #}
+        <th>Prérequis</th>
       </tr>
     </thead>
     <tbody>
       {% for registration in registrations %}
         <tr>
           <td>{{ registration.student.first_name }} {{ registration.student.last_name }}</td>
+          <td>{{ registration.student.studentMail }}</td>
           <td>{{ registration.status }}</td>
           <td>{{ registration.academic_ue.wording }}</td>
           <td>
@@ -71,11 +78,12 @@
         </tr>
       {% empty %}
         <tr>
-          <td colspan="4">Aucune inscription disponible pour cette section.</td>
+          <td colspan="5">Aucune inscription disponible pour cette section.</td>
         </tr>
       {% endfor %}
     </tbody>
   </table>
+
 <script>
   $(document).ready(function () {
     function filterTable() {
@@ -83,25 +91,33 @@
         var status = $('#statusFilter').val().toLowerCase().trim();
         var ue = $('#ueFilter').val().toLowerCase().trim();
         var prereq = $('#prereqFilter').val().toLowerCase().trim();
+        var email = $('#emailFilter').val().toLowerCase().trim();
 
         $('#registrationTable tbody tr').each(function () {
             var tds = $(this).find('td');
             var studentText = tds.eq(0).text().toLowerCase().trim();
-            var statusText = tds.eq(1).text().toLowerCase().trim();
-            var ueText = tds.eq(2).text().toLowerCase().trim();
-            var prereqText = tds.eq(3).text().toLowerCase().trim();
+            var emailText = tds.eq(1).text().toLowerCase().trim();
+            var statusText = tds.eq(2).text().toLowerCase().trim();
+            var ueText = tds.eq(3).text().toLowerCase().trim();
+            var prereqText = tds.eq(4).text().toLowerCase().trim();
 
-            var show = (!student || studentText.includes(student)) &&
-                       (!status || statusText.includes(status)) &&
-                       (!ue || ueText.includes(ue)) &&
-                       (!prereq || prereqText.includes(prereq));
+            var matchStudent = studentText.indexOf(student) !== -1 || student === '';
+            var matchStatus = statusText.indexOf(status) !== -1 || status === '';
+            var matchUE = ueText.indexOf(ue) !== -1 || ue === '';
+            var matchPrereq = prereqText.indexOf(prereq) !== -1 || prereq === '';
+            var matchEmail = emailText.indexOf(email) !== -1 || email === '';
 
-            $(this).toggle(show);
+            if (matchStudent && matchStatus && matchUE && matchPrereq && matchEmail) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
         });
     }
 
-    $('#studentFilter, #statusFilter, #ueFilter, #prereqFilter').on('change', filterTable);
-});
-
+    // Bind the filter function to change events
+    $('#studentFilter, #statusFilter, #ueFilter, #prereqFilter, #emailFilter').on('change', filterTable);
+  });
 </script>
+
 {% endblock %}
