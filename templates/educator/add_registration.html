@@ -12,7 +12,7 @@
       <select name="student" id="student" required>
         {% for student in students %}
           <option value="{{ student.id }}" {% if registration and registration.student.id == student.id %}selected{% endif %}>
-            {{ student.name }}
+            {{ student.first_name }} {{ student.last_name }} ({{ student.studentMail }})
           </option>
         {% endfor %}
       </select>
@@ -21,25 +21,29 @@
     <!-- Sélection des unités d'enseignement -->
     <div>
       <label for="academic_ue">Unités d'enseignement :</label>
-      <select name="academic_ue" id="academic_ue" multiple required>
-        {% for ue in ues %}
+      <select name="academic_ue" id="academic_ue" required>
+        {% for ue in academic_ues %}
           <option value="{{ ue.id }}" {% if registration and registration.academic_ue.id == ue.id %}selected{% endif %}>
-            {{ ue.name }}
+            {{ ue.idUE }} - {{ ue.wording }} ({{ ue.academicYear }}, Cycle {{ ue.yearCycle }})
           </option>
         {% endfor %}
       </select>
     </div>
 
-    <!-- Champ pour le statut -->
+    <!-- Statut de l'inscription -->
     <div>
       <label for="status">Statut :</label>
-      <input type="text" id="status" name="status" value="{% if registration %}{{ registration.status }}{% endif %}" required>
+      <select name="status" id="status" required>
+        <option value="NP" {% if registration and registration.status == "NP" %}selected{% endif %}>Non Passé</option>
+        <option value="AP" {% if registration and registration.status == "AP" %}selected{% endif %}>Approuvé</option>
+      </select>
     </div>
 
-    <!-- Champ pour le résultat -->
+    <!-- Résultat de l'inscription -->
     <div>
       <label for="result">Résultat :</label>
-      <input type="text" id="result" name="result" value="{% if registration %}{{ registration.result }}{% endif %}">
+      <input type="number" id="result" name="result" step="0.1" min="0" max="20"
+             value="{% if registration %}{{ registration.result }}{% endif %}">
     </div>
 
     <!-- Case à cocher pour l'approbation -->
@@ -56,6 +60,5 @@
     </div>
   </form>
 
-  <p><a href="{% url 'registration_list' section.id %}">Retour à la liste des inscriptions</a></p>
-
+<p><a href="{% url 'registration_list' section.id %}">Retour à la liste des inscriptions</a></p>
 {% endblock %}
