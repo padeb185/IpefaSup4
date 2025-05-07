@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="registration filter">
-      <change beforePath="$PROJECT_DIR$/templates/educator/participations.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/educator/participations.html" afterDir="false" />
+    <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="participation filter">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/teacher/students_in_ue.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/teacher/students_in_ue.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -175,15 +176,7 @@
       <workItem from="1746538420885" duration="952000" />
       <workItem from="1746539404248" duration="4734000" />
       <workItem from="1746550195581" duration="393000" />
-      <workItem from="1746551394979" duration="1559000" />
-    </task>
-    <task id="LOCAL-00021" summary="student form">
-      <option name="closed" value="true" />
-      <created>1745576336757</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1745576336757</updated>
+      <workItem from="1746551394979" duration="2257000" />
     </task>
     <task id="LOCAL-00022" summary="student form">
       <option name="closed" value="true" />
@@ -569,7 +562,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746611779410</updated>
     </task>
-    <option name="localTasksCounter" value="70" />
+    <task id="LOCAL-00070" summary="participation filter">
+      <option name="closed" value="true" />
+      <created>1746611952327</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1746611952327</updated>
+    </task>
+    <option name="localTasksCounter" value="71" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -606,7 +607,8 @@
     <MESSAGE value="teacher encode result" />
     <MESSAGE value="year cycle" />
     <MESSAGE value="registration filter" />
-    <option name="LAST_COMMIT_MESSAGE" value="registration filter" />
+    <MESSAGE value="participation filter" />
+    <option name="LAST_COMMIT_MESSAGE" value="participation filter" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
