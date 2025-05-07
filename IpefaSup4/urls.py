@@ -26,7 +26,7 @@ from .views import login, welcome, register, add_academic_ue_views, add_ue_views
     academic_ues_for_teacher, students_in_academic_ue, encode_results, \
     participations_in_ue, student_participation_view, student_manage_view, add_student_view, ue_manage_view, \
     select_section, ues_by_section, ue_detail, manage_sessions, edit_session, manage_participations_in_ue, section_list, \
-    add_registration, registration_list, add_registrations_by_cycle
+    add_registration, registration_list, add_registrations_by_cycle, participations_view
 from django.contrib import admin
 
 urlpatterns = [
@@ -103,8 +103,7 @@ urlpatterns = [
 
     path('section/<int:section_id>/add_registrations_by_cycle/', add_registrations_by_cycle, name='add_registrations_by_cycle'),
 
-
-
+    path("academicue/<str:id_ue>/participations/", participations_view, name="academicue_participations"),
 
 
 

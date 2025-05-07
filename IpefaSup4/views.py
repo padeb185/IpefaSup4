@@ -1,9 +1,12 @@
 from datetime import datetime
+from urllib import request
 
 from django.contrib import messages
 from django.contrib.auth.hashers import check_password
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from psycopg import IntegrityError
+
 from .forms import LoginForm, StudentForm, TeacherForm, AdministratorForm, AddAcademicUEForm, AddUEForm, \
     StudentProfileForm, EducatorForm, TeacherProfileForm, StudentEditProfileForm, AddRegistrationForm, \
     AddParticipationForm, AddSessionForm, AddSectionForm
@@ -786,6 +789,8 @@ def edit_session(request, session_id):
 
             return render(request, 'educator/edit_session.html', {
                 'session': session,
+                'logged_user': logged_user,
+                'current_date_time': now()
             })
         else:
             return redirect('login')
@@ -866,9 +871,7 @@ def manage_participations_in_ue(request, academic_ue_id):
 
 
 # Liste des sections accessibles par l'éducateur ou l'administrateur
-from django.shortcuts import render, redirect, get_object_or_404
-from .models import Section, Student, AcademicUE, Registration
-from datetime import datetime
+
 
 
 # Liste des sections accessibles par l'éducateur ou l'administrateur
@@ -879,7 +882,8 @@ def section_list(request):
         return redirect('login')
 
     sections = Section.objects.all()
-    return render(request, 'educator/section_list.html', {'sections': sections})
+    return render(request, 'educator/section_list.html', {'sections': sections,   'logged_user': logged_user,
+        'current_date_time': now()})
 
 
 
@@ -1013,3 +1017,32 @@ def add_registrations_by_cycle(request, section_id):
         'logged_user': logged_user,
         'current_date_time': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
     })
+
+def participations_view(request, id_ue):
+
+    logged_user = get_logged_user_from_request(request)
+    if logged_user:
+        if logged_user.person_type in ('educateur', 'administrateur', 'professeur'):
+
+                academicue = get_object_or_404(AcademicUE, idUE=id_ue)
+
+                participations = []
+                for session in academicue.sessions.all():
+                    for p in session.participations.all():
+                        participations.append({
+                            "Étudiant": str(p.student),
+                            "Session": f"{session.jour}/{session.mois}",
+                            "UE": f"{academicue.idUE} - {academicue.wording}",
+                            "Statut": p.get_status_display()
+                        })
+
+                return render(request, "educator/participations.html", {
+                    "academicue": academicue,
+                    "participations": participations
+                })
+        else:
+            return redirect('login')
+    else:
+        return redirect('login')
+
+

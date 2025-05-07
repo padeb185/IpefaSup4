@@ -5,9 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="registration filter">
+      <change afterPath="$PROJECT_DIR$/templates/educator/participations.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IpefaSup4/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/IpefaSup4/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/educator/registration_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/educator/registration_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/educator/manage_sessions.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/educator/manage_sessions.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -176,6 +178,8 @@
       <workItem from="1746534341936" duration="3868000" />
       <workItem from="1746538420885" duration="952000" />
       <workItem from="1746539404248" duration="4734000" />
+      <workItem from="1746550195581" duration="393000" />
+      <workItem from="1746551394979" duration="1408000" />
     </task>
     <task id="LOCAL-00020" summary="student form">
       <option name="closed" value="true" />
