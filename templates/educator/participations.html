@@ -1,11 +1,18 @@
 {% extends "base.html" %}
 
-{% block title %}Participations à {{ academicue.wording }}{% endblock %}
-
 {% block content %}
-<h1>Participations à {{ academicue.idUE }} - {{ academicue.wording }}</h1>
+<h1>Participations - {{ academicue.wording }}</h1>
 
-<table border="1" cellpadding="8" cellspacing="0">
+<!-- Barre de filtres -->
+<div id="filters">
+    <input type="text" id="filter-student" placeholder="Filtrer par étudiant">
+    <input type="text" id="filter-session" placeholder="Filtrer par session">
+    <input type="text" id="filter-ue" placeholder="Filtrer par UE">
+    <input type="text" id="filter-status" placeholder="Filtrer par statut">
+</div>
+
+<!-- Tableau des participations -->
+<table id="participations-table" border="1">
     <thead>
         <tr>
             <th>Étudiant</th>
@@ -15,18 +22,49 @@
         </tr>
     </thead>
     <tbody>
-        {% for participation in participations %}
+        {% for p in participations %}
         <tr>
-            <td>{{ participation.Étudiant }}</td>
-            <td>{{ participation.Session }}</td>
-            <td>{{ participation.UE }}</td>
-            <td>{{ participation.Statut }}</td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="4">Aucune participation enregistrée.</td>
+            <td>{{ p.Étudiant }}</td>
+            <td>{{ p.Session }}</td>
+            <td>{{ p.UE }}</td>
+            <td>{{ p.Statut }}</td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
 {% endblock %}
+
+{% block extra_js %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#filters input').on('keyup', function () {
+            let student = $('#filter-student').val().toLowerCase();
+            let session = $('#filter-session').val().toLowerCase();
+            let ue = $('#filter-ue').val().toLowerCase();
+            let status = $('#filter-status').val().toLowerCase();
+
+            $('#participations-table tbody tr').filter(function () {
+                let row = $(this);
+                let matchesStudent = row.find('td:eq(0)').text().toLowerCase().includes(student);
+                let matchesSession = row.find('td:eq(1)').text().toLowerCase().includes(session);
+                let matchesUE = row.find('td:eq(2)').text().toLowerCase().includes(ue);
+                let matchesStatus = row.find('td:eq(3)').text().toLowerCase().includes(status);
+
+                return matchesStudent && matchesSession && matchesUE && matchesStatus;
+            }).show();
+
+            $('#participations-table tbody tr').filter(function () {
+                let row = $(this);
+                let matchesStudent = row.find('td:eq(0)').text().toLowerCase().includes(student);
+                let matchesSession = row.find('td:eq(1)').text().toLowerCase().includes(session);
+                let matchesUE = row.find('td:eq(2)').text().toLowerCase().includes(ue);
+                let matchesStatus = row.find('td:eq(3)').text().toLowerCase().includes(status);
+
+                return !(matchesStudent && matchesSession && matchesUE && matchesStatus);
+            }).hide();
+        });
+    });
+</script>
+{% endblock %}
+
