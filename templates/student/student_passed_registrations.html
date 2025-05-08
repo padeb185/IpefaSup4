@@ -1,6 +1,18 @@
 {% extends "base.html" %}
+{% block title %}ue réussies{% endblock %}
+
+{% block bodyId %}PassedUEPage{% endblock %}
 
 {% block content %}
+<header class="welcome-header">
+    <div class="user-info">
+        Bienvenue sur IpefaSup, {{ logged_user.first_name }} {{ logged_user.last_name }}
+    </div>
+    <div class="date-time">
+        Nous sommes le {{ current_date_time }}
+    </div>
+</header>
+
 <header class="welcome-header">
     <div class="user-info">
         Bienvenue sur IpefaSup, {{ logged_user.first_name }} {{ logged_user.last_name }}

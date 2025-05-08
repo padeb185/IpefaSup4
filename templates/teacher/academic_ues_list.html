@@ -1,7 +1,20 @@
 {% extends "base.html" %}
 {% block title %}Mes Unités Académiques{% endblock %}
+{% load static %}
+
+{% block bodyId %}AcademicUETeacherPage{% endblock %}
 
 {% block content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <header class="welcome-header">
+        <div class="user-info">
+            Bienvenue sur IpefaSup,  {{ logged_user.first_name }} {{ logged_user.last_name }}
+        </div>
+        <div class="date-time">
+            Nous sommes le {{ current_date_time }}
+        </div>
+    </header>
+
   <h1>Mes Unités Académiques</h1>
 
   <ul>

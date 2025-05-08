@@ -5,7 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="extends">
-      <change beforePath="$PROJECT_DIR$/templates/educator/ues_by_section.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/educator/ues_by_section.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/student/edit_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/student/edit_profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/student/student_non_passed_registrations.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/student/student_non_passed_registrations.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/student/student_participation.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/student/student_participation.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/student/student_passed_registrations.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/student/student_passed_registrations.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/student/student_prerequisites.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/student/student_prerequisites.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/teacher/academic_ues_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/teacher/academic_ues_list.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -175,15 +180,7 @@
       <workItem from="1746538420885" duration="952000" />
       <workItem from="1746539404248" duration="4734000" />
       <workItem from="1746550195581" duration="393000" />
-      <workItem from="1746551394979" duration="3322000" />
-    </task>
-    <task id="LOCAL-00024" summary="sessions">
-      <option name="closed" value="true" />
-      <created>1745580741747</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1745580741747</updated>
+      <workItem from="1746551394979" duration="4386000" />
     </task>
     <task id="LOCAL-00025" summary="sessions">
       <option name="closed" value="true" />
@@ -569,7 +566,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746700537869</updated>
     </task>
-    <option name="localTasksCounter" value="73" />
+    <task id="LOCAL-00073" summary="extends">
+      <option name="closed" value="true" />
+      <created>1746700662603</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1746700662603</updated>
+    </task>
+    <option name="localTasksCounter" value="74" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
