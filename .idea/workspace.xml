@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="participation filter">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/teacher/students_in_ue.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/teacher/students_in_ue.html" afterDir="false" />
-    </list>
+    <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="participation filter" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -176,15 +173,7 @@
       <workItem from="1746538420885" duration="952000" />
       <workItem from="1746539404248" duration="4734000" />
       <workItem from="1746550195581" duration="393000" />
-      <workItem from="1746551394979" duration="2257000" />
-    </task>
-    <task id="LOCAL-00022" summary="student form">
-      <option name="closed" value="true" />
-      <created>1745576425426</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1745576425426</updated>
+      <workItem from="1746551394979" duration="2307000" />
     </task>
     <task id="LOCAL-00023" summary="view logged">
       <option name="closed" value="true" />
@@ -570,7 +559,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746611952327</updated>
     </task>
-    <option name="localTasksCounter" value="71" />
+    <task id="LOCAL-00071" summary="participation filter">
+      <option name="closed" value="true" />
+      <created>1746614138715</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1746614138715</updated>
+    </task>
+    <option name="localTasksCounter" value="72" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
