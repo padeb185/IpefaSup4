@@ -627,6 +627,7 @@ def participations_in_ue(request, academic_ue_id):
             participation = Participation.objects.filter(session=session, student=student).first()
             row['participations'].append({
                 'student': student,
+                'logged_user': logged_user,
                 'participation': participation  # Peut être None si non existant
             })
         session_data.append(row)
