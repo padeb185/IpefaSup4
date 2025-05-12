@@ -50,7 +50,13 @@ a {
   	margin-bottom: 10px;
 	color: #cd1531;
 	margin-left: 50px;
+	font-size: 150%;
 }
+
+a:hover {
+  font-size: 200%;
+}
+
 
 form p.error {
 	margin-left: 160px;
