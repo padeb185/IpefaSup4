@@ -508,33 +508,37 @@ def students_in_academic_ue(request, academic_ue_id):
 
 def encode_results(request, academic_ue_id):
     logged_user = get_logged_user_from_request(request)
-    if logged_user and logged_user.person_type == 'professeur':
-        academic_ue = get_object_or_404(AcademicUE, idUE=academic_ue_id)
+    if logged_user:
+        if logged_user.person_type == 'professeur':
+            academic_ue = get_object_or_404(AcademicUE, idUE=academic_ue_id)
 
-        if request.method == 'POST':
-            registrations = Registration.objects.filter(academic_ue=academic_ue)
-            for registration in registrations:
-                result = request.POST.get(f'result_{registration.id}')
-                status = request.POST.get(f'status_{registration.id}')
-                if result:
-                    registration.result = result
-                if status:
-                    registration.status = status
-                registration.save()
+            if request.method == 'POST':
+                registrations = Registration.objects.filter(academic_ue=academic_ue)
+                for registration in registrations:
+                    result = request.POST.get(f'result_{registration.id}')
+                    status = request.POST.get(f'status_{registration.id}')
+                    if result:
+                        registration.result = result
+                    if status:
+                        registration.status = status
+                    registration.save()
 
-            # Recharger les enregistrements à jour depuis la BDD
-            registrations = Registration.objects.filter(academic_ue=academic_ue)
+                # Recharger les enregistrements à jour depuis la BDD
+                registrations = Registration.objects.filter(academic_ue=academic_ue)
 
+            else:
+                registrations = Registration.objects.filter(academic_ue=academic_ue)
+
+            return render(request, 'teacher/encode_results.html', {
+                'academic_ue': academic_ue,
+                'registrations': registrations,
+                'logged_user': logged_user,
+            })
         else:
-            registrations = Registration.objects.filter(academic_ue=academic_ue)
-
-        return render(request, 'teacher/encode_results.html', {
-            'academic_ue': academic_ue,
-            'registrations': registrations,
-            'logged_user': logged_user,
-        })
+            return redirect('login')
     else:
         return redirect('login')
+
 
 
 def student_participation_view(request):
