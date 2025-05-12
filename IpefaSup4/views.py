@@ -739,48 +739,49 @@ def ue_detail(request, ue_id):
 
 def manage_sessions(request, ue_id):
     logged_user = get_logged_user_from_request(request)
+    if logged_user:
+        if logged_user.person_type in ('educateur', 'administrateur'):
+            academic_ue = get_object_or_404(AcademicUE, idUE=ue_id)
 
-    if not logged_user or logged_user.person_type not in ('educateur', 'administrateur'):
+            if request.method == 'POST':
+                session_id = request.POST.get('session_id')
+                jour = request.POST.get('jour')
+                mois = request.POST.get('mois')
+
+                if jour and mois:
+                    jour = int(jour)
+                    mois = int(mois)
+
+                    if session_id:  # Modifier une session existante
+                        session = get_object_or_404(Session, id=session_id)
+                        session.jour = jour
+                        session.mois = mois
+                        session.save()
+                    else:  # Créer une nouvelle session
+                        Session.objects.create(academicUE=academic_ue, jour=jour, mois=mois)
+
+                return redirect('manage_sessions', ue_id=academic_ue.idUE)
+
+            sessions = Session.objects.filter(academicUE=academic_ue)
+
+            return render(request, 'educator/manage_sessions.html', {
+                'academic_ue': academic_ue,  # pour générer les liens dans le template
+                'sessions': sessions,
+                'logged_user': logged_user,
+                'current_date_time': now()
+            })
+        else:
+            return redirect('login')
+    else:
         return redirect('login')
 
-    academic_ue = get_object_or_404(AcademicUE, idUE=ue_id)
-
-    if request.method == 'POST':
-        session_id = request.POST.get('session_id')
-        jour = request.POST.get('jour')
-        mois = request.POST.get('mois')
-
-        if jour and mois:
-            jour = int(jour)
-            mois = int(mois)
-
-            if session_id:  # Modifier une session existante
-                session = get_object_or_404(Session, id=session_id)
-                session.jour = jour
-                session.mois = mois
-                session.save()
-            else:  # Créer une nouvelle session
-                Session.objects.create(academicUE=academic_ue, jour=jour, mois=mois)
-
-        return redirect('manage_sessions', ue_id=academic_ue.idUE)
-
-    sessions = Session.objects.filter(academicUE=academic_ue)
-
-    return render(request, 'educator/manage_sessions.html', {
-        'academic_ue': academic_ue,  # pour générer les liens dans le template
-        'sessions': sessions,
-        'logged_user': logged_user,
-        'current_date_time': now()
-    })
 
 
 def edit_session(request, session_id):
     logged_user = get_logged_user_from_request(request)
     if logged_user:
         if logged_user.person_type in ('educateur', 'administrateur'):
-
             session = get_object_or_404(Session, id=session_id)
-
             if request.method == 'POST':
                 # Récupérer les nouvelles valeurs depuis le formulaire
                 jour = request.POST.get('jour')
@@ -808,69 +809,73 @@ def edit_session(request, session_id):
 
 def manage_participations_in_ue(request, academic_ue_id):
     logged_user = get_logged_user_from_request(request)
+    if logged_user:
+        if logged_user.person_type in ('educateur', 'administrateur'):
 
-    if not logged_user or logged_user.person_type not in ['administrateur', 'educateur']:
+            academic_ue = get_object_or_404(AcademicUE, idUE=academic_ue_id)
+            sessions = academic_ue.sessions.all()
+            students = Student.objects.filter(registrations__academic_ue=academic_ue).distinct()
+
+            allowed_statuses = {"abandon", "CM", "dispense"}  # Statuts autorisés
+
+            if request.method == 'POST':
+                for key, value in request.POST.items():
+                    if key.startswith('status_'):
+                        parts = key.split('_')  # format attendu: status_<session_id>_<student_id>
+                        if len(parts) == 3:
+                            _, session_id, student_id = parts
+                            try:
+                                session = Session.objects.get(id=session_id)
+                                student = Student.objects.get(id=student_id)
+
+                                participation = Participation.objects.filter(session=session, student=student).first()
+
+                                if value in allowed_statuses:
+                                    if not participation:
+                                        participation = Participation(session=session, student=student)
+                                    participation.status = value
+                                    participation.save()
+                                elif participation:
+                                    participation.delete()
+
+                            except (Session.DoesNotExist, Student.DoesNotExist):
+                                continue
+
+                messages.success(request, "Participations mises à jour avec succès.")
+                return redirect('manage_participations_in_ue', academic_ue_id=academic_ue_id)
+
+            session_data = []
+            for session in sessions:
+                row = {
+                    'session': session,
+                    'participations': []
+                }
+                for student in students:
+                    participation = Participation.objects.filter(session=session, student=student).first()
+                    row['participations'].append({
+                        'student': student,
+                        'participation': participation
+                    })
+                session_data.append(row)
+
+            all_students = sorted(
+                students,
+                key=lambda s: (s.last_name.lower(), s.first_name.lower())
+            )
+
+            return render(request, 'educator/manage_participations_in_ue.html', {
+                'academic_ue': academic_ue,
+                'session_data': session_data,
+                'status_choices': [choice for choice in Participation._meta.get_field('status').choices if choice[0] in allowed_statuses],
+                'students': all_students,
+                'logged_user': logged_user,
+                'current_date_time': datetime.now
+            })
+        else:
+            return redirect('login')
+    else:
         return redirect('login')
 
-    academic_ue = get_object_or_404(AcademicUE, idUE=academic_ue_id)
-    sessions = academic_ue.sessions.all()
-    students = Student.objects.filter(registrations__academic_ue=academic_ue).distinct()
-
-    allowed_statuses = {"abandon", "CM", "dispense"}  # Statuts autorisés
-
-    if request.method == 'POST':
-        for key, value in request.POST.items():
-            if key.startswith('status_'):
-                parts = key.split('_')  # format attendu: status_<session_id>_<student_id>
-                if len(parts) == 3:
-                    _, session_id, student_id = parts
-                    try:
-                        session = Session.objects.get(id=session_id)
-                        student = Student.objects.get(id=student_id)
-
-                        participation = Participation.objects.filter(session=session, student=student).first()
-
-                        if value in allowed_statuses:
-                            if not participation:
-                                participation = Participation(session=session, student=student)
-                            participation.status = value
-                            participation.save()
-                        elif participation:
-                            participation.delete()
-
-                    except (Session.DoesNotExist, Student.DoesNotExist):
-                        continue
-
-        messages.success(request, "Participations mises à jour avec succès.")
-        return redirect('manage_participations_in_ue', academic_ue_id=academic_ue_id)
-
-    session_data = []
-    for session in sessions:
-        row = {
-            'session': session,
-            'participations': []
-        }
-        for student in students:
-            participation = Participation.objects.filter(session=session, student=student).first()
-            row['participations'].append({
-                'student': student,
-                'participation': participation
-            })
-        session_data.append(row)
-
-    all_students = sorted(
-        students,
-        key=lambda s: (s.last_name.lower(), s.first_name.lower())
-    )
-
-    return render(request, 'educator/manage_participations_in_ue.html', {
-        'academic_ue': academic_ue,
-        'session_data': session_data,
-        'status_choices': [choice for choice in Participation._meta.get_field('status').choices if choice[0] in allowed_statuses],
-        'students': all_students,
-        'logged_user': logged_user,
-        'current_date_time': datetime.now
-    })
 
 
 
@@ -882,13 +887,16 @@ def manage_participations_in_ue(request, academic_ue_id):
 # Liste des sections accessibles par l'éducateur ou l'administrateur
 def section_list(request):
     logged_user = get_logged_user_from_request(request)
+    if logged_user:
+        if logged_user.person_type in ('educateur', 'administrateur'):
 
-    if not logged_user or logged_user.person_type not in ('educateur', 'administrateur'):
+            sections = Section.objects.all()
+            return render(request, 'educator/section_list.html', {'sections': sections,   'logged_user': logged_user,
+                'current_date_time': now()})
+        else:
+            return redirect('login')
+    else:
         return redirect('login')
-
-    sections = Section.objects.all()
-    return render(request, 'educator/section_list.html', {'sections': sections,   'logged_user': logged_user,
-        'current_date_time': now()})
 
 
 
