@@ -182,23 +182,7 @@
       <workItem from="1747050161513" duration="135000" />
       <workItem from="1747050316298" duration="368000" />
       <workItem from="1747059347649" duration="1772000" />
-      <workItem from="1747061270702" duration="1185000" />
-    </task>
-    <task id="LOCAL-00041" summary="professeur list etudiants">
-      <option name="closed" value="true" />
-      <created>1745778729768</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1745778729768</updated>
-    </task>
-    <task id="LOCAL-00042" summary="filtre professeur">
-      <option name="closed" value="true" />
-      <created>1745839449613</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1745839449613</updated>
+      <workItem from="1747061270702" duration="1600000" />
     </task>
     <task id="LOCAL-00043" summary="student registration">
       <option name="closed" value="true" />
@@ -576,7 +560,23 @@
       <option name="project" value="LOCAL" />
       <updated>1747062335628</updated>
     </task>
-    <option name="localTasksCounter" value="90" />
+    <task id="LOCAL-00090" summary="logged user">
+      <option name="closed" value="true" />
+      <created>1747062489078</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1747062489078</updated>
+    </task>
+    <task id="LOCAL-00091" summary="logged user">
+      <option name="closed" value="true" />
+      <created>1747062737564</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1747062737564</updated>
+    </task>
+    <option name="localTasksCounter" value="92" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -629,7 +629,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/IpefaSup4/views.py</url>
-          <line>556</line>
+          <line>565</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="django-line">

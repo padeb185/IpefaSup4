@@ -387,19 +387,23 @@ def student_registration_view(request):
 
 
 def student_non_passed_registrations_view(request):
-    user = get_logged_user_from_request(request)
+    logged_user = get_logged_user_from_request(request)
+    if logged_user:
+        if logged_user.person_type == 'etudiant':
 
-    if not user or not hasattr(user, 'person_type') or user.person_type != 'etudiant':
+            non_passed_registrations = logged_user.registrations.filter(status='NP')
+
+            return render(request, 'student/student_non_passed_registrations.html', {
+                'student': logged_user,
+                'logged_user': logged_user,
+                'current_date_time': datetime.now(),
+                'registrations': non_passed_registrations,
+            })
+        else:
+            return redirect('login')
+    else:
         return redirect('login')
 
-    non_passed_registrations = user.registrations.filter(status='NP')
-
-    return render(request, 'student/student_non_passed_registrations.html', {
-        'student': user,
-        'logged_user': user,
-        'current_date_time': datetime.now(),
-        'registrations': non_passed_registrations,
-    })
 
 def student_passed_registrations_view(request):
     logged_user = get_logged_user_from_request(request)
