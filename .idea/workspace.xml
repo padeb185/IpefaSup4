@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="style">
+    <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="logged user">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/IpefaSup4/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/views.py" afterDir="false" />
     </list>
@@ -182,23 +182,8 @@
       <workItem from="1746973331459" duration="270000" />
       <workItem from="1747050161513" duration="135000" />
       <workItem from="1747050316298" duration="368000" />
-      <workItem from="1747059347649" duration="1692000" />
-    </task>
-    <task id="LOCAL-00033" summary="sessions">
-      <option name="closed" value="true" />
-      <created>1745688053750</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1745688053750</updated>
-    </task>
-    <task id="LOCAL-00034" summary="sessions">
-      <option name="closed" value="true" />
-      <created>1745745289248</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1745745289248</updated>
+      <workItem from="1747059347649" duration="1772000" />
+      <workItem from="1747061270702" duration="209000" />
     </task>
     <task id="LOCAL-00035" summary="sessions">
       <option name="closed" value="true" />
@@ -576,7 +561,23 @@
       <option name="project" value="LOCAL" />
       <updated>1747060835707</updated>
     </task>
-    <option name="localTasksCounter" value="82" />
+    <task id="LOCAL-00082" summary="logged user">
+      <option name="closed" value="true" />
+      <created>1747061084339</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1747061084339</updated>
+    </task>
+    <task id="LOCAL-00083" summary="logged user">
+      <option name="closed" value="true" />
+      <created>1747061122510</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1747061122510</updated>
+    </task>
+    <option name="localTasksCounter" value="84" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -616,7 +617,8 @@
     <MESSAGE value="participation filter" />
     <MESSAGE value="extends" />
     <MESSAGE value="style" />
-    <option name="LAST_COMMIT_MESSAGE" value="style" />
+    <MESSAGE value="logged user" />
+    <option name="LAST_COMMIT_MESSAGE" value="logged user" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

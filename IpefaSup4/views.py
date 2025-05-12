@@ -580,85 +580,87 @@ def student_participation_view(request):
 
 def participations_in_ue(request, academic_ue_id):
     logged_user = get_logged_user_from_request(request)
+    if logged_user:
+        if logged_user.person_type == 'professeur':
+            academic_ue = get_object_or_404(AcademicUE, idUE=academic_ue_id, teacher=logged_user)
+            sessions = academic_ue.sessions.all()
+            students = Student.objects.filter(registrations__academic_ue=academic_ue).distinct()
 
-    if not logged_user or logged_user.person_type != 'professeur':
-        return redirect('login')
+            allowed_statuses = {"P", "M", "A"}  # Seuls les statuts autorisés pour un professeur
 
-    academic_ue = get_object_or_404(AcademicUE, idUE=academic_ue_id, teacher=logged_user)
-    sessions = academic_ue.sessions.all()
-    students = Student.objects.filter(registrations__academic_ue=academic_ue).distinct()
+            if request.method == 'POST':
+                for key, value in request.POST.items():
+                    if key.startswith('status_'):
+                        parts = key.split('_')  # format attendu: status_<session_id>_<student_id>
+                        if len(parts) == 3:
+                            _, session_id, student_id = parts
+                            try:
+                                session = Session.objects.get(id=session_id)
+                                student = Student.objects.get(id=student_id)
 
-    allowed_statuses = {"P", "M", "A"}  # Seuls les statuts autorisés pour un professeur
+                                participation = Participation.objects.filter(session=session, student=student).first()
 
-    if request.method == 'POST':
-        for key, value in request.POST.items():
-            if key.startswith('status_'):
-                parts = key.split('_')  # format attendu: status_<session_id>_<student_id>
-                if len(parts) == 3:
-                    _, session_id, student_id = parts
-                    try:
-                        session = Session.objects.get(id=session_id)
-                        student = Student.objects.get(id=student_id)
+                                if value in allowed_statuses:
+                                    if not participation:
+                                        participation = Participation(session=session, student=student)
+                                    participation.status = value
+                                    participation.save()
+                                elif participation:
+                                    # Si l'utilisateur efface le statut, on supprime la participation
+                                    participation.delete()
 
-                        participation = Participation.objects.filter(session=session, student=student).first()
+                            except (Session.DoesNotExist, Student.DoesNotExist):
+                                continue  # Ignore si la session ou l'étudiant est introuvable
 
-                        if value in allowed_statuses:
-                            if not participation:
-                                participation = Participation(session=session, student=student)
-                            participation.status = value
-                            participation.save()
-                        elif participation:
-                            # Si l'utilisateur efface le statut, on supprime la participation
-                            participation.delete()
+                messages.success(request, "Participations mises à jour avec succès.")
+                return redirect('participations_in_ue', academic_ue_id=academic_ue_id)
 
-                    except (Session.DoesNotExist, Student.DoesNotExist):
-                        continue  # Ignore si la session ou l'étudiant est introuvable
+            session_data = []
+            for session in sessions:
+                row = {
+                    'session': session,
+                    'participations': []
+                }
+                for student in students:
+                    participation = Participation.objects.filter(session=session, student=student).first()
+                    row['participations'].append({
+                        'student': student,
+                        'logged_user': logged_user,
+                        'participation': participation  # Peut être None si non existant
+                    })
+                session_data.append(row)
 
-        messages.success(request, "Participations mises à jour avec succès.")
-        return redirect('participations_in_ue', academic_ue_id=academic_ue_id)
+            # Préparer la liste unique des étudiants pour le filtre
+            all_students = sorted(
+                students,
+                key=lambda s: (s.last_name.lower(), s.first_name.lower())
+            )
 
-    session_data = []
-    for session in sessions:
-        row = {
-            'session': session,
-            'participations': []
-        }
-        for student in students:
-            participation = Participation.objects.filter(session=session, student=student).first()
-            row['participations'].append({
-                'student': student,
+            return render(request, 'teacher/participations_in_ue.html', {
+                'academic_ue': academic_ue,
+                'session_data': session_data,
+                'status_choices': [choice for choice in Participation._meta.get_field('status').choices if choice[0] in allowed_statuses],
+                'students': all_students,  # Pour le filtre dans le template
                 'logged_user': logged_user,
-                'participation': participation  # Peut être None si non existant
+                'current_date_time': datetime.now
             })
-        session_data.append(row)
-
-    # Préparer la liste unique des étudiants pour le filtre
-    all_students = sorted(
-        students,
-        key=lambda s: (s.last_name.lower(), s.first_name.lower())
-    )
-
-    return render(request, 'teacher/participations_in_ue.html', {
-        'academic_ue': academic_ue,
-        'session_data': session_data,
-        'status_choices': [choice for choice in Participation._meta.get_field('status').choices if choice[0] in allowed_statuses],
-        'students': all_students,  # Pour le filtre dans le template
-        'logged_user': logged_user,
-        'current_date_time': datetime.now
-    })
+        else:
+            return redirect('login')
+    else:
+        return redirect('login')
 
 
 def student_manage_view(request):
     logged_user = get_logged_user_from_request(request)
-    if not logged_user:
-        return redirect('login')  # Redirection si l'utilisateur n'est pas connecté
-
-    if logged_user.person_type in ('educateur', 'administrateur'):
-        return render(request, 'educator/student_manage.html', {
-            'logged_user': logged_user, 'current_date_time': datetime.now()
-        })
+    if logged_user:
+        if logged_user.person_type in ('educateur', 'administrateur'):
+            return render(request, 'educator/student_manage.html', {
+                'logged_user': logged_user, 'current_date_time': datetime.now()
+            })
+        else:
+            return redirect('login')
     else:
-        return redirect('login')  # Optionnel : page pour accès non autorisé
+        return redirect('login')
 
 
 def add_student_view(request):
