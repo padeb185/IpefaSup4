@@ -454,18 +454,21 @@ def student_prerequisites_view(request):
 
 def teacher_academic_ues(request):
     logged_user = get_logged_user_from_request(request)
+    if logged_user:
+        if logged_user.person_type == 'professeur':
 
-    if not logged_user or not hasattr(logged_user, 'person_type') or logged_user.person_type != 'professeur':
-        return redirect('login')  # ou une page d'erreur
+            academic_ues = AcademicUE.objects.filter(teacher=logged_user)
 
-    academic_ues = AcademicUE.objects.filter(teacher=logged_user)
-
-    return render(request, 'teacher/teacher_academic_ues.html', {
-        'teacher': logged_user,
-        'logged_user': logged_user,
-        'current_date_time': datetime.now(),
-        'academic_ues': academic_ues,
-    })
+            return render(request, 'teacher/teacher_academic_ues.html', {
+                'teacher': logged_user,
+                'logged_user': logged_user,
+                'current_date_time': datetime.now(),
+                'academic_ues': academic_ues,
+            })
+        else:
+            return redirect('login')
+    else:
+        return redirect('login')
 
 
 

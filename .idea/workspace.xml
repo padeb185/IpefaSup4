@@ -182,31 +182,7 @@
       <workItem from="1747050161513" duration="135000" />
       <workItem from="1747050316298" duration="368000" />
       <workItem from="1747059347649" duration="1772000" />
-      <workItem from="1747061270702" duration="637000" />
-    </task>
-    <task id="LOCAL-00038" summary="sectio et addueform">
-      <option name="closed" value="true" />
-      <created>1745765922984</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1745765922984</updated>
-    </task>
-    <task id="LOCAL-00039" summary="professeur list etudiants">
-      <option name="closed" value="true" />
-      <created>1745766247988</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1745766247988</updated>
-    </task>
-    <task id="LOCAL-00040" summary="professeur list etudiants">
-      <option name="closed" value="true" />
-      <created>1745772071896</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1745772071896</updated>
+      <workItem from="1747061270702" duration="1185000" />
     </task>
     <task id="LOCAL-00041" summary="professeur list etudiants">
       <option name="closed" value="true" />
@@ -576,7 +552,31 @@
       <option name="project" value="LOCAL" />
       <updated>1747061821907</updated>
     </task>
-    <option name="localTasksCounter" value="87" />
+    <task id="LOCAL-00087" summary="logged user">
+      <option name="closed" value="true" />
+      <created>1747062095817</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1747062095817</updated>
+    </task>
+    <task id="LOCAL-00088" summary="logged user">
+      <option name="closed" value="true" />
+      <created>1747062281086</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1747062281086</updated>
+    </task>
+    <task id="LOCAL-00089" summary="logged user">
+      <option name="closed" value="true" />
+      <created>1747062335628</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1747062335628</updated>
+    </task>
+    <option name="localTasksCounter" value="90" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -626,6 +626,11 @@
           <url>file://$PROJECT_DIR$/IpefaSup4/models.py</url>
           <line>161</line>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/IpefaSup4/views.py</url>
+          <line>556</line>
+          <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="django-line">
           <url>file://$PROJECT_DIR$/templates/teacher/academic_ues_list.html</url>
