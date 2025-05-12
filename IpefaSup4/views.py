@@ -281,46 +281,70 @@ def add_section_views(request):
 def student_list(request):
     logged_user = get_logged_user_from_request(request)
     if logged_user:
-        sort_by = request.GET.get('sort_by', None)
+        if logged_user.person_type in ('administrateur', 'educateur', 'professeur'):
+            sort_by = request.GET.get('sort_by', None)
 
-        if sort_by == 'first_name':
-            students = Student.objects.all().order_by('first_name')
-        elif sort_by == 'last_name':
-            students = Student.objects.all().order_by('last_name')
+            if sort_by == 'first_name':
+                students = Student.objects.all().order_by('first_name')
+            elif sort_by == 'last_name':
+                students = Student.objects.all().order_by('last_name')
+            else:
+                students = Student.objects.all()
+
+            return render(request, 'administrator/student_list.html',
+                          {'students': students, 'logged_user': logged_user, 'current_date_time': datetime.now})
         else:
-            students = Student.objects.all()
+            return redirect('login')
+    else:
+        return redirect('login')
 
-        return render(request, 'administrator/student_list.html',
-                      {'students': students, 'logged_user': logged_user, 'current_date_time': datetime.now})
+
+
 
 def edit_student(request, student_id):
     logged_user = get_logged_user_from_request(request)
     if logged_user:
-        student = get_object_or_404(Student, id=student_id)
+        if logged_user.person_type in ('administrateur', 'educateur'):
+            student = get_object_or_404(Student, id=student_id)
 
-        if request.method == 'POST':
-            form = StudentProfileForm(request.POST, instance=student)
-            if form.is_valid():
-                form.save()  # Sauvegarder les modifications de l'étudiant
-                return redirect('student_list')  # Rediriger vers la liste après la mise à jour
+            if request.method == 'POST':
+                form = StudentProfileForm(request.POST, instance=student)
+                if form.is_valid():
+                    form.save()  # Sauvegarder les modifications de l'étudiant
+                    return redirect('student_list')  # Rediriger vers la liste après la mise à jour
+            else:
+                form = StudentProfileForm(instance=student)
+
+            return render(request, 'administrator/edit_student.html',
+                          {'form': form, 'student': student,
+                           'logged_user': logged_user, 'current_date_time': datetime.now})
         else:
-            form = StudentProfileForm(instance=student)
+            return redirect('login')
+    else:
+        return redirect('login')
 
-        return render(request, 'administrator/edit_student.html', {'form': form, 'student': student, 'logged_user': logged_user, 'current_date_time': datetime.now})
+
 
 def teacher_list(request):
     logged_user = get_logged_user_from_request(request)
     if logged_user:
-        sort_by = request.GET.get('sort_by', None)
+        if logged_user.person_type == 'administrateur':
+            sort_by = request.GET.get('sort_by', None)
 
-        if sort_by == 'first_name':
-            teachers = Teacher.objects.all().order_by('first_name')
-        elif sort_by == 'last_name':
-            teachers = Teacher.objects.all().order_by('last_name')
+            if sort_by == 'first_name':
+                teachers = Teacher.objects.all().order_by('first_name')
+            elif sort_by == 'last_name':
+                teachers = Teacher.objects.all().order_by('last_name')
+            else:
+                teachers = Teacher.objects.all()
+
+            return render(request, 'administrator/teacher_list.html',
+                          {'teachers': teachers, 'logged_user': logged_user,
+                           'current_date_time': datetime.now})
         else:
-            teachers = Teacher.objects.all()
-
-        return render(request, 'administrator/teacher_list.html', {'teachers': teachers, 'logged_user': logged_user, 'current_date_time': datetime.now})
+            return redirect('login')
+    else:
+        return redirect('login')
 
 def edit_teacher(request, teacher_id):
     logged_user = get_logged_user_from_request(request)
