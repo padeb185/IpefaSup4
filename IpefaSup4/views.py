@@ -902,137 +902,146 @@ def section_list(request):
 
 def registration_list(request, section_id):
     logged_user = get_logged_user_from_request(request)
+    if logged_user:
+        if logged_user.person_type in ('educateur', 'administrateur'):
 
-    if not logged_user or logged_user.person_type not in ('educateur', 'administrateur'):
+            section = get_object_or_404(Section, pk=section_id)
+
+            registrations = Registration.objects.filter(
+                academic_ue__section=section
+            ).select_related(
+                'student', 'academic_ue'
+            ).prefetch_related(
+                'academic_ue__prerequisites'
+            )
+
+            # Extraire les noms uniques des étudiants
+            student_names = sorted(set(
+                f"{r.student.first_name} {r.student.last_name}" for r in registrations
+            ))
+
+            # Extraire les emails uniques des étudiants (utilisation de 'student.email' au lieu de 'student.studentMail')
+            student_mail = sorted(set(
+                r.student.studentMail for r in registrations if r.student.studentMail  # Utiliser r.student.email pour accéder à l'email
+            ))
+
+            # Extraire les statuts uniques
+            statuses = sorted(set(r.status for r in registrations))
+
+            # Extraire les UE uniques
+            ue_wordings = sorted(set(r.academic_ue.wording for r in registrations))
+
+            # Extraire les prérequis uniques
+            prereqs = set()
+            for r in registrations:
+                for prereq in r.academic_ue.prerequisites.all():
+                    prereqs.add(prereq.wording)
+            prereq_wordings = sorted(prereqs)
+
+            return render(request, 'educator/registration_list.html', {
+                'logged_user': logged_user,
+                'current_date_time': now(),
+                'section': section,
+                'registrations': registrations,
+                'student_names': student_names,
+                'studentMail': student_mail,  # Corrigé ici : 'studentMail' contiendra maintenant les emails
+                'statuses': statuses,
+                'ue_wordings': ue_wordings,
+                'prereq_wordings': prereq_wordings,
+            })
+        else:
+            return redirect('login')
+    else:
         return redirect('login')
 
-    section = get_object_or_404(Section, pk=section_id)
-
-    registrations = Registration.objects.filter(
-        academic_ue__section=section
-    ).select_related(
-        'student', 'academic_ue'
-    ).prefetch_related(
-        'academic_ue__prerequisites'
-    )
-
-    # Extraire les noms uniques des étudiants
-    student_names = sorted(set(
-        f"{r.student.first_name} {r.student.last_name}" for r in registrations
-    ))
-
-    # Extraire les emails uniques des étudiants (utilisation de 'student.email' au lieu de 'student.studentMail')
-    student_mail = sorted(set(
-        r.student.studentMail for r in registrations if r.student.studentMail  # Utiliser r.student.email pour accéder à l'email
-    ))
-
-    # Extraire les statuts uniques
-    statuses = sorted(set(r.status for r in registrations))
-
-    # Extraire les UE uniques
-    ue_wordings = sorted(set(r.academic_ue.wording for r in registrations))
-
-    # Extraire les prérequis uniques
-    prereqs = set()
-    for r in registrations:
-        for prereq in r.academic_ue.prerequisites.all():
-            prereqs.add(prereq.wording)
-    prereq_wordings = sorted(prereqs)
-
-    return render(request, 'educator/registration_list.html', {
-        'logged_user': logged_user,
-        'current_date_time': now(),
-        'section': section,
-        'registrations': registrations,
-        'student_names': student_names,
-        'studentMail': student_mail,  # Corrigé ici : 'studentMail' contiendra maintenant les emails
-        'statuses': statuses,
-        'ue_wordings': ue_wordings,
-        'prereq_wordings': prereq_wordings,
-    })
 
 
 
 def add_registration(request, section_id, registration_id=None):
     logged_user = get_logged_user_from_request(request)
+    if logged_user:
+        if logged_user.person_type in ('educateur', 'administrateur'):
 
-    if not logged_user or logged_user.person_type not in ('educateur', 'administrateur'):
-        return redirect('login')
+            section = get_object_or_404(Section, pk=section_id)
+            academic_ues = AcademicUE.objects.filter(section=section)
 
-    section = get_object_or_404(Section, pk=section_id)
-    academic_ues = AcademicUE.objects.filter(section=section)
+            registration = None
+            if registration_id:
+                registration = get_object_or_404(Registration, pk=registration_id)
 
-    registration = None
-    if registration_id:
-        registration = get_object_or_404(Registration, pk=registration_id)
+            if request.method == 'POST':
+                form = AddRegistrationForm(request.POST, instance=registration)
 
-    if request.method == 'POST':
-        form = AddRegistrationForm(request.POST, instance=registration)
+                if form.is_valid():
+                    registration = form.save()
+                    return redirect('registration_list', section_id=section.id)
+            else:
+                form = AddRegistrationForm(instance=registration)
 
-        if form.is_valid():
-            registration = form.save()
-            return redirect('registration_list', section_id=section.id)
+            # Restreindre dynamiquement le queryset de academic_ue aux UE de la section
+            form.fields['academic_ue'].queryset = academic_ues
+
+            return render(request, 'educator/add_registration.html', {
+                'form': form,
+                'registration': registration,
+                'section': section,
+                'section_id': section_id,
+                'logged_user': logged_user,
+                'current_date_time': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            })
+        else:
+            return redirect('login')
     else:
-        form = AddRegistrationForm(instance=registration)
-
-    # Restreindre dynamiquement le queryset de academic_ue aux UE de la section
-    form.fields['academic_ue'].queryset = academic_ues
-
-    return render(request, 'educator/add_registration.html', {
-        'form': form,
-        'registration': registration,
-        'section': section,
-        'section_id': section_id,
-        'logged_user': logged_user,
-        'current_date_time': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-    })
-
+        return redirect('login')
 
 
 
 def add_registrations_by_cycle(request, section_id):
     logged_user = get_logged_user_from_request(request)
+    if logged_user:
+        if logged_user.person_type in ('educateur', 'administrateur'):
 
-    if not logged_user or logged_user.person_type not in ('educateur', 'administrateur'):
+            section = get_object_or_404(Section, pk=section_id)
+            students = Student.objects.all()
+
+            if request.method == 'POST':
+                student_id = request.POST.get('student')
+                year_cycle = request.POST.get('year_cycle')
+
+                if not student_id or not year_cycle:
+                    messages.error(request, "Veuillez sélectionner un étudiant et un cycle.")
+                    return redirect('add_registrations_by_cycle', section_id=section.id)
+
+                student = get_object_or_404(Student, pk=student_id)
+                year_cycle = int(year_cycle)
+
+                academic_ues = AcademicUE.objects.filter(section=section, yearCycle=year_cycle)
+
+                created_count = 0
+                for ue in academic_ues:
+                    try:
+                        Registration.objects.create(student=student, academic_ue=ue)
+                        created_count += 1
+                    except IntegrityError:
+                        # Ignore duplicate registration
+                        pass
+
+                messages.success(request, f"{created_count} inscriptions ajoutées pour {student.first_name} {student.last_name}.")
+                return redirect('registration_list', section_id=section.id)
+
+            return render(request, 'educator/add_registrations_by_cycle.html', {
+                'students': students,
+                'section': section,
+                'logged_user': logged_user,
+                'current_date_time': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            })
+        else:
+            return redirect('login')
+    else:
         return redirect('login')
 
-    section = get_object_or_404(Section, pk=section_id)
-    students = Student.objects.all()
-
-    if request.method == 'POST':
-        student_id = request.POST.get('student')
-        year_cycle = request.POST.get('year_cycle')
-
-        if not student_id or not year_cycle:
-            messages.error(request, "Veuillez sélectionner un étudiant et un cycle.")
-            return redirect('add_registrations_by_cycle', section_id=section.id)
-
-        student = get_object_or_404(Student, pk=student_id)
-        year_cycle = int(year_cycle)
-
-        academic_ues = AcademicUE.objects.filter(section=section, yearCycle=year_cycle)
-
-        created_count = 0
-        for ue in academic_ues:
-            try:
-                Registration.objects.create(student=student, academic_ue=ue)
-                created_count += 1
-            except IntegrityError:
-                # Ignore duplicate registration
-                pass
-
-        messages.success(request, f"{created_count} inscriptions ajoutées pour {student.first_name} {student.last_name}.")
-        return redirect('registration_list', section_id=section.id)
-
-    return render(request, 'educator/add_registrations_by_cycle.html', {
-        'students': students,
-        'section': section,
-        'logged_user': logged_user,
-        'current_date_time': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-    })
 
 def participations_view(request, id_ue):
-
     logged_user = get_logged_user_from_request(request)
     if logged_user:
         if logged_user.person_type in ('educateur', 'administrateur', 'professeur'):
