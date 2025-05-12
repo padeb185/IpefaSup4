@@ -70,6 +70,7 @@ input[name="csrfmiddlewaretoken"] {
 h1 {
 	padding-top: 200px;
 	margin-left: 50px;
+	font-size: 40px;
 }
 
 .admin-header {
@@ -85,6 +86,8 @@ h1 {
     font-weight: bold;
 	font-family: 'Montserrat', sans-serif;
 	font-size: 1.3rem;
+	margin-left: 20px;
+	margin-top: 20px;
 }
 
 
