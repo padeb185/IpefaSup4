@@ -538,41 +538,43 @@ def encode_results(request, academic_ue_id):
 
 
 def student_participation_view(request):
-    user = get_logged_user_from_request(request)
+    logged_user = get_logged_user_from_request(request)
+    if logged_user:
+        if logged_user.person_type == 'étudiant':
 
-    if not user or not hasattr(user, 'person_type') or user.person_type != 'etudiant':
-        return redirect('login')
+            # Récupérer les UEs auxquelles l'étudiant est inscrit
+            academic_ues = logged_user.academic_ues.all()
 
-    # Récupérer les UEs auxquelles l'étudiant est inscrit
-    academic_ues = user.academic_ues.all()
+            # Si un filtre (academic_ue_id) est passé dans la requête, on filtre les participations
+            selected_academic_ue = None
+            participations = None
 
-    # Si un filtre (academic_ue_id) est passé dans la requête, on filtre les participations
-    selected_academic_ue = None
-    participations = None
+            # Vérifier si un ID d'UE est passé dans la requête GET
+            if request.method == 'GET' and 'academic_ue' in request.GET and request.GET['academic_ue']:
+                try:
+                    selected_academic_ue = AcademicUE.objects.get(id=request.GET['academic_ue'])
+                    participations = Participation.objects.filter(
+                        student=logged_user,
+                        session__academicUE=selected_academic_ue
+                    ).select_related('session', 'session__academicUE')
+                except AcademicUE.DoesNotExist:
+                    participations = []
+            else:
+                # Si aucun filtre n'est passé, afficher toutes les participations de l'étudiant
+                participations = Participation.objects.filter(student=logged_user).select_related('session', 'session__academicUE')
 
-    # Vérifier si un ID d'UE est passé dans la requête GET
-    if request.method == 'GET' and 'academic_ue' in request.GET and request.GET['academic_ue']:
-        try:
-            selected_academic_ue = AcademicUE.objects.get(id=request.GET['academic_ue'])
-            participations = Participation.objects.filter(
-                student=user,
-                session__academicUE=selected_academic_ue
-            ).select_related('session', 'session__academicUE')
-        except AcademicUE.DoesNotExist:
-            participations = []
+            return render(request, 'student/student_participation.html', {
+                'student': logged_user,
+                'logged_user': logged_user,
+                'current_date_time': datetime.now(),
+                'participations': participations,
+                'academic_ues': academic_ues,  # Passer les UE de l'étudiant pour le filtrage
+                'selected_academic_ue': selected_academic_ue  # Passer l'UE sélectionné pour la gestion de l'affichage
+            })
+        else:
+            return redirect('login')
     else:
-        # Si aucun filtre n'est passé, afficher toutes les participations de l'étudiant
-        participations = Participation.objects.filter(student=user).select_related('session', 'session__academicUE')
-
-    return render(request, 'student/student_participation.html', {
-        'student': user,
-        'logged_user': user,
-        'current_date_time': datetime.now(),
-        'participations': participations,
-        'academic_ues': academic_ues,  # Passer les UE de l'étudiant pour le filtrage
-        'selected_academic_ue': selected_academic_ue  # Passer l'UE sélectionné pour la gestion de l'affichage
-    })
-
+        return redirect('login')
 
 
 
