@@ -402,20 +402,23 @@ def student_non_passed_registrations_view(request):
     })
 
 def student_passed_registrations_view(request):
-    user = get_logged_user_from_request(request)
+    logged_user = get_logged_user_from_request(request)
+    if logged_user:
+        if logged_user.person_type == 'etudiant':
 
-    if not user or not hasattr(user, 'person_type') or user.person_type != 'etudiant':
+            # On récupère seulement les inscriptions avec status = 'AP' (Approuvé)
+            registrations = logged_user.registrations.select_related('academic_ue', 'academic_ue__section').filter(status='AP')
+
+            return render(request, 'student/student_passed_registrations.html', {
+                'student': logged_user,
+                'logged_user': logged_user,
+                'current_date_time': datetime.now(),
+                'registrations': registrations,
+            })
+        else:
+            return redirect('login')
+    else:
         return redirect('login')
-
-    # On récupère seulement les inscriptions avec status = 'AP' (Approuvé)
-    registrations = user.registrations.select_related('academic_ue', 'academic_ue__section').filter(status='AP')
-
-    return render(request, 'student/student_passed_registrations.html', {
-        'student': user,
-        'logged_user': user,
-        'current_date_time': datetime.now(),
-        'registrations': registrations,
-    })
 
 
 
@@ -425,30 +428,32 @@ def student_passed_registrations_view(request):
 
 
 def student_prerequisites_view(request):
-    user = get_logged_user_from_request(request)
+    logged_user = get_logged_user_from_request(request)
+    if logged_user:
+        if logged_user.person_type != 'etudiant':
+            # Récupérer toutes ses inscriptions
+            registrations = logged_user.registrations.select_related('academic_ue', 'academic_ue__section').all()
 
-    if not user or not hasattr(user, 'person_type') or user.person_type != 'etudiant':
+            # Créer une liste des UE et de leurs prérequis
+            ue_with_prerequisites = []
+            for registration in registrations:
+                ue = registration.academic_ue
+                prerequisites = ue.prerequisites.all() if hasattr(ue, 'prerequisites') else []  # .prerequisites si relation ManyToManyField
+                ue_with_prerequisites.append({
+                    'ue': ue,
+                    'prerequisites': prerequisites
+                })
+
+            return render(request, 'student/student_prerequisites.html', {
+                'student': logged_user,
+                'logged_user': logged_user,
+                'current_date_time': datetime.now(),
+                'ue_with_prerequisites': ue_with_prerequisites,
+            })
+        else:
+            return redirect('login')
+    else:
         return redirect('login')
-
-    # Récupérer toutes ses inscriptions
-    registrations = user.registrations.select_related('academic_ue', 'academic_ue__section').all()
-
-    # Créer une liste des UE et de leurs prérequis
-    ue_with_prerequisites = []
-    for registration in registrations:
-        ue = registration.academic_ue
-        prerequisites = ue.prerequisites.all() if hasattr(ue, 'prerequisites') else []  # .prerequisites si relation ManyToManyField
-        ue_with_prerequisites.append({
-            'ue': ue,
-            'prerequisites': prerequisites
-        })
-
-    return render(request, 'student/student_prerequisites.html', {
-        'student': user,
-        'logged_user': user,
-        'current_date_time': datetime.now(),
-        'ue_with_prerequisites': ue_with_prerequisites,
-    })
 
 
 
