@@ -668,10 +668,11 @@ def add_student_view(request):
             form = StudentProfileForm(request.POST)
             if form.is_valid():
                 form.save()
-                return redirect('student_manage')  # Redirige vers la liste des étudiants
+                return redirect('student_manage')# Redirige vers la liste des étudiants
         else:
             form = StudentForm()
-        return render(request, 'educator/add_student.html', {'form': form})
+        return render(request, 'educator/add_student.html',
+                      {'form': form, 'logged_user': logged_user, 'current_date_time': datetime.now()})
     return redirect('login')  # Ou une page d'accès refusé
 
 
