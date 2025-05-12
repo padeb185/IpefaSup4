@@ -1,12 +1,9 @@
 from datetime import datetime
-from urllib import request
-
 from django.contrib import messages
 from django.contrib.auth.hashers import check_password
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from psycopg import IntegrityError
-
 from .forms import LoginForm, StudentForm, TeacherForm, AdministratorForm, AddAcademicUEForm, AddUEForm, \
     StudentProfileForm, EducatorForm, TeacherProfileForm, StudentEditProfileForm, AddRegistrationForm, \
     AddParticipationForm, AddSessionForm, AddSectionForm
