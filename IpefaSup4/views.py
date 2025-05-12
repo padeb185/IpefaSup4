@@ -663,35 +663,35 @@ def student_manage_view(request):
 
 def add_student_view(request):
     logged_user = get_logged_user_from_request(request)
-    if logged_user and logged_user.person_type in ('educateur', 'administrateur'):
-        if request.method == 'POST':
-            form = StudentProfileForm(request.POST)
-            if form.is_valid():
-                form.save()
-                return redirect('student_manage')# Redirige vers la liste des étudiants
+    if logged_user:
+        if logged_user and logged_user.person_type in ('educateur', 'administrateur'):
+            if request.method == 'POST':
+                form = StudentProfileForm(request.POST)
+                if form.is_valid():
+                    form.save()
+                    return redirect('student_manage')# Redirige vers la liste des étudiants
+            else:
+                form = StudentForm()
+            return render(request, 'educator/add_student.html',
+                           {'form': form, 'logged_user': logged_user, 'current_date_time': datetime.now()})
         else:
-            form = StudentForm()
-        return render(request, 'educator/add_student.html',
-                      {'form': form, 'logged_user': logged_user, 'current_date_time': datetime.now()})
+            return redirect('login')
     return redirect('login')  # Ou une page d'accès refusé
 
 
 def ue_manage_view(request):
     logged_user = get_logged_user_from_request(request)
+    if logged_user:
+        if logged_user.person_type in ('educateur', 'administrateur'):
+            return render(request, 'educator/ue_manage.html', {
+                'logged_user': logged_user,
+                'current_date_time': datetime.now()
+            })
+        else:
 
-    if not logged_user:
-        # Si l'utilisateur n'est pas connecté, redirection vers la page de login
-        return redirect('login')
-
-    # Vérifie si l'utilisateur est un éducateur ou administrateur
-    if logged_user.person_type in ('educateur', 'administrateur'):
-        return render(request, 'educator/ue_manage.html', {
-            'logged_user': logged_user,
-            'current_date_time': datetime.now().strftime("%d/%m/%Y %H:%M"),  # Date et heure actuelle
-        })
+            return redirect('login')
     else:
-        # Optionnel : redirige vers une page d'accès non autorisé ou affiche un message
-        return redirect('login')  # ou
+        return redirect('login')
 
 def select_section(request):
     logged_user = get_logged_user_from_request(request)
