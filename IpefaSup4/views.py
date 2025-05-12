@@ -688,7 +688,6 @@ def ue_manage_view(request):
                 'current_date_time': datetime.now()
             })
         else:
-
             return redirect('login')
     else:
         return redirect('login')
