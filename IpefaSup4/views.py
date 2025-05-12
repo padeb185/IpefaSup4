@@ -711,7 +711,6 @@ def ues_by_section(request, section_id):
     logged_user = get_logged_user_from_request(request)
     if logged_user:
         if logged_user.person_type in ('educateur', 'administrateur'):
-
             section = get_object_or_404(Section, id=section_id)
             ues = section.ues.all()  # grâce au related_name='ues' dans le modèle UE
             return render(request, 'educator/ues_by_section.html', {'section': section, 'ues': ues})
@@ -722,17 +721,20 @@ def ues_by_section(request, section_id):
 
 
 def ue_detail(request, ue_id):
-    # Récupérer l'UE spécifique
     logged_user = get_logged_user_from_request(request)
     if logged_user:
         if logged_user.person_type in ('educateur', 'administrateur'):
-
             ue = get_object_or_404(AcademicUE, idUE=ue_id)
             sessions = Session.objects.filter(academicUE=ue)
             return render(request, 'educator/ue_details.html', {
                     'ue': ue,
                     'sessions': sessions,
-    })
+            })
+        else:
+            return redirect('login')
+    else:
+        return redirect('login')
+
 
 
 def manage_sessions(request, ue_id):
