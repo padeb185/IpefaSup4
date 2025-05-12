@@ -349,62 +349,69 @@ def teacher_list(request):
 def edit_teacher(request, teacher_id):
     logged_user = get_logged_user_from_request(request)
     if logged_user:
-        teacher = get_object_or_404(Teacher, id=teacher_id)
+        if logged_user.person_type == 'administrateur':
+            teacher = get_object_or_404(Teacher, id=teacher_id)
 
-        if request.method == 'POST':
-            form = TeacherProfileForm(request.POST, instance=teacher)
-            if form.is_valid():
-                form.save()  # Sauvegarder les modifications de l'étudiant
-                return redirect('teacher_list')  # Rediriger vers la liste après la mise à jour
+            if request.method == 'POST':
+                form = TeacherProfileForm(request.POST, instance=teacher)
+                if form.is_valid():
+                    form.save()  # Sauvegarder les modifications de l'étudiant
+                    return redirect('teacher_list')  # Rediriger vers la liste après la mise à jour
+            else:
+                form = TeacherProfileForm(instance=teacher)
+
+            return render(request, 'administrator/edit_teacher.html', {'form': form, 'teacher': teacher, 'logged_user': logged_user, 'current_date_time': datetime.now})
         else:
-            form = TeacherProfileForm(instance=teacher)
-
-        return render(request, 'administrator/edit_teacher.html', {'form': form, 'teacher': teacher, 'logged_user': logged_user, 'current_date_time': datetime.now})
+            return redirect('login')
+    else:
+        return redirect('login')
 
 
 def edit_own_profile(request):
     logged_user = get_logged_user_from_request(request)  # Méthode que tu utilises déjà
+    if logged_user:
+        if logged_user.person_type == 'étudiant':
 
-    if not logged_user or not isinstance(logged_user, Student):
-        return redirect('login')  # Redirection si pas connecté ou si ce n’est pas un étudiant
+            student = get_object_or_404(Student, id=logged_user.id)
 
-    student = get_object_or_404(Student, id=logged_user.id)
+            if request.method == 'POST':
+                form = StudentEditProfileForm(request.POST, instance=student)
+                if form.is_valid():
+                    student_instance = form.save(commit=False)
+                    # Conserve le mot de passe actuel
+                    student_instance.password = student.password
+                    student_instance.save()
+                    return redirect('/welcome')  # Ou une autre page de confirmation
+            else:
+                form = StudentEditProfileForm(instance=student)
 
-    if request.method == 'POST':
-        form = StudentEditProfileForm(request.POST, instance=student)
-        if form.is_valid():
-            student_instance = form.save(commit=False)
-            # Conserve le mot de passe actuel
-            student_instance.password = student.password
-            student_instance.save()
-            return redirect('/welcome')  # Ou une autre page de confirmation
+            return render(request, 'student/edit_profile.html', {
+                'form': form,
+                'student': student,
+                'current_date_time': datetime.now(),
+            })
+        else:
+            return redirect('login')
     else:
-        form = StudentEditProfileForm(instance=student)
-
-    return render(request, 'student/edit_profile.html', {
-        'form': form,
-        'student': student,
-        'current_date_time': datetime.now(),
-    })
+        return redirect('login')
 
 
 
 
 
 def student_registration_view(request):
-    user = get_logged_user_from_request(request)
+    logged_user = get_logged_user_from_request(request)
+    if logged_user:
+        if logged_user.person_type == 'étudiant':
 
-    if not user or not hasattr(user, 'person_type') or user.person_type != 'etudiant':
-        return redirect('login')
+            registrations = logged_user.registrations.all()
 
-    registrations = user.registrations.all()
-
-    return render(request, 'student/student_registration.html', {
-        'student': user,
-        'logged_user': user,
-        'current_date_time': datetime.now(),
-        'registrations': registrations,
-    })
+            return render(request, 'student/student_registration.html', {
+                'student': logged_user,
+                'logged_user': logged_user,
+                'current_date_time': datetime.now(),
+                'registrations': registrations,
+            })
 
 
 def student_non_passed_registrations_view(request):
