@@ -655,7 +655,7 @@ def student_manage_view(request):
 
     if logged_user.person_type in ('educateur', 'administrateur'):
         return render(request, 'educator/student_manage.html', {
-            'logged_user': logged_user,
+            'logged_user': logged_user, 'current_date_time': datetime.now()
         })
     else:
         return redirect('login')  # Optionnel : page pour accès non autorisé
@@ -791,7 +791,7 @@ def edit_session(request, session_id):
             return render(request, 'educator/edit_session.html', {
                 'session': session,
                 'logged_user': logged_user,
-                'current_date_time': now()
+                'current_date_time': datetime.now
             })
         else:
             return redirect('login')
