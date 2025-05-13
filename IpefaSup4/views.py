@@ -328,8 +328,8 @@ def edit_student(request, student_id):
 def teacher_list(request):
     logged_user = get_logged_user_from_request(request)
     if logged_user:
-        if logged_user.person_type == 'administrateur':
-            sort_by = request.GET.get('sort_by', None)
+        if logged_user.person_type in ('administrateur', 'educateur'):
+            sort_by = request.GET.get('sort_by')
 
             if sort_by == 'first_name':
                 teachers = Teacher.objects.all().order_by('first_name')
@@ -338,9 +338,11 @@ def teacher_list(request):
             else:
                 teachers = Teacher.objects.all()
 
-            return render(request, 'administrator/teacher_list.html',
-                          {'teachers': teachers, 'logged_user': logged_user,
-                           'current_date_time': datetime.now})
+            return render(request, 'administrator/teacher_list.html', {
+                'teachers': teachers,
+                'logged_user': logged_user,
+                'current_date_time': datetime.now(),
+            })
         else:
             return redirect('login')
     else:
