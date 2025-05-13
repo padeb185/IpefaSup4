@@ -370,7 +370,7 @@ def edit_teacher(request, teacher_id):
 def edit_own_profile(request):
     logged_user = get_logged_user_from_request(request)  # Méthode que tu utilises déjà
     if logged_user:
-        if logged_user.person_type == 'étudiant':
+        if logged_user.person_type == 'etudiant':
 
             student = get_object_or_404(Student, id=logged_user.id)
 
@@ -382,12 +382,16 @@ def edit_own_profile(request):
                     student_instance.password = student.password
                     student_instance.save()
                     return redirect('/welcome')  # Ou une autre page de confirmation
+                else:
+                    # Tu peux ajouter un message ou un log ici si nécessaire
+                    pass
             else:
                 form = StudentEditProfileForm(instance=student)
 
             return render(request, 'student/edit_profile.html', {
                 'form': form,
                 'student': student,
+                'logged_user': logged_user,
                 'current_date_time': datetime.now(),
             })
         else:
@@ -398,16 +402,14 @@ def edit_own_profile(request):
 
 
 
-
 def student_registration_view(request):
     logged_user = get_logged_user_from_request(request)
     if logged_user:
-        if logged_user.person_type == 'étudiant':
+        if logged_user.person_type == 'etudiant':
 
             registrations = logged_user.registrations.all()
 
             return render(request, 'student/student_registration.html', {
-                'student': logged_user,
                 'logged_user': logged_user,
                 'current_date_time': datetime.now(),
                 'registrations': registrations,
@@ -422,7 +424,6 @@ def student_non_passed_registrations_view(request):
             non_passed_registrations = logged_user.registrations.filter(status='NP')
 
             return render(request, 'student/student_non_passed_registrations.html', {
-                'student': logged_user,
                 'logged_user': logged_user,
                 'current_date_time': datetime.now(),
                 'registrations': non_passed_registrations,
@@ -442,7 +443,6 @@ def student_passed_registrations_view(request):
             registrations = logged_user.registrations.select_related('academic_ue', 'academic_ue__section').filter(status='AP')
 
             return render(request, 'student/student_passed_registrations.html', {
-                'student': logged_user,
                 'logged_user': logged_user,
                 'current_date_time': datetime.now(),
                 'registrations': registrations,
@@ -462,7 +462,7 @@ def student_passed_registrations_view(request):
 def student_prerequisites_view(request):
     logged_user = get_logged_user_from_request(request)
     if logged_user:
-        if logged_user.person_type != 'etudiant':
+        if logged_user.person_type == 'etudiant':
             # Récupérer toutes ses inscriptions
             registrations = logged_user.registrations.select_related('academic_ue', 'academic_ue__section').all()
 
@@ -584,7 +584,7 @@ def encode_results(request, academic_ue_id):
 def student_participation_view(request):
     logged_user = get_logged_user_from_request(request)
     if logged_user:
-        if logged_user.person_type == 'étudiant':
+        if logged_user.person_type == 'etudiant':
 
             # Récupérer les UEs auxquelles l'étudiant est inscrit
             academic_ues = logged_user.academic_ues.all()
