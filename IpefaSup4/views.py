@@ -712,22 +712,51 @@ def student_manage_view(request):
         return redirect('login')
 
 
+from django.shortcuts import render, redirect
+from datetime import datetime
+from .models import Student
+from .forms import StudentForm, StudentProfileForm
+from .utils import get_logged_user_from_request  # selon où est ta fonction
+
 def add_student_view(request):
     logged_user = get_logged_user_from_request(request)
+
     if logged_user:
-        if logged_user and logged_user.person_type in ('educateur', 'administrateur'):
+        if logged_user.person_type in ('educateur', 'administrateur'):
             if request.method == 'POST':
                 form = StudentProfileForm(request.POST)
-                if form.is_valid():
-                    form.save()
-                    return redirect('student_manage')# Redirige vers la liste des étudiants
+                email = request.POST.get('studentMail', '').strip()
+
+                if not Student.objects.filter(email=email).exists():
+                    if form.is_valid():
+                        form.save()
+                        success = True
+                    else:
+                        success = False
+                else:
+                    success = False  # adresse déjà utilisée
+
+                # Formulaire vierge pour retour
+                new_form = StudentForm()
+                return render(request, 'educator/add_student.html', {
+                    'form': new_form,
+                    'logged_user': logged_user,
+                    'current_date_time': datetime.now(),
+                    'success': success
+                })
+
             else:
                 form = StudentForm()
-            return render(request, 'educator/add_student.html',
-                           {'form': form, 'logged_user': logged_user, 'current_date_time': datetime.now()})
-        else:
-            return redirect('login')
-    return redirect('login')  # Ou une page d'accès refusé
+
+            return render(request, 'educator/add_student.html', {
+                'form': form,
+                'logged_user': logged_user,
+                'current_date_time': datetime.now()
+            })
+        return redirect('login')
+
+    return redirect('login')
+
 
 
 def ue_manage_view(request):
@@ -1117,29 +1146,30 @@ def participations_view(request, id_ue):
         return redirect('login')
 
 
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt  # optionnel selon ton setup
+import json
+from .models import Student
+
 
 def check_student_mail(request):
     if request.method == 'POST':
-        import json
-        data = json.loads(request.body)
-        studentMail = data.get('studentMail')
         try:
-            student = Student.objects.get(studentMail=studentMail)
-            response = {
-                'exists': True,
-                'message': 'Cette adresse mail existe déjà'
+            data = json.loads(request.body)
+            student_mail = data.get('studentMail')
+            if not student_mail:
+                return JsonResponse({'error': 'Adresse email manquante'}, status=400)
 
-            }
-        except Student.DoesNotExist:
-            response = {
-                'exists': False,
-                'message': "Cette adresse est disponible"
-            }
+            exists = Student.objects.filter(email=student_mail).exists()
 
-        return JsonResponse(response)
-    return JsonResponse({'error': 'Invalid request'}, status=400)
+            return JsonResponse({
+                'exists': exists,
+                'message': 'Cette adresse mail existe déjà' if exists else "Cette adresse est disponible"
+            })
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Requête invalide (JSON mal formé)'}, status=400)
 
-
+    return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
 
 
 def check_matricule(request):

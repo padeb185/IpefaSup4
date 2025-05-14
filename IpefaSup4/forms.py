@@ -89,6 +89,9 @@ class StudentForm(BaseListForm):
     class Meta:
         model = Student
         exclude = ['academic_ues', 'sessions']
+        widgets = {
+            'email': forms.EmailInput(attrs={'id': 'studentMail'})
+        }
 
 
 
