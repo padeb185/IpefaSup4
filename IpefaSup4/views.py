@@ -1140,6 +1140,8 @@ def check_student_mail(request):
     return JsonResponse({'error': 'Invalid request'}, status=400)
 
 
+
+
 def check_matricule(request):
     import json
     if request.method == 'POST':
