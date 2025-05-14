@@ -8,8 +8,9 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/IpefaSup4/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/IpefaSup4/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/static/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IpefaSup4/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/IpefaSup4/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/educator/add_student.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/educator/add_student.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/user_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user_profile.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -189,15 +190,8 @@
       <workItem from="1747061270702" duration="3078000" />
       <workItem from="1747128960343" duration="2030000" />
       <workItem from="1747215370836" duration="1449000" />
-      <workItem from="1747217048541" duration="4156000" />
-    </task>
-    <task id="LOCAL-00052" summary="teacher participation">
-      <option name="closed" value="true" />
-      <created>1746091234947</created>
-      <option name="number" value="00052" />
-      <option name="presentableId" value="LOCAL-00052" />
-      <option name="project" value="LOCAL" />
-      <updated>1746091234947</updated>
+      <workItem from="1747217048541" duration="4301000" />
+      <workItem from="1747226773768" duration="2729000" />
     </task>
     <task id="LOCAL-00053" summary="teacher participation status">
       <option name="closed" value="true" />
@@ -583,7 +577,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747219787417</updated>
     </task>
-    <option name="localTasksCounter" value="101" />
+    <task id="LOCAL-00101" summary="check studentMail">
+      <option name="closed" value="true" />
+      <created>1747221377719</created>
+      <option name="number" value="00101" />
+      <option name="presentableId" value="LOCAL-00101" />
+      <option name="project" value="LOCAL" />
+      <updated>1747221377719</updated>
+    </task>
+    <option name="localTasksCounter" value="102" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

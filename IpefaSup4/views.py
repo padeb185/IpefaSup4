@@ -1175,30 +1175,13 @@ def check_student_mail(request):
 def check_matricule(request):
     import json
     if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            matricule = data.get('matricule')
+        data = json.loads(request.body)
+        matricule = data.get('matricule')
 
-            exists = (
-                Teacher.objects.filter(matricule=matricule).exists() or
-                Educator.objects.filter(matricule=matricule).exists() or
-                Administrator.objects.filter(matricule=matricule).exists()
-            )
+        exists = Teacher.objects.filter(matricule=matricule).exists() or \
+                 Educator.objects.filter(matricule=matricule).exists() or \
+                 Administrator.objects.filter(matricule=matricule).exists()
 
-            if exists:
-                response = {
-                    'exists': True,
-                    'message': 'Ce matricule existe déjà'
-                }
-            else:
-                response = {
-                    'exists': False,
-                    'message': 'Ce matricule est disponible'
-                }
+        return JsonResponse({'exists': exists})
 
-            return JsonResponse(response)
-
-        except Exception as e:
-            return JsonResponse({'error': str(e)}, status=500)
-
-    return JsonResponse({'error': 'Invalid request'}, status=400)
+    return JsonResponse({'exists': False})

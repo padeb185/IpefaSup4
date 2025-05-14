@@ -21,21 +21,25 @@
 
         <div id="studentForm" class="formType">
             {{ studentForm.as_p }}
+            <span id="email-error" style="color:red;"></span>
         </div>
 
         <div id="teacherForm" class="formType">
             {{ teacherForm.as_p }}
+            <span id="matricule-error-teacher" style="color:red;"></span>
         </div>
 
         <div id="educatorForm" class="formType">
             {{ educatorForm.as_p }}
+            <span id="matricule-error-educator" style="color:red;"></span>
         </div>
 
         <div id="administratorForm" class="formType">
             {{ administratorForm.as_p }}
+            <span id="matricule-error-administrator" style="color:red;"></span>
         </div>
 
-        <button type="submit">Créer un compte</button>
+        <button type="submit" id="submit-btn">Créer un compte</button>
     </form>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -59,6 +63,147 @@
         $(document).ready(function() {
             displayRightForm();
             $('#profileType').change(displayRightForm);
+        });
+    </script>
+
+    <script>
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== "") {
+                const cookies = document.cookie.split(';');
+                for (let cookie of cookies) {
+                    cookie = cookie.trim();
+                    if (cookie.startsWith(name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        const csrftoken = getCookie('csrftoken');
+        const checkStudentMailUrl = "{% url 'check_student_mail' %}";
+        const checkMatriculeUrl = "{% url 'check_matricule' %}";  // URL correcte
+
+        // Sélectionner les éléments des formulaires
+        const emailInput = document.getElementById('studentMail');
+        const emailError = document.getElementById('email-error');
+        const matriculeInputs = {
+            'teacher': document.getElementById('matricule-teacher'),
+            'educator': document.getElementById('matricule-educator'),
+            'administrator': document.getElementById('matricule-administrator')
+        };
+
+        const matriculeErrors = {
+            'teacher': document.getElementById('matricule-error-teacher'),
+            'educator': document.getElementById('matricule-error-educator'),
+            'administrator': document.getElementById('matricule-error-administrator')
+        };
+
+        let emailValid = true;
+        let matriculeValid = {
+            'teacher': true,
+            'educator': true,
+            'administrator': true
+        };
+
+        // Vérification de l'email
+        emailInput.addEventListener('input', function () {
+            const studentMail = emailInput.value.trim();
+
+            if (!studentMail) {
+                emailError.textContent = "";
+                emailInput.classList.remove('error-input');
+                emailValid = true;
+                return;
+            }
+
+            fetch(checkStudentMailUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken,
+                },
+                body: JSON.stringify({ studentMail: studentMail })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.exists) {
+                    emailError.textContent = "Cette adresse email est déjà utilisée.";
+                    emailInput.classList.add('error-input');
+                    emailValid = false;
+                } else {
+                    emailError.textContent = "";
+                    emailInput.classList.remove('error-input');
+                    emailValid = true;
+                }
+            })
+            .catch(error => {
+                console.error("Erreur:", error);
+                emailValid = true;
+            });
+        });
+
+        // Vérification du matricule
+        function checkMatricule(formType) {
+            const matricule = matriculeInputs[formType].value.trim();
+
+            if (!matricule) {
+                matriculeErrors[formType].textContent = "";
+                matriculeInputs[formType].classList.remove('error-input');
+                matriculeValid[formType] = true;
+                return;
+            }
+
+            fetch(checkMatriculeUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken,
+                },
+                body: JSON.stringify({ matricule: matricule })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.exists) {
+                    matriculeErrors[formType].textContent = "Ce matricule est déjà utilisé.";
+                    matriculeInputs[formType].classList.add('error-input');
+                    matriculeValid[formType] = false;
+                } else {
+                    matriculeErrors[formType].textContent = "";
+                    matriculeInputs[formType].classList.remove('error-input');
+                    matriculeValid[formType] = true;
+                }
+            })
+            .catch(error => {
+                console.error("Erreur lors de la vérification du matricule:", error);
+                matriculeValid[formType] = true;
+            });
+        }
+
+        // Vérification sur l'input de matricule pour chaque formulaire
+        Object.keys(matriculeInputs).forEach(formType => {
+            matriculeInputs[formType].addEventListener('input', function () {
+                checkMatricule(formType);
+            });
+        });
+
+        // Empêcher la soumission si l’email ou le matricule sont invalides
+        document.getElementById('mainForm').addEventListener('submit', function (e) {
+            if (!emailValid) {
+                e.preventDefault();
+                emailError.textContent = "Veuillez corriger l’adresse email avant de soumettre.";
+                emailInput.classList.add('error-input');
+            }
+
+            Object.keys(matriculeValid).forEach(formType => {
+                if (!matriculeValid[formType]) {
+                    e.preventDefault();
+                    matriculeErrors[formType].textContent = "Veuillez corriger le matricule avant de soumettre.";
+                    matriculeInputs[formType].classList.add('error-input');
+                }
+            });
         });
     </script>
 {% endblock %}

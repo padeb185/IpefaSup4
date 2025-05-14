@@ -149,3 +149,10 @@ tbody tr:last-child td[colspan] {
 	font-size: 0.9em;
 	margin-top: 5px;
 }
+#matricule-error-teacher,
+#matricule-error-educator,
+#matricule-error-administrator {
+	color: red;
+	font-size: 0.9em;
+	margin-top: 5px;
+}

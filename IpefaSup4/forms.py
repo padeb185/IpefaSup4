@@ -100,18 +100,24 @@ class TeacherForm(BaseListForm):
     class Meta:
         model = Teacher
         fields = '__all__'
+        widgets = {
+            'matricule': forms.TextInput(attrs={'id': 'matricule', 'class': 'form-control'})}
 
 
 class AdministratorForm(BaseListForm):
     class Meta:
         model = Administrator
         fields = '__all__'
+        widgets = {
+            'matricule': forms.TextInput(attrs={'id': 'matricule', 'class': 'form-control'})}
 
 
 class EducatorForm(BaseListForm):
     class Meta:
         model = Educator
         fields = '__all__'
+        widgets = {
+            'matricule': forms.TextInput(attrs={'id': 'matricule', 'class': 'form-control'})}
 
 
 
