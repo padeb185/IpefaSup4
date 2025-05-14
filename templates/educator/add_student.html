@@ -23,25 +23,27 @@
 {% elif success is not none %}
     <p style="color: red;">Erreur : l'adresse email est déjà utilisée ou les données sont invalides.</p>
 {% endif %}
-<form method="post">
+<form method="post" id="add-student-form">
     {% csrf_token %}
     {{ form.as_p }}
-    <p id="studentMailFeedback" style="color: red;"></p>
-    <button type="submit">Ajouter</button>
+    <p id="email-error"></p>
+    <button type="submit" id="submit-btn">Ajouter</button>
 </form>
+
 
 <br><br>
 <a href="{% url 'student_manage' %}">Retour à la gestion des étudiants</a>
 
+<p id="email-error" style="color: red;"></p>
+
 <script>
-// Corrigé : nom du paramètre
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== "") {
         const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        for (let cookie of cookies) {
+            cookie = cookie.trim();
+            if (cookie.startsWith(name + '=')) {
                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                 break;
             }
@@ -53,37 +55,55 @@ function getCookie(name) {
 const csrftoken = getCookie('csrftoken');
 const checkStudentMailUrl = "{% url 'check_student_mail' %}";
 
-// Attendre que le DOM soit prêt pour attacher l'événement
-document.addEventListener("DOMContentLoaded", function() {
-    const emailField = document.getElementById('studentMail');
-    const feedbackField = document.getElementById('studentMailFeedback');
+const emailInput = document.getElementById('studentMail');
+const emailError = document.getElementById('email-error');
+const submitBtn = document.getElementById('submit-btn');
+const form = document.getElementById('add-student-form');
 
-    if (emailField) {
-        emailField.addEventListener('change', function() {
-            const studentMail = this.value;
-            fetch(checkStudentMailUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': csrftoken,
-                },
-                body: JSON.stringify({ studentMail: studentMail })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.exists) {
-                    feedbackField.textContent = "Cet email étudiant est déjà utilisé.";
-                    emailField.value = ""; // Réinitialiser
-                } else {
-                    feedbackField.textContent = ""; // Réinitialiser le message
-                    console.log("Adresse email disponible");
-                }
-            })
-            .catch(error => {
-                console.log('Erreur:', error);
-                feedbackField.textContent = "Une erreur est survenue lors de la vérification.";
-            });
-        });
+let emailValid = true;
+
+emailInput.addEventListener('input', function () {
+    const studentMail = emailInput.value.trim();
+
+    if (!studentMail) {
+        emailError.textContent = "";
+        emailInput.classList.remove('error-input');
+        emailValid = true;
+        return;
+    }
+
+    fetch(checkStudentMailUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken,
+        },
+        body: JSON.stringify({ studentMail: studentMail })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.exists) {
+            emailError.textContent = "Cette adresse email est déjà utilisée.";
+            emailInput.classList.add('error-input');
+            emailValid = false;
+        } else {
+            emailError.textContent = "";
+            emailInput.classList.remove('error-input');
+            emailValid = true;
+        }
+    })
+    .catch(error => {
+        console.error("Erreur:", error);
+        emailValid = true;
+    });
+});
+
+// Empêche la soumission si l’email est invalide
+form.addEventListener('submit', function (e) {
+    if (!emailValid) {
+        e.preventDefault();
+        emailError.textContent = "Veuillez corriger l’adresse email avant de soumettre.";
+        emailInput.classList.add('error-input');
     }
 });
 </script>

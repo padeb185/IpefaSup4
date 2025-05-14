@@ -139,3 +139,13 @@ tbody tr:last-child td[colspan] {
   font-style: italic;
   color: #777;
 }
+
+.error-input {
+        border: 2px solid red;
+        background-color: #ffe6e6;
+    }
+#email-error {
+	color: red;
+	font-size: 0.9em;
+	margin-top: 5px;
+}

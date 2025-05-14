@@ -725,9 +725,9 @@ def add_student_view(request):
         if logged_user.person_type in ('educateur', 'administrateur'):
             if request.method == 'POST':
                 form = StudentProfileForm(request.POST)
-                email = request.POST.get('studentMail', '').strip()
+                studentMail = request.POST.get('studentMail', '').strip()
 
-                if not Student.objects.filter(email=email).exists():
+                if not Student.objects.filter(studentMail=studentMail).exists():
                     if form.is_valid():
                         form.save()
                         success = True
@@ -1146,30 +1146,30 @@ def participations_view(request, id_ue):
         return redirect('login')
 
 
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt  # optionnel selon ton setup
-import json
-from .models import Student
 
 
 def check_student_mail(request):
     if request.method == 'POST':
+        import json
         try:
             data = json.loads(request.body)
-            student_mail = data.get('studentMail')
-            if not student_mail:
-                return JsonResponse({'error': 'Adresse email manquante'}, status=400)
+            student_mail = data.get('studentMail', '').strip()
 
-            exists = Student.objects.filter(email=student_mail).exists()
+            if not student_mail:
+                return JsonResponse({'exists': False, 'error': 'Adresse email manquante'})
+
+            exists = Student.objects.filter(studentMail=student_mail).exists()
 
             return JsonResponse({
                 'exists': exists,
-                'message': 'Cette adresse mail existe déjà' if exists else "Cette adresse est disponible"
+                'message': 'Cette adresse mail existe déjà' if exists else "Adresse disponible"
             })
+
         except json.JSONDecodeError:
-            return JsonResponse({'error': 'Requête invalide (JSON mal formé)'}, status=400)
+            return JsonResponse({'exists': False, 'error': 'Requête invalide'}, status=400)
 
     return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
+
 
 
 def check_matricule(request):
