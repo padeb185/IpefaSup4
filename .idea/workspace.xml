@@ -184,15 +184,8 @@
       <workItem from="1747050316298" duration="368000" />
       <workItem from="1747059347649" duration="1772000" />
       <workItem from="1747061270702" duration="3078000" />
-      <workItem from="1747128960343" duration="1810000" />
-    </task>
-    <task id="LOCAL-00048" summary="student result teacher view">
-      <option name="closed" value="true" />
-      <created>1745941569905</created>
-      <option name="number" value="00048" />
-      <option name="presentableId" value="LOCAL-00048" />
-      <option name="project" value="LOCAL" />
-      <updated>1745941569905</updated>
+      <workItem from="1747128960343" duration="2030000" />
+      <workItem from="1747215370836" duration="1299000" />
     </task>
     <task id="LOCAL-00049" summary="student result teacher view">
       <option name="closed" value="true" />
@@ -578,7 +571,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747130003486</updated>
     </task>
-    <option name="localTasksCounter" value="97" />
+    <task id="LOCAL-00097" summary="logged user">
+      <option name="closed" value="true" />
+      <created>1747130984108</created>
+      <option name="number" value="00097" />
+      <option name="presentableId" value="LOCAL-00097" />
+      <option name="project" value="LOCAL" />
+      <updated>1747130984108</updated>
+    </task>
+    <option name="localTasksCounter" value="98" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -628,11 +629,6 @@
           <url>file://$PROJECT_DIR$/IpefaSup4/models.py</url>
           <line>161</line>
           <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/IpefaSup4/views.py</url>
-          <line>595</line>
-          <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="django-line">
           <url>file://$PROJECT_DIR$/templates/teacher/academic_ues_list.html</url>

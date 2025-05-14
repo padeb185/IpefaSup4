@@ -1,6 +1,7 @@
 from datetime import datetime
 from django.contrib import messages
 from django.contrib.auth.hashers import check_password
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from psycopg import IntegrityError
@@ -1116,3 +1117,56 @@ def participations_view(request, id_ue):
         return redirect('login')
 
 
+
+def check_student_mail(request):
+    if request.method == 'POST':
+        import json
+        data = json.loads(request.body)
+        studentMail = data.get('studentMail')
+        try:
+            student = Student.objects.get(studentMail=studentMail)
+            response = {
+                'exists': True,
+                'message': 'Cette adresse mail existe déjà'
+
+            }
+        except Student.DoesNotExist:
+            response = {
+                'exists': False,
+                'message': "Cette adresse est disponible"
+            }
+
+        return JsonResponse(response)
+    return JsonResponse({'error': 'Invalid request'}, status=400)
+
+
+def check_matricule(request):
+    import json
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            matricule = data.get('matricule')
+
+            exists = (
+                Teacher.objects.filter(matricule=matricule).exists() or
+                Educator.objects.filter(matricule=matricule).exists() or
+                Administrator.objects.filter(matricule=matricule).exists()
+            )
+
+            if exists:
+                response = {
+                    'exists': True,
+                    'message': 'Ce matricule existe déjà'
+                }
+            else:
+                response = {
+                    'exists': False,
+                    'message': 'Ce matricule est disponible'
+                }
+
+            return JsonResponse(response)
+
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+
+    return JsonResponse({'error': 'Invalid request'}, status=400)
