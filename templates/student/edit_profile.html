@@ -22,5 +22,7 @@
   {{ form.as_p }}
   <button type="submit">Mettre à jour</button>
 </form>
-
+    <div class="action-buttons">
+        <a href="{% url 'welcome' %}" class="btn-red">Retour à la page d'accueil</a>
+    </div>
 {% endblock %}

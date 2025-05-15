@@ -68,10 +68,11 @@
     </tbody>
 </table>
 
-<a href="{% url 'student_non_passed_registrations' %}">Lister mes cours non réussis</a>
-<a href="{% url 'student_passed_registrations' %}">Lister mes cours réussis</a>
-<a href="{% url 'welcomeStudent' %}">Retour</a>
-
+<div class="action-buttons">
+    <a href="{% url 'student_non_passed_registrations' %}" class="btn-red">Lister mes cours non réussis</a>
+    <a href="{% url 'student_passed_registrations' %}" class="btn-red">Lister mes cours réussis</a>
+    <a href="{% url 'welcomeStudent' %}" class="btn-red">Retour</a>
+</div>
 <script>
     $(document).ready(function() {
         var table = $('table').DataTable();

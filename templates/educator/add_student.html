@@ -18,93 +18,96 @@
 </header>
 
 <h1>Ajouter un Etudiant</h1>
+
 {% if success %}
     <p style="color: green;">Étudiant ajouté avec succès.</p>
 {% elif success is not none %}
     <p style="color: red;">Erreur : l'adresse email est déjà utilisée ou les données sont invalides.</p>
 {% endif %}
+
 <form method="post" id="add-student-form">
     {% csrf_token %}
     {{ form.as_p }}
-    <p id="email-error"></p>
+    <p id="email-error" class="error-message"></p>
     <button type="submit" id="submit-btn">Ajouter</button>
 </form>
 
-
 <br><br>
-<a href="{% url 'student_manage' %}">Retour à la gestion des étudiants</a>
 
-<p id="email-error" style="color: red;"></p>
+<div class="action-buttons">
+    <a href="{% url 'student_manage' %}" class="btn-red">Retour à la gestion des étudiants</a>
+</div>
 
 <script>
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== "") {
-        const cookies = document.cookie.split(';');
-        for (let cookie of cookies) {
-            cookie = cookie.trim();
-            if (cookie.startsWith(name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== "") {
+            const cookies = document.cookie.split(';');
+            for (let cookie of cookies) {
+                cookie = cookie.trim();
+                if (cookie.startsWith(name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
             }
         }
-    }
-    return cookieValue;
-}
-
-const csrftoken = getCookie('csrftoken');
-const checkStudentMailUrl = "{% url 'check_student_mail' %}";
-
-const emailInput = document.getElementById('studentMail');
-const emailError = document.getElementById('email-error');
-const submitBtn = document.getElementById('submit-btn');
-const form = document.getElementById('add-student-form');
-
-let emailValid = true;
-
-emailInput.addEventListener('input', function () {
-    const studentMail = emailInput.value.trim();
-
-    if (!studentMail) {
-        emailError.textContent = "";
-        emailInput.classList.remove('error-input');
-        emailValid = true;
-        return;
+        return cookieValue;
     }
 
-    fetch(checkStudentMailUrl, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': csrftoken,
-        },
-        body: JSON.stringify({ studentMail: studentMail })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.exists) {
-            emailError.textContent = "Cette adresse email est déjà utilisée.";
-            emailInput.classList.add('error-input');
-            emailValid = false;
-        } else {
+    const csrftoken = getCookie('csrftoken');
+    const checkStudentMailUrl = "{% url 'check_student_mail' %}";
+
+    const emailInput = document.getElementById('studentMail');
+    const emailError = document.getElementById('email-error');
+    const submitBtn = document.getElementById('submit-btn');
+    const form = document.getElementById('add-student-form');
+
+    let emailValid = true;
+
+    emailInput.addEventListener('input', function () {
+        const studentMail = emailInput.value.trim();
+
+        if (!studentMail) {
             emailError.textContent = "";
             emailInput.classList.remove('error-input');
             emailValid = true;
+            return;
         }
-    })
-    .catch(error => {
-        console.error("Erreur:", error);
-        emailValid = true;
-    });
-});
 
-// Empêche la soumission si l’email est invalide
-form.addEventListener('submit', function (e) {
-    if (!emailValid) {
-        e.preventDefault();
-        emailError.textContent = "Veuillez corriger l’adresse email avant de soumettre.";
-        emailInput.classList.add('error-input');
-    }
-});
+        fetch(checkStudentMailUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+            body: JSON.stringify({ studentMail: studentMail })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.exists) {
+                emailError.textContent = "Cette adresse email est déjà utilisée.";
+                emailError.classList.add("error-message");
+                emailInput.classList.add('error-input');
+                emailValid = false;
+            } else {
+                emailError.textContent = "";
+                emailInput.classList.remove('error-input');
+                emailValid = true;
+            }
+        })
+        .catch(error => {
+            console.error("Erreur:", error);
+            emailValid = true;
+        });
+    });
+
+    // Empêche la soumission si l’email est invalide
+    form.addEventListener('submit', function (e) {
+        if (!emailValid) {
+            e.preventDefault();
+            emailError.textContent = "Veuillez corriger l’adresse email avant de soumettre.";
+            emailInput.classList.add('error-input');
+        }
+    });
 </script>
 {% endblock %}

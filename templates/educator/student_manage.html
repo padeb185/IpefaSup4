@@ -19,7 +19,10 @@
     <h1>IpefaSup - Gérer les étudiants</h1>
 
 
+<div class="action-buttons">
+     <a href="{% url 'student_list' %}" class="btn-red">lister les étudiants</a>
+    <a href="{% url 'add_student' %}" class="btn-red">Ajouter un étudiant</a>
 
-    <a href="{% url 'student_list' %}">lister les étudiants</a>
-    <a href="{% url 'add_student' %}">Ajouter un étudiant</a>
+</div>
+
 {% endblock %}

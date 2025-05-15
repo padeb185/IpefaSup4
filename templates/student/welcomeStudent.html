@@ -19,13 +19,19 @@
     <h1>IpefaSup - Etudiant</h1>
 
 
+<div class="action-buttons">
+    <a href="{% url 'edit_own_profile' %}" class="btn-red">Modifier mon profil</a>
+    <a href="{% url 'student_registration' %}" class="btn-red">Lister mes cours</a>
+    <a href="{% url 'student_participation' %}" class="btn-red">Mes participations</a>
+</div>
+<br>
+    <br>
+    <br>
+    <br>
+<div class="action-buttons">
+    <a href="{% url 'login' %}" class="btn-red">Quitter</a>
 
-    <a href="{% url 'edit_own_profile' %}">Modifier mon profil</a>
-    <a href="{% url 'student_registration' %}">lister mes cours</a>
-    <a href="{% url 'student_participation' %}">Mes participations</a>
-
-
-
+</div>
 
 
 {% endblock %}
