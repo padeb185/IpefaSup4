@@ -214,21 +214,46 @@ button:active,
   margin: 2rem auto;
   text-align: center;
 }
+form {
+  width: 800px;
+  margin: 3rem auto; /* centre horizontalement */
+  padding: 2rem;
+  background: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
 
-/* === Form and Inputs === */
-form,
-form label,
+.form-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
 .form-row label {
-  display: block;
+  flex: 0 0 180px;
+  text-align: right;
   font-weight: 600;
   color: #333;
-  width: 140px;
-  text-align: right;
-  padding: 4px 10px 0 0;
-  margin: 0 5px 0 0;
-  white-space: nowrap;
-  float: none; /* float removed to avoid conflicts with flex */
+  padding-right: 10px;
 }
+
+.form-row input,
+.form-row select {
+  flex: 1;
+  padding: 0.6rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  max-width: 300px;
+}
+
+.form-row.buttons {
+  justify-content: center;
+}
+
+/* === Form and Inputs === */
+
 
 form input[type="email"],
 form input[type="text"],
