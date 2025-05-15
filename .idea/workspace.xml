@@ -5,7 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="check studentMail">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/IpefaSup4/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/static/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/teacher/participations_in_ue.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/teacher/participations_in_ue.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/teacher/students_in_ue.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/teacher/students_in_ue.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -186,15 +189,7 @@
       <workItem from="1747128960343" duration="2030000" />
       <workItem from="1747215370836" duration="1449000" />
       <workItem from="1747217048541" duration="4301000" />
-      <workItem from="1747226773768" duration="6110000" />
-    </task>
-    <task id="LOCAL-00057" summary="teacher encode result">
-      <option name="closed" value="true" />
-      <created>1746437670690</created>
-      <option name="number" value="00057" />
-      <option name="presentableId" value="LOCAL-00057" />
-      <option name="project" value="LOCAL" />
-      <updated>1746437670690</updated>
+      <workItem from="1747226773768" duration="6918000" />
     </task>
     <task id="LOCAL-00058" summary="teacher encode result">
       <option name="closed" value="true" />
@@ -580,7 +575,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747296775875</updated>
     </task>
-    <option name="localTasksCounter" value="106" />
+    <task id="LOCAL-00106" summary="check studentMail">
+      <option name="closed" value="true" />
+      <created>1747296961120</created>
+      <option name="number" value="00106" />
+      <option name="presentableId" value="LOCAL-00106" />
+      <option name="project" value="LOCAL" />
+      <updated>1747296961120</updated>
+    </task>
+    <option name="localTasksCounter" value="107" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

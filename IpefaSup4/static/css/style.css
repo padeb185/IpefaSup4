@@ -340,3 +340,147 @@ button:hover {
 button:active {
     transform: scale(0.98);
 }
+/* Conteneur général des filtres pour un affichage horizontal avec espace */
+.filters-container {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    margin: 1rem 0 2rem;
+    flex-wrap: wrap;
+}
+
+.filters-container label {
+    font-weight: 600;
+    margin-right: 0.5rem;
+    white-space: nowrap;
+}
+
+.filter-select {
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    min-width: 160px;
+}
+
+/* Titre principal */
+.page-title {
+    text-align: center;
+    margin-top: 10rem;
+    margin-bottom: 2rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 2.5rem;
+    color: #cd1531;
+}
+
+/* Formulaire participation centré avec max-width */
+.participation-form {
+    max-width: 700px;
+    margin: 0 auto 3rem; /* centré horizontalement */
+    padding: 1rem;
+    background: #fafafa;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+}
+
+/* Style général des tables */
+.participation-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden; /* arrondir coins */
+}
+
+.participation-table thead th {
+    background-color: #cd1531;
+    color: white;
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.participation-table tbody td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+    font-size: 1rem;
+    vertical-align: middle;
+}
+
+/* Alternance de couleur pour les lignes */
+.participation-table tbody tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+.participation-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Survol des lignes */
+.participation-table tbody tr:hover {
+    background-color: #ffe6e6;
+}
+
+/* Style des selects de statut */
+.status-select {
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    width: 100%;
+    max-width: 180px;
+}
+
+/* Bouton submit stylé */
+.btn-submit {
+    display: block;
+    margin: 1.5rem auto 0;
+    background: linear-gradient(to right, #007bff, #0056b3);
+    color: white;
+    padding: 0.8rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn-submit:hover {
+    background: linear-gradient(to right, #0056b3, #003f7f);
+    transform: translateY(-3px);
+}
+
+.btn-submit:active {
+    transform: scale(0.98);
+}
+
+/* Style du lien de retour */
+.back-link {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.back-link a {
+    color: #cd1531;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 1.1rem;
+}
+
+.back-link a:hover {
+    text-decoration: underline;
+}
+
+/* Titres des sessions */
+.session-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+    color: #333;
+}
