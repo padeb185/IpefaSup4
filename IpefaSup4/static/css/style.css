@@ -102,6 +102,19 @@ h1 {
   outline: none;
 }
 
+table {
+  width: 90%;
+  margin: 0 auto 50px auto;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  background: white;
+}
+
+
 /* === Table Styles === */
 table#registrationTable,
 .ue-detail-table,
@@ -203,6 +216,7 @@ button:active,
 }
 
 /* === Form and Inputs === */
+form,
 form label,
 .form-row label {
   display: block;
@@ -219,6 +233,7 @@ form label,
 form input[type="email"],
 form input[type="text"],
 form input[type="password"],
+form input,
 .form-row select,
 .form-row input {
   display: block;
