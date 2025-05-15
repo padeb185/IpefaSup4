@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Lister les sections{% endblock %}
+{% block title %}Lister les sections - Gérer Les Inscriptions{% endblock %}
 
 {% block bodyId %}listSectionPage{% endblock %}
 
@@ -15,7 +15,7 @@
             Nous sommes le {{ current_date_time }}
         </div>
     </header>
-    <h1>Liste des sections</h1>
+    <h1>Gérer les inscriptions - Liste des sections</h1>
     <ul>
       {% for section in sections %}
         <li>

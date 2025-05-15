@@ -6,10 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="style">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/administrator/student_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/administrator/student_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/educator/registration_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/educator/registration_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/administrator/add_academic_ue.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/administrator/add_academic_ue.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/administrator/add_ue.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/administrator/add_ue.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/administrator/participation.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/administrator/participation.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/administrator/registration.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/administrator/registration.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/administrator/session.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/administrator/session.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/administrator/teacher_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/administrator/teacher_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/administrator/welcomeAdmin.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/administrator/welcomeAdmin.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/educator/section_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/educator/section_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/educator/ue_manage.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/educator/ue_manage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/educator/welcomeEducator.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/educator/welcomeEducator.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -193,15 +198,7 @@
       <workItem from="1747226773768" duration="11836000" />
       <workItem from="1747303427802" duration="648000" />
       <workItem from="1747304099330" duration="20000" />
-      <workItem from="1747304137860" duration="4380000" />
-    </task>
-    <task id="LOCAL-00066" summary="teacher encode result">
-      <option name="closed" value="true" />
-      <created>1746540271195</created>
-      <option name="number" value="00066" />
-      <option name="presentableId" value="LOCAL-00066" />
-      <option name="project" value="LOCAL" />
-      <updated>1746540271195</updated>
+      <workItem from="1747304137860" duration="5287000" />
     </task>
     <task id="LOCAL-00067" summary="year cycle">
       <option name="closed" value="true" />
@@ -587,7 +584,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747315644627</updated>
     </task>
-    <option name="localTasksCounter" value="115" />
+    <task id="LOCAL-00115" summary="style">
+      <option name="closed" value="true" />
+      <created>1747316652379</created>
+      <option name="number" value="00115" />
+      <option name="presentableId" value="LOCAL-00115" />
+      <option name="project" value="LOCAL" />
+      <updated>1747316652379</updated>
+    </task>
+    <option name="localTasksCounter" value="116" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
