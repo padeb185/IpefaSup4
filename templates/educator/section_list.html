@@ -15,16 +15,16 @@
             Nous sommes le {{ current_date_time }}
         </div>
     </header>
-
-  <ul>
-    {% for section in sections %}
-      <li>
-        <a href="{% url 'registration_list' section.id %}">{{ section.wording }}</a>
-      </li>
-    {% empty %}
-      <li>Aucune section disponible.</li>
-    {% endfor %}
-  </ul>
+    <h1>Liste des sections</h1>
+    <ul>
+      {% for section in sections %}
+        <li>
+          <a href="{% url 'registration_list' section.id %}">{{ section.wording }}</a>
+        </li>
+      {% empty %}
+        <li>Aucune section disponible.</li>
+      {% endfor %}
+    </ul>
 {% endblock %}
 
 
