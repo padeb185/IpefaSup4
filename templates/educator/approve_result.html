@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Approbation du résultat</h1>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Enregistrer</button>
+  </form>
+<div class="action-buttons">
+    <a href="{% url 'registration_list' section_id %}" class="btn-red">Retour à la liste des inscriptions</a>
+</div>
+
+{% endblock %}

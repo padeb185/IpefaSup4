@@ -20,6 +20,7 @@
     <div class="action-buttons">
         <a href="{% url 'add_registration' section.id %}" class="btn-red">Ajouter une inscription</a>
         <a href="{% url 'add_registrations_by_cycle' section.id %}" class="btn-red">Ajouter inscriptions par cycle</a>
+        <a href="{% url 'list_approved_students' %}" class="btn-red">Lister les UEs approuvées</a>
     </div>
 
 
@@ -66,46 +67,52 @@
   </div>
 
   <table id="registrationTable">
-    <thead>
+  <thead>
+    <tr>
+      <th>Étudiant</th>
+      <th>Email</th>
+      <th>Statut</th>
+      <th>Unité d'enseignement</th>
+      <th>Prérequis</th>
+      <th>Action</th> <!-- colonne ajoutée -->
+    </tr>
+  </thead>
+  <tbody>
+    {% for registration in registrations %}
       <tr>
-        <th>Étudiant</th>
-        <th>Email</th>
-        <th>Statut</th>
-        <th>Unité d'enseignement</th>
-        <th>Prérequis</th>
+        <td>{{ registration.student.first_name }} {{ registration.student.last_name }}</td>
+        <td>{{ registration.student.studentMail }}</td>
+        <td>{{ registration.status }}</td>
+        <td>{{ registration.academic_ue.wording }}</td>
+        <td>
+          {% if registration.academic_ue.prerequisites.all %}
+            <ul>
+              {% for prereq in registration.academic_ue.prerequisites.all %}
+                <li>{{ prereq.wording }}</li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            Aucun
+          {% endif %}
+        </td>
+        <td>
+          <a href="{% url 'approve_result' registration.id %}" class="btn-green">Approuver</a>
+        </td>
       </tr>
-    </thead>
-    <tbody>
-      {% for registration in registrations %}
-        <tr>
-          <td>{{ registration.student.first_name }} {{ registration.student.last_name }}</td>
-          <td>{{ registration.student.studentMail }}</td>
-          <td>{{ registration.status }}</td>
-          <td>{{ registration.academic_ue.wording }}</td>
-          <td>
-            {% if registration.academic_ue.prerequisites.all %}
-              <ul>
-                {% for prereq in registration.academic_ue.prerequisites.all %}
-                  <li>{{ prereq.wording }}</li>
-                {% endfor %}
-              </ul>
-            {% else %}
-              Aucun
-            {% endif %}
-          </td>
-        </tr>
-      {% empty %}
-        <tr>
-          <td colspan="5">Aucune inscription disponible pour cette section.</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+    {% empty %}
+      <tr>
+        <td colspan="6">Aucune inscription disponible pour cette section.</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
 
     <br>
     <div class="action-buttons">
           <a href="{% url 'section_list' %}" class="btn-red">⬅ Retour à la liste des sections</a>
     </div>
+
 
 
 <script>

@@ -156,6 +156,9 @@ class AcademicUE(UE):  # Hérite de UE
     yearCycle = models.IntegerField()
     teacher = models.ForeignKey(Teacher, on_delete=models.SET_NULL, null=True, blank=True,
                                 related_name='academic_ues')  # Relation 0,1 vers Teacher
+    educator = models.ForeignKey(  # 👈 nouveau champ
+        Educator, on_delete=models.SET_NULL, null=True, blank=True, related_name='academic_ues'
+    )
     def type(self):
         return "Academic UE"
 

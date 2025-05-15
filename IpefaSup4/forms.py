@@ -174,3 +174,34 @@ class StudentEditProfileForm(BaseListForm):
     class Meta:
         model = Student
         exclude = ['academic_ues', 'sessions', 'ue']
+
+
+from django import forms
+from .models import Registration
+
+class RegistrationApprovalForm(forms.ModelForm):
+    class Meta:
+        model = Registration
+        fields = [ 'result', 'status', 'approved']
+        widgets = {
+            'student': forms.TextInput(attrs={'readonly': 'readonly'}),
+            'academic_ue': forms.TextInput(attrs={'readonly': 'readonly'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Si tu veux que ces champs restent readonly, on remplace les champs ModelChoiceField par des champs TextInput affichant un texte
+        # Donc ici, on remplace les champs par des champs CharField affichant le texte au lieu de ModelChoiceField
+
+        # Pour afficher le nom complet de l'étudiant dans un champ readonly
+        if self.instance and self.instance.pk:
+            self.fields['student'] = forms.CharField(
+                initial=f"{self.instance.student.first_name} {self.instance.student.last_name}",
+                widget=forms.TextInput(attrs={'readonly': 'readonly'})
+            )
+            # Afficher le wording de l'AcademicUE dans un champ readonly
+            self.fields['academic_ue'] = forms.CharField(
+                initial=self.instance.academic_ue.wording,
+                widget=forms.TextInput(attrs={'readonly': 'readonly'})
+            )

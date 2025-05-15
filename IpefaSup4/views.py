@@ -7,11 +7,12 @@ from django.urls import reverse
 from psycopg import IntegrityError
 from .forms import LoginForm, StudentForm, TeacherForm, AdministratorForm, AddAcademicUEForm, AddUEForm, \
     StudentProfileForm, EducatorForm, TeacherProfileForm, StudentEditProfileForm, AddRegistrationForm, \
-    AddParticipationForm, AddSessionForm, AddSectionForm
+    AddParticipationForm, AddSessionForm, AddSectionForm, RegistrationApprovalForm
 from .models import Educator, Student, Teacher, \
     Administrator, AcademicUE, Registration, Participation, Session, Section
 from .utils import get_logged_user_from_request
 from django.utils.timezone import now
+from django.core.exceptions import PermissionDenied
 
 
 
@@ -1185,3 +1186,55 @@ def check_matricule(request):
         return JsonResponse({'exists': exists})
 
     return JsonResponse({'exists': False})
+
+
+def approve_result_view(request, registration_id):
+    logged_user = get_logged_user_from_request(request)
+    if logged_user:
+        if logged_user.person_type == 'educateur':
+            registration = get_object_or_404(Registration, id=registration_id)
+
+            if request.method == 'POST':
+                form = RegistrationApprovalForm(request.POST, instance=registration)
+                if form.is_valid():
+                    form.save()
+                    messages.success(request, "Résultat approuvé avec succès.")
+                    return redirect('registration_list', section_id=registration.academic_ue.section.id)
+            else:
+                form = RegistrationApprovalForm(instance=registration)
+
+            student_name = f"{registration.student.first_name} {registration.student.last_name}"
+            academic_ue_name = registration.academic_ue.wording
+            section_id = registration.academic_ue.section.id
+
+            return render(request, 'educator/approve_result.html', {
+                'form': form,
+                'registration': registration,
+                'student_name': student_name,
+                'academic_ue_name': academic_ue_name,
+                'section_id': registration.academic_ue.section.id
+            })
+        else:
+            return redirect('login')
+    else:
+        return redirect('login')
+
+
+from collections import defaultdict
+
+
+def list_approved_students(request):
+    logged_user = get_logged_user_from_request(request)
+
+    if not logged_user or logged_user.person_type != 'educateur':
+        return redirect('login')
+
+    # Filtrer les inscriptions où l'étudiant a une UE avec status AP et approved True
+    registrations = Registration.objects.filter(
+        status='AP',
+        approved=True
+    ).select_related('student', 'academic_ue')
+
+    return render(request, 'educator/list_approved_students.html', {
+        'registrations': registrations
+    })
