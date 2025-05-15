@@ -317,7 +317,9 @@ form p.error {
   margin-bottom: 1.5rem;
 }
 button {
-    background: linear-gradient(to right, #007bff, #0056b3);
+    background: linear-gradient(to right, #a10f27, #7a0b1a);
+  	transform: translateY(-2px);
+  	box-shadow: 0 6px 12px rgba(161, 15, 39, 0.6);
     color: white;
     padding: 0.6rem 1.4rem;
     border: none;
@@ -326,13 +328,13 @@ button {
     font-weight: 600;
     cursor: pointer;
     transition: background 0.3s ease, transform 0.2s ease;
-    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+
 }
 
 button:hover {
-    background: linear-gradient(to right, #0056b3, #003f7f);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
+   	background: linear-gradient(to right, #a10f27, #7a0b1a);
+  	transform: translateY(-2px);
+  	box-shadow: 0 6px 12px rgba(161, 15, 39, 0.6);
 }
 
 button:active {
