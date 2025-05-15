@@ -6,16 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="style">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IpefaSup4/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/static/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/educator/add_student.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/educator/add_student.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/educator/student_manage.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/educator/student_manage.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/educator/welcomeEducator.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/educator/welcomeEducator.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/student/edit_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/student/edit_profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/student/student_participation.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/student/student_participation.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/student/student_prerequisites.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/student/student_prerequisites.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/student/student_registration.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/student/student_registration.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/student/welcomeStudent.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/student/welcomeStudent.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/administrator/student_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/administrator/student_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/educator/registration_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/educator/registration_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/educator/section_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/educator/section_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/educator/ue_manage.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/educator/ue_manage.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -199,15 +193,7 @@
       <workItem from="1747226773768" duration="11836000" />
       <workItem from="1747303427802" duration="648000" />
       <workItem from="1747304099330" duration="20000" />
-      <workItem from="1747304137860" duration="3376000" />
-    </task>
-    <task id="LOCAL-00065" summary="teacher encode result">
-      <option name="closed" value="true" />
-      <created>1746539425887</created>
-      <option name="number" value="00065" />
-      <option name="presentableId" value="LOCAL-00065" />
-      <option name="project" value="LOCAL" />
-      <updated>1746539425887</updated>
+      <workItem from="1747304137860" duration="4380000" />
     </task>
     <task id="LOCAL-00066" summary="teacher encode result">
       <option name="closed" value="true" />
@@ -593,7 +579,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747304118135</updated>
     </task>
-    <option name="localTasksCounter" value="114" />
+    <task id="LOCAL-00114" summary="style">
+      <option name="closed" value="true" />
+      <created>1747315644627</created>
+      <option name="number" value="00114" />
+      <option name="presentableId" value="LOCAL-00114" />
+      <option name="project" value="LOCAL" />
+      <updated>1747315644627</updated>
+    </task>
+    <option name="localTasksCounter" value="115" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

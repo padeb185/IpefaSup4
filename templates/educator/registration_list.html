@@ -17,8 +17,11 @@
     </header>
 
   <h1>Liste des Inscriptions pour la Section {{ section.wording }}</h1>
-  <a href="{% url 'add_registration' section.id %}">Ajouter une inscription</a>
-  <a href="{% url 'add_registrations_by_cycle' section.id %}">Ajouter inscriptions par cycle</a>
+    <div class="action-buttons">
+        <a href="{% url 'add_registration' section.id %}" class="btn-red">Ajouter une inscription</a>
+        <a href="{% url 'add_registrations_by_cycle' section.id %}" class="btn-red">Ajouter inscriptions par cycle</a>
+    </div>
+
 
   <div id="filters">
     <label>Filtrer par étudiant:</label>
@@ -100,7 +103,10 @@
   </table>
 
     <br>
-    <a href="{% url 'section_list' %}">⬅ Retour à la liste des sections</a>
+    <div class="action-buttons">
+          <a href="{% url 'section_list' %}" class="btn-red">⬅ Retour à la liste des sections</a>
+    </div>
+
 
 <script>
   $(document).ready(function () {

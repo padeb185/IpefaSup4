@@ -19,6 +19,15 @@
 
     <main>
         <h1>IpefaSup - Gérer les UEs</h1>
-        <p><a href="{% url 'select_section' %}">Choisir une section</a></p>
+        <div class="action-buttons">
+            <a href="{% url 'select_section' %}" class="btn-red">Choisir une section</a>
+        </div>
+
+        <br>
+        <br>
+        <div class="action-buttons">
+            <a href="{% url 'welcome' %}" class="btn-red">Retour</a>
+        </div>
+
     </main>
 {% endblock %}
