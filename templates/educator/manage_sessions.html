@@ -16,11 +16,12 @@
         Nous sommes le {{ current_date_time }}
     </div>
 </header>
+<br>
+<br>
+<h1 class="page-title">Gestion des sessions pour l'UE : {{ academic_ue.wording }}</h1>
 
-<h1>Gestion des sessions pour l'UE : {{ academic_ue.wording }}</h1>
-
-<h2>Sessions existantes</h2>
-<table border="1">
+<h2 class="section-title">Sessions existantes</h2>
+<table class="participation-table">
     <thead>
         <tr>
             <th>Date de la session</th>
@@ -29,39 +30,39 @@
     </thead>
     <tbody>
         {% for session in sessions %}
-            <tr>
-                <td>{{ session.jour }}/{{ session.mois }}</td>
-                <td>
-                    <!-- Lien pour modifier la session -->
-                    <a href="{% url 'edit_session' session.id %}">Modifier</a>
-                </td>
-            </tr>
+        <tr>
+            <td>{{ session.jour }}/{{ session.mois }}</td>
+            <td>
+                <a href="{% url 'edit_session' session.id %}" class="btn-red">Modifier</a>
+            </td>
+        </tr>
         {% empty %}
-            <tr>
-                <td colspan="2">Aucune session enregistrée pour cette UE.</td>
-            </tr>
+        <tr>
+            <td colspan="2">Aucune session enregistrée pour cette UE.</td>
+        </tr>
         {% endfor %}
     </tbody>
 </table>
 
-<h2>Ajouter une nouvelle session</h2>
-<form method="post">
+<h2 class="section-title">Ajouter une nouvelle session</h2>
+<form method="post" class="styled-form">
     {% csrf_token %}
-    <label for="jour">Jour:</label>
-    <input type="number" name="jour" min="1" max="31" required>
+    <div class="form-row">
+        <label for="jour">Jour :</label>
+        <input type="number" name="jour" id="jour" min="1" max="31" required>
 
-    <label for="mois">Mois:</label>
-    <input type="number" name="mois" min="1" max="12" required>
+        <label for="mois">Mois :</label>
+        <input type="number" name="mois" id="mois" min="1" max="12" required>
+    </div>
 
-    <button type="submit">Enregistrer</button>
+    <div class="action-buttons">
+        <button type="submit" class="btn-red">Enregistrer</button>
+    </div>
 </form>
 
-<a href="{% url 'manage_participations_in_ue' academic_ue.idUE %}">
-    Gérer les participations
-</a>
-  <a href="{% url 'academicue_participations' academic_ue.idUE %}">Voir les participations</a>
-<br>
-<a href="{% url 'ues_by_section' academic_ue.section.id %}">
-    Retour à la liste des UEs de la section
-</a>
+<div class="action-buttons">
+    <a href="{% url 'manage_participations_in_ue' academic_ue.idUE %}" class="btn-red">Gérer les participations</a>
+    <a href="{% url 'academicue_participations' academic_ue.idUE %}" class="btn-red">Voir les participations</a>
+    <a href="{% url 'ues_by_section' academic_ue.section.id %}" class="btn-red">Retour à la liste des UEs</a>
+</div>
 {% endblock %}
