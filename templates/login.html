@@ -8,42 +8,47 @@
 {% block content %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 
-    <form action="{% url 'login' %}" method="post">
-    {% csrf_token %}
-    {% if error %}
-        <p class="error">{{ error }}</p>
-    {% endif %}
+    <div class="form-container">
+        <h1 class="form-title">Se connecter</h1>
+        <form action="{% url 'login' %}" method="post" class="form-box">
+            {% csrf_token %}
+            {% if error %}
+                <p class="error">{{ error }}</p>
+            {% endif %}
 
-    <p>
-        <label for="profileType">Vous êtes : </label>
-        <select id="profileType" name="profileType" required>
-            <option value="etudiant">Etudiant</option>
-            <option value="professeur">Professeur</option>
-            <option value="educateur">Educateur</option>
-            <option value="administrateur">Administrateur</option>
-        </select>
-    </p>
+            <div class="form-row">
+                <label for="profileType">Vous êtes :</label>
+                <select id="profileType" name="profileType" required>
+                    <option value="etudiant">Etudiant</option>
+                    <option value="professeur">Professeur</option>
+                    <option value="educateur">Educateur</option>
+                    <option value="administrateur">Administrateur</option>
+                </select>
+            </div>
 
-    <p id="pmail">
-        <label for="email">E-mail : </label>
-        <input name="email" id="email" size="30" type="email" />
-    </p>
+            <div class="form-row" id="pmail">
+                <label for="email">E-mail :</label>
+                <input name="email" id="email" size="30" type="email" />
+            </div>
 
-    <p id="pmatricule">
-        <label for="matricule">Matricule : </label>
-        <input name="matricule" id="matricule" size="30" />
-    </p>
+            <div class="form-row" id="pmatricule">
+                <label for="matricule">Matricule :</label>
+                <input name="matricule" id="matricule" size="30" />
+            </div>
 
-    <p>
-        <label for="password">Mot de passe : </label>
-        <input name="password" id="password" size="30" type="password" required />
-    </p>
+            <div class="form-row">
+                <label for="password">Mot de passe :</label>
+                <input name="password" id="password" size="30" type="password" required />
+            </div>
 
-    <p>
-        <button type="submit">Se connecter</button>
+            <div class="form-row buttons">
+                <button type="submit">Se connecter</button>
+            </div>
+        </form>
+    </div>
 
-    </p>
-</form>
+
+
 
 <script type="text/javascript">
     function displayRightForm() {

@@ -1,200 +1,340 @@
-header {
-	position: absolute;
-	left:0;
-	top: 0;
-	height: 129px;
-	width: 100%;
-	background: #cd1531 url('../img/logo.png') no-repeat right;
-}
-
+/* === Global === */
 body {
-	margin: 0;
-	padding: 0;
-    font-family: "Lucida Grande", Tahoma, Verdana, Arial, sans-sherif, serif;
-	font-size: 11px;
-	color: #000333;
-}
-
-body#loginPage section#content {
-	position: absolute;
-	top: 150px;
-	left: 50%;
-	width: 500px;
-	margin: 0 0 0 -250px;
-	padding: 0;
-}
-
-body#welcomePage#add_studentPage section#content {
-	padding-top: 200px;
-	margin-top: 200px;
-}
-
-
-form label {
-	display: block;
-	width: 150px;
-	float: left;
-	text-align: right;
-	padding: 4px 10px 0 0;
-	
-}
-form input[type="email"], form input[type="text"],
-form input[type="password"]{
-	display: block;
-	width: 250px;
-	padding: 2px;
+  margin: 0;
+  padding: 0;
+  font-family: "Lucida Grande", Tahoma, Verdana, Arial, sans-serif;
+  font-size: 14px;
+  color: #000333;
+  background-color: #fafafa;
+  line-height: 1.5;
 }
 
 a {
-	display: block;
-  	margin-bottom: 10px;
-	color: #cd1531;
-	margin-left: 50px;
-	font-size: 150%;
+  display: inline-block;
+  margin-bottom: 10px;
+  color: #cd1531;
+  font-size: 1.25rem;
+  text-decoration: none;
+  transition: font-size 0.3s ease, color 0.3s ease;
+  margin-left: 50px;
 }
 
 a:hover {
-  font-size: 200%;
+  font-size: 1.5rem;
+  color: #a30f25;
+  text-decoration: underline;
 }
 
-
-form p.error {
-	margin-left: 160px;
-	color: #d23d24
-}
-
-input[name="csrfmiddlewaretoken"] {
-    display: none;
-}
-
-h1 {
-	padding-top: 200px;
-	margin-left: 50px;
-	font-size: 35px;
-}
-
-.admin-header {
-    background-color: #cd1531; /* optionnel, pour faire ressortir le blanc */
-    padding: 10px;
+/* === Header === */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 130px;
+  width: 100%;
+  background: #cd1531 url('../img/logo.png') no-repeat right 20px center;
+  color: white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 20px;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .welcome-header .user-info,
 .welcome-header .date-time {
-    display: flex;
-    align-items: center;
-	color: white;
-    font-weight: bold;
-	font-family: 'Montserrat', sans-serif;
-	font-size: 1.3rem;
-	margin-left: 20px;
-	margin-top: 20px;
+  font-weight: 700;
+  font-size: 1.3rem;
+  margin: 0;
+  line-height: 1.4;
 }
 
-
-.sort {
-	display: inline;
+/* === Page Title === */
+h1 {
+  margin: 160px 0 30px 50px; /* en dessous du header */
+  font-size: 2.2rem;
+  color: #333;
+  font-weight: 700;
 }
 
-/* Style de base pour le tableau */
-table {
-  width: 90%;                /* occupe toute la largeur du conteneur */
-  border-collapse: collapse;  /* fusionne les bordures pour un aspect net */
-  margin: 20px 0;             /* espacement vertical autour du tableau */
+/* === Filters === */
+#filters {
+  margin: 0 50px 30px 50px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: center;
+  font-weight: 600;
+  color: #444;
+}
+
+#filters label {
+  margin-right: 8px;
+  white-space: nowrap;
+}
+
+#filters select {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  min-width: 150px;
+  background-color: white;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+#filters select:hover,
+#filters select:focus {
+  border-color: #cd1531;
+  outline: none;
+}
+
+/* === Table Styles === */
+table#registrationTable {
+  width: 90%;
+  margin: 0 auto 50px auto;
+  border-collapse: collapse;
   font-family: Arial, sans-serif;
-  font-size: 17px;
+  font-size: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  background: white;
 }
 
-/* Style pour les cellules d'en-tête */
 thead th {
-  background-color: #f2f2f2;  /* couleur de fond douce pour l'en-tête */
-  color: #333;                /* couleur de texte sombre pour un bon contraste */
-  padding: 12px 8px;          /* espacement interne pour une meilleure lisibilité */
-  border: 1px solid #ddd;     /* bordure légère autour des cellules */
+  background-color: #cd1531;
+  color: white;
+  padding: 12px 15px;
   text-align: left;
+  border-bottom: 2px solid #a10f27;
+  user-select: none;
 }
 
-/* Style pour les cellules du corps de tableau */
 tbody td {
-  padding: 10px 8px;
-  border: 1px solid #ddd;
+  padding: 12px 15px;
+  border-bottom: 1px solid #eee;
+  vertical-align: middle;
 }
 
-/* Alternance des couleurs pour les lignes du corps */
 tbody tr:nth-child(odd) {
   background-color: #fff;
 }
 
 tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
+  background-color: #fafafa;
 }
 
-/* Effet survol pour les lignes */
 tbody tr:hover {
   background-color: #f1f1f1;
+  cursor: pointer;
 }
 
-/* Gestion du cas sans données */
 tbody tr:last-child td[colspan] {
   text-align: center;
   font-style: italic;
   color: #777;
+  padding: 20px 0;
+}
+
+/* === Form and Inputs === */
+form label {
+  display: block;
+  width: 150px;
+  float: left;
+  text-align: right;
+  padding: 4px 10px 0 0;
+  font-weight: 600;
+  color: #333;
+}
+
+form input[type="email"],
+form input[type="text"],
+form input[type="password"],
+.form-row select,
+.form-row input {
+  display: block;
+  width: 250px;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+form input[type="email"]:focus,
+form input[type="text"]:focus,
+form input[type="password"]:focus,
+.form-row select:focus,
+.form-row input:focus {
+  border-color: #cd1531;
+  outline: none;
 }
 
 .error-input {
-        border: 2px solid red;
-        background-color: #ffe6e6;
-    }
-#email-error {
-	color: red;
-	font-size: 0.9em;
-	margin-top: 5px;
-}
-#matricule-error-teacher,
-#matricule-error-educator,
-#matricule-error-administrator {
-	color: red;
-	font-size: 0.9em;
-	margin-top: 5px;
+  border: 2px solid red !important;
+  background-color: #ffe6e6 !important;
 }
 
+form p.error {
+  margin-left: 160px;
+  color: #d23d24;
+  font-weight: 600;
+  margin-top: 5px;
+}
+
+/* === Form Box & Buttons === */
 .form-box {
-    max-width: 500px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background: #f9f9f9;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .form-row {
-    display: flex;
-    align-items: center;
-    margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
 }
 
 .form-row label {
-    width: 140px;
-    font-weight: bold;
+  width: 140px;
+  font-weight: bold;
+  color: #333;
 }
 
 .form-row select,
 .form-row input,
 .form-row button {
-    flex: 1;
-    padding: 0.5rem;
-    border-radius: 4px;
-    border: 1px solid #ccc;
+  flex: 1;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.form-row.buttons {
+  justify-content: flex-end;
+  margin-top: 2rem;
 }
 
 .form-row button {
-    background-color: #007bff;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    border: none;
-    transition: background 0.3s ease;
+  background: linear-gradient(to right, #cd1531, #a10f27);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 4px 8px rgba(205, 21, 49, 0.4);
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .form-row button:hover {
-    background-color: #0056b3;
+  background: linear-gradient(to right, #a10f27, #7a0b1a);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(161, 15, 39, 0.6);
+}
+
+.form-row button:active {
+  transform: scale(0.98);
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+  header {
+    height: auto;
+    padding: 10px 20px;
+    background-position: center right;
+  }
+
+  h1 {
+    margin: 150px 20px 20px 20px;
+    font-size: 1.8rem;
+  }
+
+  #filters {
+    margin: 0 20px 20px 20px;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  #filters label,
+  #filters select {
+    width: 100%;
+  }
+
+  table#registrationTable {
+    width: 100%;
+    font-size: 0.9rem;
+  }
+
+  .form-box {
+    padding: 1.5rem;
+  }
+
+  form label, .form-row label {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 6px;
+  }
+
+  .form-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+/* Centrage vertical et horizontal du conteneur formulaire */
+.form-container {
+  display: flex;
+  flex-direction: column;    /* colonne, titre au-dessus du formulaire */
+  justify-content: center;
+  align-items: center;       /* centre horizontalement */
+  min-height: calc(100vh - 130px);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.form-title {
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  color: #333;
+  /* width: 100%;  -- retirer cette ligne */
+  text-align: center;
+}
+
+/* Optionnel: limiter la largeur globale */
+.form-box {
+  width: 100%;
+  max-width: 400px;   /* par exemple */
+}
+
+/* Garder tes autres styles */
+.form-row {
+  margin-bottom: 1.5rem;
+}
+button {
+    background: linear-gradient(to right, #007bff, #0056b3);
+    color: white;
+    padding: 0.6rem 1.4rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+}
+
+button:hover {
+    background: linear-gradient(to right, #0056b3, #003f7f);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
+}
+
+button:active {
+    transform: scale(0.98);
 }
