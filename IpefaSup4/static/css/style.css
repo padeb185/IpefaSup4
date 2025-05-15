@@ -304,3 +304,9 @@ form p.error {
   padding: 4px;
   text-align: center; /* centre le nombre dans le champ */
 }
+
+.success-message {
+    color: green;
+    text-align: center;
+    font-weight: bold;
+}
