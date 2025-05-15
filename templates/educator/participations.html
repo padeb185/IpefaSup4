@@ -6,28 +6,35 @@
 {% block bodyId %}listParticipationUEPage{% endblock %}
 
 {% block content %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-    <header class="welcome-header">
-        <div class="user-info">
-            Bienvenue sur IpefaSup,  {{ logged_user.first_name }} {{ logged_user.last_name }}
-        </div>
-        <div class="date-time">
-            Nous sommes le {{ current_date_time }}
-        </div>
-    </header>
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+<header class="welcome-header">
+    <div class="user-info">
+        Bienvenue sur IpefaSup,  {{ logged_user.first_name }} {{ logged_user.last_name }}
+    </div>
+    <div class="date-time">
+        Nous sommes le {{ current_date_time }}
+    </div>
+</header>
 
-<h1>Participations - {{ academicue.wording }}</h1>
+<h1 class="page-title page-title-margin">Participations – {{ academicue.wording }}</h1>
 
 <!-- Barre de filtres -->
-<div id="filters">
-    <input type="text" id="filter-student" placeholder="Filtrer par étudiant">
-    <input type="text" id="filter-session" placeholder="Filtrer par session">
-    <input type="text" id="filter-ue" placeholder="Filtrer par UE">
-    <input type="text" id="filter-status" placeholder="Filtrer par statut">
+<div class="filters-container">
+    <label for="filter-student">Étudiant</label>
+    <input type="text" id="filter-student" class="filter-select" placeholder="Filtrer par étudiant">
+
+    <label for="filter-session">Session</label>
+    <input type="text" id="filter-session" class="filter-select" placeholder="Filtrer par session">
+
+    <label for="filter-ue">UE</label>
+    <input type="text" id="filter-ue" class="filter-select" placeholder="Filtrer par UE">
+
+    <label for="filter-status">Statut</label>
+    <input type="text" id="filter-status" class="filter-select" placeholder="Filtrer par statut">
 </div>
 
 <!-- Tableau des participations -->
-<table id="participations-table" border="1">
+<table id="participations-table" class="participation-table">
     <thead>
         <tr>
             <th>Étudiant</th>
@@ -53,33 +60,22 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
-        $('#filters input').on('keyup', function () {
+        $('#filters input, .filters-container input').on('keyup', function () {
             let student = $('#filter-student').val().toLowerCase();
             let session = $('#filter-session').val().toLowerCase();
             let ue = $('#filter-ue').val().toLowerCase();
             let status = $('#filter-status').val().toLowerCase();
 
-            $('#participations-table tbody tr').filter(function () {
+            $('#participations-table tbody tr').each(function () {
                 let row = $(this);
                 let matchesStudent = row.find('td:eq(0)').text().toLowerCase().includes(student);
                 let matchesSession = row.find('td:eq(1)').text().toLowerCase().includes(session);
                 let matchesUE = row.find('td:eq(2)').text().toLowerCase().includes(ue);
                 let matchesStatus = row.find('td:eq(3)').text().toLowerCase().includes(status);
 
-                return matchesStudent && matchesSession && matchesUE && matchesStatus;
-            }).show();
-
-            $('#participations-table tbody tr').filter(function () {
-                let row = $(this);
-                let matchesStudent = row.find('td:eq(0)').text().toLowerCase().includes(student);
-                let matchesSession = row.find('td:eq(1)').text().toLowerCase().includes(session);
-                let matchesUE = row.find('td:eq(2)').text().toLowerCase().includes(ue);
-                let matchesStatus = row.find('td:eq(3)').text().toLowerCase().includes(status);
-
-                return !(matchesStudent && matchesSession && matchesUE && matchesStatus);
-            }).hide();
+                row.toggle(matchesStudent && matchesSession && matchesUE && matchesStatus);
+            });
         });
     });
 </script>
 {% endblock %}
-
