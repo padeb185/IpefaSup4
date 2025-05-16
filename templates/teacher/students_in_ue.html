@@ -83,11 +83,17 @@
 {% endif %}
 
     <br>
-    <a href="{% url 'encode_results' academic_ue_id=academic_ue.idUE %}">Encoder les résultats</a>
-    <a href="{% url 'participations_in_ue' academic_ue_id=academic_ue.idUE %}">Encoder les participations </a>
-    <a href="{% url 'academicue_participations' academic_ue.idUE %}">Voir les participations</a>
+    <div class="action-buttons">
+        <a href="{% url 'encode_results' academic_ue_id=academic_ue.idUE %}" class="btn-red">Encoder les résultats</a>
+        <a href="{% url 'participations_in_ue' academic_ue_id=academic_ue.idUE %}" class="btn-red">Encoder les participations </a>
+        <a href="{% url 'academicue_participations' academic_ue.idUE %}" class="btn-red">Voir les participations</a>
+    </div>
 
-
+    <br>
+    <br>
+    <div class="action-buttons">
+        <a href="{% url 'academic_ue_for_teacher' %}" class="btn-red">Retour</a>
+    </div>
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

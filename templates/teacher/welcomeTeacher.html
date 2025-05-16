@@ -18,10 +18,16 @@
 
 
     <h1>IpefaSup - Professeur</h1>
+    <div class="action-buttons">
+        <a href="{% url 'teacher_academic_ues' %}" class="btn-red">lister mes cours</a>
+        <a href="{% url 'academic_ue_for_teacher' %}" class="btn-red">lister mes unités académiques</a>
+    </div>
 
-    <a href="{% url 'teacher_academic_ues' %}">lister mes cours</a>
-    <a href="{% url 'academic_ue_for_teacher' %}">lister mes unités académiques</a>
-
+    <br>
+    <br>
+    <div class="action-buttons">
+        <a href="{% url 'login' %}" class="btn-red">Quitter</a>
+    </div>
 
 
 

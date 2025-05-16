@@ -74,11 +74,13 @@
     <button type="submit" class="btn-submit">Enregistrer les modifications</button>
 </form>
 
-<p class="back-link">
-    <a href="{% url 'students_in_academic_ue' academic_ue_id=academic_ue.idUE %}">
+<div class="action-buttons">
+      <a href="{% url 'students_in_academic_ue' academic_ue_id=academic_ue.idUE %}" class="btn-red">
         ← Retour à la liste des étudiants pour {{ academic_ue.wording }} ({{ academic_ue.academicYear }}, Cycle {{ academic_ue.yearCycle }})
     </a>
-</p>
+</div>
+
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {

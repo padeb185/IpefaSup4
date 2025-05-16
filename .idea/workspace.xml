@@ -6,7 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="filter">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IpefaSup4/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/teacher/academic_ues_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/teacher/academic_ues_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/teacher/encode_results.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/teacher/encode_results.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/teacher/participations_in_ue.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/teacher/participations_in_ue.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/teacher/students_in_ue.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/teacher/students_in_ue.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/teacher/teacher_academic_ues.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/teacher/teacher_academic_ues.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/teacher/teacher_participations.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/teacher/teacher_participations.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/teacher/welcomeTeacher.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/teacher/welcomeTeacher.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -200,15 +206,8 @@
       <workItem from="1747401227570" duration="496000" />
       <workItem from="1747401962678" duration="430000" />
       <workItem from="1747403135071" duration="698000" />
-      <workItem from="1747403862825" duration="77000" />
-    </task>
-    <task id="LOCAL-00078" summary="extends">
-      <option name="closed" value="true" />
-      <created>1747059823355</created>
-      <option name="number" value="00078" />
-      <option name="presentableId" value="LOCAL-00078" />
-      <option name="project" value="LOCAL" />
-      <updated>1747059823355</updated>
+      <workItem from="1747403862825" duration="225000" />
+      <workItem from="1747410413151" duration="1348000" />
     </task>
     <task id="LOCAL-00079" summary="style">
       <option name="closed" value="true" />
@@ -594,7 +593,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747403837687</updated>
     </task>
-    <option name="localTasksCounter" value="127" />
+    <task id="LOCAL-00127" summary="filter">
+      <option name="closed" value="true" />
+      <created>1747403955925</created>
+      <option name="number" value="00127" />
+      <option name="presentableId" value="LOCAL-00127" />
+      <option name="project" value="LOCAL" />
+      <updated>1747403955925</updated>
+    </task>
+    <option name="localTasksCounter" value="128" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
