@@ -18,7 +18,7 @@
 
   <h1>Liste des Inscriptions pour la Section {{ section.wording }}</h1>
     <div class="action-buttons">
-        <a href="{% url 'add_registration' section.id %}" class="btn-red">Ajouter une inscription</a>
+       <a href="{% url 'add_registration' section_id=section.id %}" class="btn-red">Ajouter une inscription</a>
         <a href="{% url 'add_registrations_by_cycle' section.id %}" class="btn-red">Ajouter inscriptions par cycle</a>
         <a href="{% url 'list_approved_students' %}" class="btn-red">Lister les UEs approuvées</a>
     </div>

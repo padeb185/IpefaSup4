@@ -6,6 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="style">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IpefaSup4/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/educator/add_registration.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/educator/add_registration.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/educator/registration_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/educator/registration_list.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +37,7 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/padeb185/IpefaSup4&quot;,
+    &quot;url&quot;: &quot;https://github.com/padeb185/IpefaSup4.git&quot;,
     &quot;accountId&quot;: &quot;6d78cb33-1960-4161-94e4-6eb5835d8363&quot;
   }
 }</component>
@@ -194,14 +197,8 @@
       <workItem from="1747319028305" duration="5632000" />
       <workItem from="1747393173857" duration="293000" />
       <workItem from="1747394936528" duration="114000" />
-    </task>
-    <task id="LOCAL-00071" summary="participation filter">
-      <option name="closed" value="true" />
-      <created>1746614138715</created>
-      <option name="number" value="00071" />
-      <option name="presentableId" value="LOCAL-00071" />
-      <option name="project" value="LOCAL" />
-      <updated>1746614138715</updated>
+      <workItem from="1747395082790" duration="460000" />
+      <workItem from="1747395831159" duration="2750000" />
     </task>
     <task id="LOCAL-00072" summary="extends">
       <option name="closed" value="true" />
@@ -587,7 +584,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747393372357</updated>
     </task>
-    <option name="localTasksCounter" value="120" />
+    <task id="LOCAL-00120" summary="style">
+      <option name="closed" value="true" />
+      <created>1747395105340</created>
+      <option name="number" value="00120" />
+      <option name="presentableId" value="LOCAL-00120" />
+      <option name="project" value="LOCAL" />
+      <updated>1747395105340</updated>
+    </task>
+    <option name="localTasksCounter" value="121" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

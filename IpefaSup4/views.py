@@ -1,4 +1,6 @@
 from datetime import datetime
+from urllib import request
+
 from django.contrib import messages
 from django.contrib.auth.hashers import check_password
 from django.http import JsonResponse
@@ -1036,44 +1038,81 @@ def registration_list(request, section_id):
 
 
 
-def add_registration(request, section_id, registration_id=None):
+
+
+def add_registration(request, section_id):
     logged_user = get_logged_user_from_request(request)
-    if logged_user:
-        if logged_user.person_type in ('educateur', 'administrateur'):
-
-            section = get_object_or_404(Section, pk=section_id)
-            academic_ues = AcademicUE.objects.filter(section=section)
-
-            registration = None
-            if registration_id:
-                registration = get_object_or_404(Registration, pk=registration_id)
-
-            if request.method == 'POST':
-                form = AddRegistrationForm(request.POST, instance=registration)
-
-                if form.is_valid():
-                    registration = form.save()
-                    return redirect('registration_list', section_id=section.id)
-            else:
-                form = AddRegistrationForm(instance=registration)
-
-            # Restreindre dynamiquement le queryset de academic_ue aux UE de la section
-            form.fields['academic_ue'].queryset = academic_ues
-
-            return render(request, 'educator/add_registration.html', {
-                'form': form,
-                'registration': registration,
-                'section': section,
-                'section_id': section_id,
-                'logged_user': logged_user,
-                'current_date_time': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            })
-        else:
-            return redirect('login')
-    else:
+    if not logged_user or logged_user.person_type not in ('educateur', 'administrateur'):
         return redirect('login')
 
+    section = get_object_or_404(Section, id=section_id)
 
+    if request.method == 'POST':
+        student_id = request.POST.get('student')
+        ue_id = request.POST.get('academic_ue')
+
+        student = get_object_or_404(Student, id=student_id)
+        academic_ue = get_object_or_404(AcademicUE, id=ue_id)
+
+        # Vérifie les prérequis
+        prerequisites = academic_ue.prerequisites.all()
+        all_prerequisites_passed = True
+        for prereq in prerequisites:
+            try:
+                reg = Registration.objects.get(student=student, academic_ue=prereq)
+                if not reg.approved or reg.status != "AP":
+                    all_prerequisites_passed = False
+                    break
+            except Registration.DoesNotExist:
+                all_prerequisites_passed = False
+                break
+
+        if all_prerequisites_passed or not prerequisites.exists():
+            registration, created = Registration.objects.get_or_create(
+                student=student,
+                academic_ue=academic_ue,
+                defaults={
+                    'approved': True,
+                    'status': "AP",
+                    'result': None
+                }
+            )
+            if created:
+                messages.success(request, "L'inscription a été ajoutée avec succès.")
+            else:
+                messages.info(request, "L'étudiant est déjà inscrit à cette UE.")
+        else:
+            messages.error(request, "Les prérequis ne sont pas remplis.")
+
+        return redirect('add_registration', section_id=section.id)
+
+    students = Student.objects.all()
+    academic_ues = AcademicUE.objects.filter(section=section)
+
+    return render(request, 'educator/add_registration.html', {
+        'students': students,
+        'academic_ues': academic_ues,
+        'section': section
+    })
+
+
+def add_registration_view(request):
+    if request.method == 'POST':
+        student_id = request.POST.get('student')
+        ue_id = request.POST.get('academic_ue')
+        student = Student.objects.get(id=student_id)
+        academic_ue = AcademicUE.objects.get(id=ue_id)
+        add_registration(request, student, academic_ue)
+        return redirect('success_url')  # Remplace par l’URL vers laquelle tu veux rediriger
+
+    students = Student.objects.all()
+    academic_ues = AcademicUE.objects.all()
+    return render(request, 'educator/add_registration.html', {
+            'students': students,
+            'academic_ues': academic_ues
+    })
+
+    # Redirection ou retour après traitement
 
 def add_registrations_by_cycle(request, section_id):
     logged_user = get_logged_user_from_request(request)

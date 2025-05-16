@@ -1,33 +1,45 @@
 {% extends 'base.html' %}
-{% load static %}
-
-{% block title %}Ajout d'une Registration{% endblock %}
-
-{% block bodyId %}addRegistrationPage{% endblock %}
 
 {% block content %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-    <header class="welcome-header">
-        <div class="user-info">
-            Bienvenue sur IpefaSup,  {{ logged_user.first_name }} {{ logged_user.last_name }}
-        </div>
-        <div class="date-time">
-            Nous sommes le {{ current_date_time }}
-        </div>
-    </header>
+  <div class="form-container">
+    <h1 class="form-title">Ajouter une inscription</h1>
 
-  <h1>{% if registration %}Modifier{% else %}Ajouter{% endif %} une inscription</h1>
+  {% if messages %}
+    {% for message in messages %}
+        <p class="alert {{ message.tags }}">{{ message }}</p>
+    {% endfor %}
+  {% endif %}
 
-   <form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
+    <form method="post">
+      {% csrf_token %}
 
-  <button type="submit">
-    {% if registration %}Mettre à jour{% else %}Ajouter{% endif %}
-  </button>
-</form>
+      <div class="form-row">
+        <label for="student">Étudiant :</label>
+        <select name="student" id="student" required>
+          {% for student in students %}
+            <option value="{{ student.id }}">{{ student.first_name }} {{ student.last_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
 
-<p><a href="{% url 'registration_list' section_id %}">Retour à la liste des inscriptions</a></p>
+      <div class="form-row">
+        <label for="academic_ue">Unité d'enseignement :</label>
+        <select name="academic_ue" id="academic_ue" required>
+          {% for ue in academic_ues %}
+            <option value="{{ ue.id }}">{{ ue.wording }}</option>
+          {% endfor %}
+        </select>
+      </div>
 
+      <div class="form-row buttons">
+        <button type="submit">Ajouter</button>
+      </div>
+    </form>
+  </div>
+    <br>
+    <br>
+   <div class="action-buttons">
+    <a href="{% url 'registration_list' section.id %}" class="btn-red">⬅ Retour à la liste des inscriptions</a>
+</div>
 
 {% endblock %}
