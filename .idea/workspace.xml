@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="filter">
+    <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="button">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IpefaSup4/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/educator/manage_participations_in_ue.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/educator/manage_participations_in_ue.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/teacher/list_students.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/teacher/list_students.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/educator/ue_details.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/educator/ue_details.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/educator/welcomeEducator.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/educator/welcomeEducator.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -201,15 +204,7 @@
       <workItem from="1747401962678" duration="430000" />
       <workItem from="1747403135071" duration="698000" />
       <workItem from="1747403862825" duration="225000" />
-      <workItem from="1747410413151" duration="1676000" />
-    </task>
-    <task id="LOCAL-00080" summary="style">
-      <option name="closed" value="true" />
-      <created>1747060640891</created>
-      <option name="number" value="00080" />
-      <option name="presentableId" value="LOCAL-00080" />
-      <option name="project" value="LOCAL" />
-      <updated>1747060640891</updated>
+      <workItem from="1747410413151" duration="4245000" />
     </task>
     <task id="LOCAL-00081" summary="style">
       <option name="closed" value="true" />
@@ -595,7 +590,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747411957438</updated>
     </task>
-    <option name="localTasksCounter" value="129" />
+    <task id="LOCAL-00129" summary="button">
+      <option name="closed" value="true" />
+      <created>1747412594635</created>
+      <option name="number" value="00129" />
+      <option name="presentableId" value="LOCAL-00129" />
+      <option name="project" value="LOCAL" />
+      <updated>1747412594635</updated>
+    </task>
+    <option name="localTasksCounter" value="130" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -613,7 +616,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add registration" />
     <MESSAGE value="add participation" />
     <MESSAGE value="add section" />
     <MESSAGE value="student form" />
@@ -638,7 +640,8 @@
     <MESSAGE value="check studentMail" />
     <MESSAGE value="style" />
     <MESSAGE value="filter" />
-    <option name="LAST_COMMIT_MESSAGE" value="filter" />
+    <MESSAGE value="button" />
+    <option name="LAST_COMMIT_MESSAGE" value="button" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

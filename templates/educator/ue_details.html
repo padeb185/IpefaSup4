@@ -74,6 +74,10 @@
 
 <div class="action-buttons">
     <a href="{% url 'manage_sessions' ue.idUE %}" class="btn-red">Gérer les sessions de cette UE</a>
-    <a href="{% url 'ues_by_section' ue.section.id %}" class="btn-red">Retour à la liste des UEs de la section</a>
+     <a href="{% url 'manage_participations_in_ue' ue.id %}" class="btn-red">Gérer les participations</a>
+    <br>
+    <br>
+    <a href="{% url 'ues_by_section' ue.section.id %}" class="btn-red">Retour à la liste des UEs</a>
+
 </div>
 {% endblock %}

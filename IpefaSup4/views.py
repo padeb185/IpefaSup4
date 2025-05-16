@@ -950,7 +950,8 @@ def manage_participations_in_ue(request, academic_ue_id):
                 'status_choices': [choice for choice in Participation._meta.get_field('status').choices if choice[0] in allowed_statuses],
                 'students': all_students,
                 'logged_user': logged_user,
-                'current_date_time': datetime.now
+                'current_date_time': datetime.now,
+                'ue': academic_ue,
             })
         else:
             return redirect('login')
@@ -1084,6 +1085,19 @@ def add_registration(request, section_id):
                                 'result': None
                             }
                         )
+                        if all_prerequisites_passed or not prerequisites.exists():
+                            # Récupère toutes les sessions de cette UE
+                            total_sessions = academic_ue.sessions.count()
+                            if total_sessions > 0:
+                                sessions_with_participation = Participation.objects.filter(
+                                    session__in=academic_ue.sessions.all()
+                                ).exclude(status__isnull=True).distinct().count()
+
+                                ratio = sessions_with_participation / total_sessions
+                                if ratio >= 0.4:
+                                    messages.error(request,
+                                                   "Il est trop tard pour s'inscrire : plus de 40% des sessions ont déjà eu lieu.")
+
                         if created:
                             messages.success(request, "L'inscription a été ajoutée avec succès.")
                             selected_student_id = None
