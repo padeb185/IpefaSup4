@@ -1046,15 +1046,19 @@ def add_registration(request, section_id):
         if logged_user.person_type in ('educateur', 'administrateur'):
 
             section = get_object_or_404(Section, id=section_id)
+            students = Student.objects.all()
+            academic_ues = AcademicUE.objects.filter(section=section)
+
+            selected_student_id = None
+            selected_ue_id = None
 
             if request.method == 'POST':
-                student_id = request.POST.get('student')
-                ue_id = request.POST.get('academic_ue')
+                selected_student_id = request.POST.get('student')
+                selected_ue_id = request.POST.get('academic_ue')
 
-                student = get_object_or_404(Student, id=student_id)
-                academic_ue = get_object_or_404(AcademicUE, id=ue_id)
+                student = get_object_or_404(Student, id=selected_student_id)
+                academic_ue = get_object_or_404(AcademicUE, id=selected_ue_id)
 
-                # Vérifie les prérequis
                 prerequisites = academic_ue.prerequisites.all()
                 all_prerequisites_passed = True
                 for prereq in prerequisites:
@@ -1079,20 +1083,20 @@ def add_registration(request, section_id):
                     )
                     if created:
                         messages.success(request, "L'inscription a été ajoutée avec succès.")
+                        # Optionnel : reset sélection après succès
+                        selected_student_id = None
+                        selected_ue_id = None
                     else:
                         messages.info(request, "L'étudiant est déjà inscrit à cette UE.")
                 else:
                     messages.error(request, "Les prérequis ne sont pas remplis.")
 
-                return redirect('add_registration', section_id=section.id)
-
-            students = Student.objects.all()
-            academic_ues = AcademicUE.objects.filter(section=section)
-
             return render(request, 'educator/add_registration.html', {
                 'students': students,
                 'academic_ues': academic_ues,
-                'section': section
+                'section': section,
+                'selected_student_id': selected_student_id,
+                'selected_ue_id': selected_ue_id,
             })
         else:
             return redirect('login')
