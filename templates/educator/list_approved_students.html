@@ -6,11 +6,11 @@
   <table id="registrationTable" border="1">
     <thead>
       <tr>
-        <th><input type="text" placeholder="Filtrer par étudiant"></th>
-        <th><input type="text" placeholder="Filtrer par UE"></th>
-        <th><input type="text" placeholder="Filtrer par note"></th>
-        <th><input type="text" placeholder="Filtrer par statut"></th>
-        <th><input type="text" placeholder="Filtrer par approbation"></th>
+        <th><input type="text" class="filter-input" placeholder="Filtrer par étudiant"></th>
+        <th><input type="text" class="filter-input" placeholder="Filtrer par UE"></th>
+        <th><input type="text" class="filter-input" placeholder="Filtrer par note"></th>
+        <th><input type="text" class="filter-input" placeholder="Filtrer par statut"></th>
+        <th><input type="text" class="filter-input" placeholder="Filtrer par approbation"></th>
       </tr>
       <tr>
         <th>Étudiant</th>
@@ -48,26 +48,26 @@
       {% endfor %}
     </tbody>
   </table>
-{% endblock %}
 
-{% block scripts %}
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script>
     $(document).ready(function() {
-      // À chaque frappe dans un input du thead
-      $('#registrationTable thead input').on('keyup', function() {
-        let $inputs = $('#registrationTable thead input');
+      console.log("Script chargé");  // Test de présence
+
+      // Écoute les entrées de chaque champ de filtre
+      $('.filter-input').on('keyup', function() {
+        const $inputs = $('.filter-input');
 
         $('#registrationTable tbody tr').each(function() {
           let show = true;
 
           $(this).find('td').each(function(index) {
-            let filterText = $inputs.eq(index).val().toLowerCase();
-            let cellText = $(this).text().toLowerCase();
+            const filterText = $inputs.eq(index).val().toLowerCase().trim();
+            const cellText = $(this).text().toLowerCase();
 
             if (filterText && !cellText.includes(filterText)) {
               show = false;
-              return false; // stop la boucle des td pour cette ligne
+              return false; // stop boucle td
             }
           });
 
