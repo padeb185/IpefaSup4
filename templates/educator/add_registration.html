@@ -11,30 +11,35 @@
   {% endif %}
 
     <form method="post">
-      {% csrf_token %}
+    {% csrf_token %}
 
-      <div class="form-row">
-        <label for="student">Étudiant :</label>
-        <select name="student" id="student" required>
-          {% for student in students %}
-            <option value="{{ student.id }}">{{ student.first_name }} {{ student.last_name }}</option>
-          {% endfor %}
-        </select>
-      </div>
+    <label for="student">Étudiant :</label>
+    <select name="student" id="student" required>
+        <option value="">-- Choisir un étudiant --</option>
+        {% for student in students %}
+            <option value="{{ student.id }}" {% if student.id|stringformat:"s" == selected_student_id %}selected{% endif %}>
+                {{ student.first_name }} {{ student.last_name }}
+            </option>
+        {% endfor %}
+    </select>
+    <br>
+    <br>
+    <br>
+    <label for="academic_ue">UE académique :</label>
+    <select name="academic_ue" id="academic_ue" required>
+        <option value="">-- Choisir une UE --</option>
+        {% for ue in academic_ues %}
+            <option value="{{ ue.id }}" {% if ue.id|stringformat:"s" == selected_ue_id %}selected{% endif %}>
+                {{ ue.wording }}
+            </option>
+        {% endfor %}
+    </select>
+    <br>
+    <br>
+    <br>
+    <button type="submit">Ajouter</button>
+</form>
 
-      <div class="form-row">
-        <label for="academic_ue">Unité d'enseignement :</label>
-        <select name="academic_ue" id="academic_ue" required>
-          {% for ue in academic_ues %}
-            <option value="{{ ue.id }}">{{ ue.wording }}</option>
-          {% endfor %}
-        </select>
-      </div>
-
-      <div class="form-row buttons">
-        <button type="submit">Ajouter</button>
-      </div>
-    </form>
   </div>
     <br>
     <br>
