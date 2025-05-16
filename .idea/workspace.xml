@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="style" />
+    <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="style">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IpefaSup4/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/views.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -190,22 +193,7 @@
       <workItem from="1747304137860" duration="5369000" />
       <workItem from="1747317623608" duration="15000" />
       <workItem from="1747319028305" duration="5632000" />
-    </task>
-    <task id="LOCAL-00069" summary="registration filter">
-      <option name="closed" value="true" />
-      <created>1746611779410</created>
-      <option name="number" value="00069" />
-      <option name="presentableId" value="LOCAL-00069" />
-      <option name="project" value="LOCAL" />
-      <updated>1746611779410</updated>
-    </task>
-    <task id="LOCAL-00070" summary="participation filter">
-      <option name="closed" value="true" />
-      <created>1746611952327</created>
-      <option name="number" value="00070" />
-      <option name="presentableId" value="LOCAL-00070" />
-      <option name="project" value="LOCAL" />
-      <updated>1746611952327</updated>
+      <workItem from="1747393173857" duration="293000" />
     </task>
     <task id="LOCAL-00071" summary="participation filter">
       <option name="closed" value="true" />
@@ -583,7 +571,23 @@
       <option name="project" value="LOCAL" />
       <updated>1747324672854</updated>
     </task>
-    <option name="localTasksCounter" value="118" />
+    <task id="LOCAL-00118" summary="style">
+      <option name="closed" value="true" />
+      <created>1747393204877</created>
+      <option name="number" value="00118" />
+      <option name="presentableId" value="LOCAL-00118" />
+      <option name="project" value="LOCAL" />
+      <updated>1747393204879</updated>
+    </task>
+    <task id="LOCAL-00119" summary="style">
+      <option name="closed" value="true" />
+      <created>1747393372357</created>
+      <option name="number" value="00119" />
+      <option name="presentableId" value="LOCAL-00119" />
+      <option name="project" value="LOCAL" />
+      <updated>1747393372357</updated>
+    </task>
+    <option name="localTasksCounter" value="120" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

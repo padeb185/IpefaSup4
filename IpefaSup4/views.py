@@ -1209,6 +1209,8 @@ def approve_result_view(request, registration_id):
 
             return render(request, 'educator/approve_result.html', {
                 'form': form,
+                'logged_user': logged_user,
+                'current_date_time': datetime.now,
                 'registration': registration,
                 'student_name': student_name,
                 'academic_ue_name': academic_ue_name,
@@ -1235,7 +1237,9 @@ def list_approved_students(request):
             ).select_related('student', 'academic_ue')
 
             return render(request, 'educator/list_approved_students.html', {
-                'registrations': registrations
+                'registrations': registrations,
+                'logged_user': logged_user,
+                'current_date_time': datetime.now,
             })
         else:
             return redirect('login')
