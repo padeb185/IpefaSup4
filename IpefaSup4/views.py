@@ -1042,58 +1042,62 @@ def registration_list(request, section_id):
 
 def add_registration(request, section_id):
     logged_user = get_logged_user_from_request(request)
-    if not logged_user or logged_user.person_type not in ('educateur', 'administrateur'):
-        return redirect('login')
+    if logged_user:
+        if logged_user.person_type in ('educateur', 'administrateur'):
 
-    section = get_object_or_404(Section, id=section_id)
+            section = get_object_or_404(Section, id=section_id)
 
-    if request.method == 'POST':
-        student_id = request.POST.get('student')
-        ue_id = request.POST.get('academic_ue')
+            if request.method == 'POST':
+                student_id = request.POST.get('student')
+                ue_id = request.POST.get('academic_ue')
 
-        student = get_object_or_404(Student, id=student_id)
-        academic_ue = get_object_or_404(AcademicUE, id=ue_id)
+                student = get_object_or_404(Student, id=student_id)
+                academic_ue = get_object_or_404(AcademicUE, id=ue_id)
 
-        # Vérifie les prérequis
-        prerequisites = academic_ue.prerequisites.all()
-        all_prerequisites_passed = True
-        for prereq in prerequisites:
-            try:
-                reg = Registration.objects.get(student=student, academic_ue=prereq)
-                if not reg.approved or reg.status != "AP":
-                    all_prerequisites_passed = False
-                    break
-            except Registration.DoesNotExist:
-                all_prerequisites_passed = False
-                break
+                # Vérifie les prérequis
+                prerequisites = academic_ue.prerequisites.all()
+                all_prerequisites_passed = True
+                for prereq in prerequisites:
+                    try:
+                        reg = Registration.objects.get(student=student, academic_ue=prereq)
+                        if not reg.approved or reg.status != "AP":
+                            all_prerequisites_passed = False
+                            break
+                    except Registration.DoesNotExist:
+                        all_prerequisites_passed = False
+                        break
 
-        if all_prerequisites_passed or not prerequisites.exists():
-            registration, created = Registration.objects.get_or_create(
-                student=student,
-                academic_ue=academic_ue,
-                defaults={
-                    'approved': True,
-                    'status': "AP",
-                    'result': None
-                }
-            )
-            if created:
-                messages.success(request, "L'inscription a été ajoutée avec succès.")
-            else:
-                messages.info(request, "L'étudiant est déjà inscrit à cette UE.")
+                if all_prerequisites_passed or not prerequisites.exists():
+                    registration, created = Registration.objects.get_or_create(
+                        student=student,
+                        academic_ue=academic_ue,
+                        defaults={
+                            'approved': False,
+                            'status': "NP",
+                            'result': None
+                        }
+                    )
+                    if created:
+                        messages.success(request, "L'inscription a été ajoutée avec succès.")
+                    else:
+                        messages.info(request, "L'étudiant est déjà inscrit à cette UE.")
+                else:
+                    messages.error(request, "Les prérequis ne sont pas remplis.")
+
+                return redirect('add_registration', section_id=section.id)
+
+            students = Student.objects.all()
+            academic_ues = AcademicUE.objects.filter(section=section)
+
+            return render(request, 'educator/add_registration.html', {
+                'students': students,
+                'academic_ues': academic_ues,
+                'section': section
+            })
         else:
-            messages.error(request, "Les prérequis ne sont pas remplis.")
-
-        return redirect('add_registration', section_id=section.id)
-
-    students = Student.objects.all()
-    academic_ues = AcademicUE.objects.filter(section=section)
-
-    return render(request, 'educator/add_registration.html', {
-        'students': students,
-        'academic_ues': academic_ues,
-        'section': section
-    })
+            return redirect('login')
+    else:
+        return redirect('login')
 
 
 def add_registration_view(request):

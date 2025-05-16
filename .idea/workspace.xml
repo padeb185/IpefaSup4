@@ -7,8 +7,7 @@
     <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="style">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/IpefaSup4/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/educator/add_registration.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/educator/add_registration.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/educator/registration_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/educator/registration_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/educator/list_approved_students.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/educator/list_approved_students.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -198,15 +197,7 @@
       <workItem from="1747393173857" duration="293000" />
       <workItem from="1747394936528" duration="114000" />
       <workItem from="1747395082790" duration="460000" />
-      <workItem from="1747395831159" duration="2750000" />
-    </task>
-    <task id="LOCAL-00072" summary="extends">
-      <option name="closed" value="true" />
-      <created>1746700537869</created>
-      <option name="number" value="00072" />
-      <option name="presentableId" value="LOCAL-00072" />
-      <option name="project" value="LOCAL" />
-      <updated>1746700537869</updated>
+      <workItem from="1747395831159" duration="3867000" />
     </task>
     <task id="LOCAL-00073" summary="extends">
       <option name="closed" value="true" />
@@ -592,7 +583,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747395105340</updated>
     </task>
-    <option name="localTasksCounter" value="121" />
+    <task id="LOCAL-00121" summary="style">
+      <option name="closed" value="true" />
+      <created>1747399838937</created>
+      <option name="number" value="00121" />
+      <option name="presentableId" value="LOCAL-00121" />
+      <option name="project" value="LOCAL" />
+      <updated>1747399838937</updated>
+    </task>
+    <option name="localTasksCounter" value="122" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
