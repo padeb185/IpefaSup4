@@ -1191,7 +1191,7 @@ def check_matricule(request):
 def approve_result_view(request, registration_id):
     logged_user = get_logged_user_from_request(request)
     if logged_user:
-        if logged_user.person_type == 'educateur':
+        if logged_user.person_type in ('educateur', 'administrateur'):
             registration = get_object_or_404(Registration, id=registration_id)
 
             if request.method == 'POST':
@@ -1225,16 +1225,19 @@ from collections import defaultdict
 
 def list_approved_students(request):
     logged_user = get_logged_user_from_request(request)
+    if logged_user:
+        if logged_user.person_type in ( 'educateur', 'administrateur'):
 
-    if not logged_user or logged_user.person_type != 'educateur':
+            # Filtrer les inscriptions où l'étudiant a une UE avec status AP et approved True
+            registrations = Registration.objects.filter(
+                status='AP',
+                approved=True
+            ).select_related('student', 'academic_ue')
+
+            return render(request, 'educator/list_approved_students.html', {
+                'registrations': registrations
+            })
+        else:
+            return redirect('login')
+    else:
         return redirect('login')
-
-    # Filtrer les inscriptions où l'étudiant a une UE avec status AP et approved True
-    registrations = Registration.objects.filter(
-        status='AP',
-        approved=True
-    ).select_related('student', 'academic_ue')
-
-    return render(request, 'educator/list_approved_students.html', {
-        'registrations': registrations
-    })
