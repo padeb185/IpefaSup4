@@ -23,7 +23,7 @@
     <tbody>
       {% for reg in registrations %}
         <tr>
-          <td>{{ reg.student.first_name }} {{ reg.student.last_name }}</td>
+          <td>{{ reg.student.first_name }} {{ reg.student.last_name }} {{ reg.student.studentMail }}</td>
           <td>{{ reg.academic_ue.wording }}</td>
           <td>
             {% if reg.result is not None %}
