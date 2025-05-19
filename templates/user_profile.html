@@ -70,149 +70,154 @@
     </script>
 
     <script>
-        function getCookie(name) {
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== "") {
-                const cookies = document.cookie.split(';');
-                for (let cookie of cookies) {
-                    cookie = cookie.trim();
-                    if (cookie.startsWith(name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== "") {
+            const cookies = document.cookie.split(';');
+            for (let cookie of cookies) {
+                cookie = cookie.trim();
+                if (cookie.startsWith(name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
                 }
             }
-            return cookieValue;
+        }
+        return cookieValue;
+    }
+
+    const csrftoken = getCookie('csrftoken');
+    const checkStudentMailUrl = "{% url 'check_student_mail' %}";
+    const checkMatriculeUrl = "{% url 'check_matricule' %}";
+    const checkEmployeeEmailUrl = "{% url 'check_employee_email' %}";
+
+    // Sélection des éléments des formulaires
+    const emailInput = document.getElementById('studentMail');
+    const emailError = document.getElementById('email-error');
+
+    const matriculeInputs = {
+        'teacher': document.getElementById('matricule-teacher'),
+        'educator': document.getElementById('matricule-educator'),
+        'administrator': document.getElementById('matricule-administrator')
+    };
+
+    const matriculeErrors = {
+        'teacher': document.getElementById('matricule-error-teacher'),
+        'educator': document.getElementById('matricule-error-educator'),
+        'administrator': document.getElementById('matricule-error-administrator')
+    };
+
+    const employeeEmailInputs = {
+        'teacher': document.getElementById('employee_email-teacher'),
+        'educator': document.getElementById('employee_email-educator'),
+        'administrator': document.getElementById('employee_email-administrator')
+    };
+
+    const employeeEmailErrors = {
+        'teacher': document.getElementById('employee_email-error-teacher'),
+        'educator': document.getElementById('employee_email-error-educator'),
+        'administrator': document.getElementById('employee_email-error-administrator')
+    };
+
+    let emailValid = true;
+    let matriculeValid = {
+        'teacher': true,
+        'educator': true,
+        'administrator': true
+    };
+    let employeeEmailValid = {
+        'teacher': true,
+        'educator': true,
+        'administrator': true
+    };
+
+    // Vérification de l'email étudiant
+    emailInput.addEventListener('input', function () {
+        const studentMail = emailInput.value.trim();
+
+        if (!studentMail) {
+            emailError.textContent = "";
+            emailInput.classList.remove('error-input');
+            emailValid = true;
+            return;
         }
 
-        const csrftoken = getCookie('csrftoken');
-        const checkStudentMailUrl = "{% url 'check_student_mail' %}";
-        const checkMatriculeUrl = "{% url 'check_matricule' %}";
-        const checkEmployeeEmailUrl = "{% url 'check_employee_email' %}";
-
-        // Sélection des éléments des formulaires
-        const emailInput = document.getElementById('studentMail');
-        const emailError = document.getElementById('email-error');
-
-        const matriculeInputs = {
-            'teacher': document.getElementById('matricule-teacher'),
-            'educator': document.getElementById('matricule-educator'),
-            'administrator': document.getElementById('matricule-administrator')
-        };
-
-        const matriculeErrors = {
-            'teacher': document.getElementById('matricule-error-teacher'),
-            'educator': document.getElementById('matricule-error-educator'),
-            'administrator': document.getElementById('matricule-error-administrator')
-        };
-
-        const employeeEmailInputs = {
-            'teacher': document.getElementById('employee_email-teacher'),
-            'educator': document.getElementById('employee_email-educator'),
-            'administrator': document.getElementById('employee_email-administrator')
-        };
-
-        const employeeEmailErrors = {
-            'teacher': document.getElementById('employee_email-error-teacher'),
-            'educator': document.getElementById('employee_email-error-educator'),
-            'administrator': document.getElementById('employee_email-error-administrator')
-        };
-
-        let emailValid = true;
-        let matriculeValid = {
-            'teacher': true,
-            'educator': true,
-            'administrator': true
-        };
-        let employeeEmailValid = {
-            'teacher': true,
-            'educator': true,
-            'administrator': true
-        };
-
-        // Vérification de l'email étudiant
-        emailInput.addEventListener('input', function () {
-            const studentMail = emailInput.value.trim();
-
-            if (!studentMail) {
+        fetch(checkStudentMailUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+            body: JSON.stringify({ studentMail: studentMail })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.exists) {
+                emailError.textContent = "Cette adresse email est déjà utilisée.";
+                emailInput.classList.add('error-input');
+                emailValid = false;
+            } else {
                 emailError.textContent = "";
                 emailInput.classList.remove('error-input');
                 emailValid = true;
-                return;
             }
-
-            fetch(checkStudentMailUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': csrftoken,
-                },
-                body: JSON.stringify({ studentMail: studentMail })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.exists) {
-                    emailError.textContent = "Cette adresse email est déjà utilisée.";
-                    emailInput.classList.add('error-input');
-                    emailValid = false;
-                } else {
-                    emailError.textContent = "";
-                    emailInput.classList.remove('error-input');
-                    emailValid = true;
-                }
-            })
-            .catch(error => {
-                console.error("Erreur:", error);
-                emailValid = true;
-            });
+        })
+        .catch(error => {
+            console.error("Erreur:", error);
+            emailValid = true;
         });
+    });
 
-        // Vérification du matricule
-        function checkMatricule(formType) {
-            const matricule = matriculeInputs[formType]?.value.trim() || "";
+    // Vérification du matricule
+    function checkMatricule(formType) {
+        const matricule = matriculeInputs[formType]?.value.trim() || "";
 
-            if (!matricule) {
-                matriculeErrors[formType].textContent = "";
-                matriculeInputs[formType]?.classList.remove('error-input');
-                matriculeValid[formType] = true;
-                return;
-            }
-
-            fetch(checkMatriculeUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': csrftoken,
-                },
-                body: JSON.stringify({ matricule: matricule })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.exists) {
-                    matriculeErrors[formType].textContent = "Ce matricule est déjà utilisé.";
-                    matriculeInputs[formType].classList.add('error-input');
-                    matriculeValid[formType] = false;
-                } else {
-                    matriculeErrors[formType].textContent = "";
-                    matriculeInputs[formType].classList.remove('error-input');
-                    matriculeValid[formType] = true;
-                }
-            })
-            .catch(error => {
-                console.error("Erreur lors de la vérification du matricule:", error);
-                matriculeValid[formType] = true;
-            });
+        if (!matricule) {
+            matriculeErrors[formType].textContent = "";
+            matriculeInputs[formType]?.classList.remove('error-input');
+            matriculeValid[formType] = true;
+            return;
         }
 
-        // Vérification de l'email employé
-        // Vérification de l'email employé
-        function checkEmployeeEmail(formType) {
-            const employee_email = employeeEmailInputs.value.trim();
+        fetch(checkMatriculeUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+            body: JSON.stringify({ matricule: matricule })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.exists) {
+                matriculeErrors[formType].textContent = "Ce matricule est déjà utilisé.";
+                matriculeInputs[formType].classList.add('error-input');
+                matriculeValid[formType] = false;
+            } else {
+                matriculeErrors[formType].textContent = "";
+                matriculeInputs[formType].classList.remove('error-input');
+                matriculeValid[formType] = true;
+            }
+        })
+        .catch(error => {
+            console.error("Erreur lors de la vérification du matricule:", error);
+            matriculeValid[formType] = true;
+        });
+    }
 
-            if (!employee_email) {
-                employeeEmailErrors.textContent = "";
-                employeeEmailInputs.classList.remove('error-input');
-                employeeEmailValid = true;
+    // Vérification de l'email employé
+    function checkEmployeeEmail(formType) {
+        const input = employeeEmailInputs[formType];
+        const error = employeeEmailErrors[formType];
+
+        if (!input) return;
+
+        input.addEventListener('input', function () {
+            const email = input.value.trim();
+
+            if (!email) {
+                error.textContent = "";
+                input.classList.remove('error-input');
+                employeeEmailValid[formType] = true;
                 return;
             }
 
@@ -222,78 +227,70 @@
                     'Content-Type': 'application/json',
                     'X-CSRFToken': csrftoken,
                 },
-                body: JSON.stringify({ employee_email: employee_email })
+                body: JSON.stringify({ employee_email: email })
             })
             .then(response => response.json())
             .then(data => {
-                 if (data.exists) {
-                    employeeEmailErrors.textContent = "Cette adresse email est déjà utilisée.";
-                    employeeEmailInputs.classList.add('error-input');
-                    employeeEmailValid = false;
+                if (data.exists) {
+                    error.textContent = "Cette adresse email est déjà utilisée.";
+                    input.classList.add('error-input');
+                    employeeEmailValid[formType] = false;
                 } else {
-                    employeeEmailErrors.textContent = "";
-                    employeeEmailInputs.classList.remove('error-input');
-                    employeeEmailValid = true;
+                    error.textContent = "";
+                    input.classList.remove('error-input');
+                    employeeEmailValid[formType] = true;
                 }
             })
             .catch(error => {
                 console.error("Erreur lors de la vérification de l’email employé:", error);
                 employeeEmailValid[formType] = true;
             });
+        });
+    }
+
+    // Ajout des écouteurs
+    Object.keys(matriculeInputs).forEach(formType => {
+        if (matriculeInputs[formType]) {
+            matriculeInputs[formType].addEventListener('input', () => checkMatricule(formType));
+        }
+    });
+
+    Object.keys(employeeEmailInputs).forEach(formType => {
+        if (employeeEmailInputs[formType]) {
+            checkEmployeeEmail(formType);
+        }
+    });
+
+    // Empêcher la soumission si un champ est invalide
+    document.getElementById('mainForm').addEventListener('submit', function (e) {
+        let formIsValid = true;
+
+        if (!emailValid) {
+            emailError.textContent = "Veuillez corriger l’adresse email avant de soumettre.";
+            emailInput.classList.add('error-input');
+            formIsValid = false;
         }
 
-
-
-        // Ajout des écouteurs pour les inputs matricule
-        Object.keys(matriculeInputs).forEach(formType => {
-            if (matriculeInputs[formType]) {
-                matriculeInputs[formType].addEventListener('input', () => checkMatricule(formType));
-            }
-        });
-
-        // Ajout des écouteurs pour les inputs employeeEmail
-        Object.keys(employeeEmailInputs).forEach(formType => {
-            if (employeeEmailInputs[formType]) {
-                employeeEmailInputs[formType].addEventListener('input', () => checkEmployeeEmail(formType));
-            }
-        });
-
-        // Empêcher la soumission si un champ est invalide
-        document.getElementById('mainForm').addEventListener('submit', function (e) {
-            let formIsValid = true;
-
-            if (!emailValid) {
-                e.preventDefault();
-                emailError.textContent = "Veuillez corriger l’adresse email avant de soumettre.";
-                emailInput.classList.add('error-input');
+        Object.keys(matriculeValid).forEach(formType => {
+            if (!matriculeValid[formType]) {
+                matriculeErrors[formType].textContent = "Veuillez corriger le matricule avant de soumettre.";
+                matriculeInputs[formType].classList.add('error-input');
                 formIsValid = false;
             }
+        });
 
-            Object.keys(matriculeValid).forEach(formType => {
-                if (!matriculeValid[formType]) {
-                    e.preventDefault();
-                    matriculeErrors[formType].textContent = "Veuillez corriger le matricule avant de soumettre.";
-                    matriculeInputs[formType].classList.add('error-input');
-                    formIsValid = false;
-                }
-            });
-
-            Object.keys(employeeEmailValid).forEach(formType => {
-                if (!employeeEmailValid[formType]) {
-                    e.preventDefault();
-                    if (employeeEmailErrors[formType]) {
-                        employeeEmailErrors[formType].textContent = "Veuillez corriger l’adresse email avant de soumettre.";
-                    }
-                    if (employeeEmailInputs[formType]) {
-                        employeeEmailInputs[formType].classList.add('error-input');
-                    }
-                    formIsValid = false;
-                }
-            });
-
-            if (!formIsValid) {
-                e.preventDefault();
+        Object.keys(employeeEmailValid).forEach(formType => {
+            if (!employeeEmailValid[formType]) {
+                employeeEmailErrors[formType].textContent = "Veuillez corriger l’adresse email avant de soumettre.";
+                employeeEmailInputs[formType].classList.add('error-input');
+                formIsValid = false;
             }
         });
-    </script>
+
+        if (!formIsValid) {
+            e.preventDefault();
+        }
+    });
+</script>
+
 {% endblock %}
