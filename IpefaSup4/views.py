@@ -1220,6 +1220,32 @@ def check_student_mail(request):
     return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
 
 
+def check_employee_email(request):
+    if request.method == 'POST':
+        import json
+        try:
+            data = json.loads(request.body)
+            employee_email = data.get('employeeEmail', '').strip()
+
+            if not employee_email:
+                return JsonResponse({'exists': False, 'error': 'Adresse email manquante'})
+
+            exists = (
+                Educator.objects.filter(employeeEmail=employee_email).exists() or
+                Teacher.objects.filter(employeeEmail=employee_email).exists() or
+                Administrator.objects.filter(employeeEmail=employee_email).exists()
+            )
+
+            return JsonResponse({
+                'exists': exists,
+                'message': 'Cette adresse mail existe déjà' if exists else "Adresse disponible"
+            })
+
+        except json.JSONDecodeError:
+            return JsonResponse({'exists': False, 'error': 'Requête invalide'}, status=400)
+
+    return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
+
 
 def check_matricule(request):
     import json
