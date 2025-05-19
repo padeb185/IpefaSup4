@@ -1,6 +1,22 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
+{% block title %}approuver les résultats{% endblock %}
+
+{% block bodyId %}ueResultPage{% endblock %}
+
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+<header class="welcome-header">
+    <div class="user-info">
+        Bienvenue sur IpefaSup, {{ logged_user.first_name }} {{ logged_user.last_name }}
+    </div>
+    <div class="date-time">
+        Nous sommes le {{ current_date_time }}
+    </div>
+</header>
   <h1>Approbation du résultat</h1>
 
   <form method="post">
