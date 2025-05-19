@@ -27,16 +27,19 @@
         <div id="teacherForm" class="formType">
             {{ teacherForm.as_p }}
             <span id="matricule-error-teacher" style="color:red;"></span>
+            <span id="employeeEmail-error-teacher" style="color:red;"></span>
         </div>
 
         <div id="educatorForm" class="formType">
             {{ educatorForm.as_p }}
             <span id="matricule-error-educator" style="color:red;"></span>
+            <span id="employeeEmail-error-educator" style="color:red;"></span>
         </div>
 
         <div id="administratorForm" class="formType">
             {{ administratorForm.as_p }}
             <span id="matricule-error-administrator" style="color:red;"></span>
+            <span id="employeeEmail-error-administrator" style="color:red;"></span>
         </div>
 
         <button type="submit" id="submit-btn">Créer un compte</button>
@@ -84,11 +87,13 @@
 
         const csrftoken = getCookie('csrftoken');
         const checkStudentMailUrl = "{% url 'check_student_mail' %}";
-        const checkMatriculeUrl = "{% url 'check_matricule' %}";  // URL correcte
+        const checkMatriculeUrl = "{% url 'check_matricule' %}";
+        const checkEmployeeEmailUrl = "{% url 'check_employee_email' %}";
 
-        // Sélectionner les éléments des formulaires
+        // Sélection des éléments des formulaires
         const emailInput = document.getElementById('studentMail');
         const emailError = document.getElementById('email-error');
+
         const matriculeInputs = {
             'teacher': document.getElementById('matricule-teacher'),
             'educator': document.getElementById('matricule-educator'),
@@ -101,14 +106,31 @@
             'administrator': document.getElementById('matricule-error-administrator')
         };
 
+        const employeeEmailInputs = {
+            'teacher': document.getElementById('employee_email-teacher'),
+            'educator': document.getElementById('employee_email-educator'),
+            'administrator': document.getElementById('employee_email-administrator')
+        };
+
+        const employeeEmailErrors = {
+            'teacher': document.getElementById('employee_email-error-teacher'),
+            'educator': document.getElementById('employee_email-error-educator'),
+            'administrator': document.getElementById('employee_email-error-administrator')
+        };
+
         let emailValid = true;
         let matriculeValid = {
             'teacher': true,
             'educator': true,
             'administrator': true
         };
+        let employeeEmailValid = {
+            'teacher': true,
+            'educator': true,
+            'administrator': true
+        };
 
-        // Vérification de l'email
+        // Vérification de l'email étudiant
         emailInput.addEventListener('input', function () {
             const studentMail = emailInput.value.trim();
 
@@ -147,11 +169,11 @@
 
         // Vérification du matricule
         function checkMatricule(formType) {
-            const matricule = matriculeInputs[formType].value.trim();
+            const matricule = matriculeInputs[formType]?.value.trim() || "";
 
             if (!matricule) {
                 matriculeErrors[formType].textContent = "";
-                matriculeInputs[formType].classList.remove('error-input');
+                matriculeInputs[formType]?.classList.remove('error-input');
                 matriculeValid[formType] = true;
                 return;
             }
@@ -182,19 +204,69 @@
             });
         }
 
-        // Vérification sur l'input de matricule pour chaque formulaire
-        Object.keys(matriculeInputs).forEach(formType => {
-            matriculeInputs[formType].addEventListener('input', function () {
-                checkMatricule(formType);
+        // Vérification de l'email employé
+        // Vérification de l'email employé
+        function checkEmployeeEmail(formType) {
+            const employee_email = employeeEmailInputs.value.trim();
+
+            if (!employee_email) {
+                employeeEmailErrors.textContent = "";
+                employeeEmailInputs.classList.remove('error-input');
+                employeeEmailValid = true;
+                return;
+            }
+
+            fetch(checkEmployeeEmailUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken,
+                },
+                body: JSON.stringify({ employee_email: employee_email })
+            })
+            .then(response => response.json())
+            .then(data => {
+                 if (data.exists) {
+                    employeeEmailErrors.textContent = "Cette adresse email est déjà utilisée.";
+                    employeeEmailInputs.classList.add('error-input');
+                    employeeEmailValid = false;
+                } else {
+                    employeeEmailErrors.textContent = "";
+                    employeeEmailInputs.classList.remove('error-input');
+                    employeeEmailValid = true;
+                }
+            })
+            .catch(error => {
+                console.error("Erreur lors de la vérification de l’email employé:", error);
+                employeeEmailValid[formType] = true;
             });
+        }
+
+
+
+        // Ajout des écouteurs pour les inputs matricule
+        Object.keys(matriculeInputs).forEach(formType => {
+            if (matriculeInputs[formType]) {
+                matriculeInputs[formType].addEventListener('input', () => checkMatricule(formType));
+            }
         });
 
-        // Empêcher la soumission si l’email ou le matricule sont invalides
+        // Ajout des écouteurs pour les inputs employeeEmail
+        Object.keys(employeeEmailInputs).forEach(formType => {
+            if (employeeEmailInputs[formType]) {
+                employeeEmailInputs[formType].addEventListener('input', () => checkEmployeeEmail(formType));
+            }
+        });
+
+        // Empêcher la soumission si un champ est invalide
         document.getElementById('mainForm').addEventListener('submit', function (e) {
+            let formIsValid = true;
+
             if (!emailValid) {
                 e.preventDefault();
                 emailError.textContent = "Veuillez corriger l’adresse email avant de soumettre.";
                 emailInput.classList.add('error-input');
+                formIsValid = false;
             }
 
             Object.keys(matriculeValid).forEach(formType => {
@@ -202,8 +274,26 @@
                     e.preventDefault();
                     matriculeErrors[formType].textContent = "Veuillez corriger le matricule avant de soumettre.";
                     matriculeInputs[formType].classList.add('error-input');
+                    formIsValid = false;
                 }
             });
+
+            Object.keys(employeeEmailValid).forEach(formType => {
+                if (!employeeEmailValid[formType]) {
+                    e.preventDefault();
+                    if (employeeEmailErrors[formType]) {
+                        employeeEmailErrors[formType].textContent = "Veuillez corriger l’adresse email avant de soumettre.";
+                    }
+                    if (employeeEmailInputs[formType]) {
+                        employeeEmailInputs[formType].classList.add('error-input');
+                    }
+                    formIsValid = false;
+                }
+            });
+
+            if (!formIsValid) {
+                e.preventDefault();
+            }
         });
     </script>
 {% endblock %}
