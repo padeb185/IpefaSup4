@@ -104,50 +104,59 @@ def login(request):
 
 
 def register(request):
-    if request.method == 'POST':
-        # Créez les formulaires avec le préfixe
-        studentForm = StudentForm(request.POST, prefix="st")
-        teacherForm = TeacherForm(request.POST, prefix="te")
-        educatorForm = EducatorForm(request.POST, prefix="ed")
-        administratorForm = AdministratorForm(request.POST, prefix="ad")
+    logged_user = get_logged_user_from_request(request)
+    if logged_user:
+        if logged_user.person_type in ('educateur', 'administrateur'):
 
-        # Vérifiez quel type de profil a été sélectionné et sauvegardez le formulaire correspondant
-        profile_type = request.POST.get('profileType')
+            if request.method == 'POST':
+                # Créez les formulaires avec le préfixe
+                studentForm = StudentForm(request.POST, prefix="st")
+                teacherForm = TeacherForm(request.POST, prefix="te")
+                educatorForm = EducatorForm(request.POST, prefix="ed")
+                administratorForm = AdministratorForm(request.POST, prefix="ad")
 
-        if profile_type == 'Student' and studentForm.is_valid():
-            studentForm.save()
-            return redirect('/welcome')  # Redirigez après la création du compte
-        elif profile_type == 'Teacher' and teacherForm.is_valid():
-            teacherForm.save()
-            return redirect('/welcome')
-        elif profile_type == 'Educator' and educatorForm.is_valid():
-            educatorForm.save()
-            return redirect('/welcome')
-        elif profile_type == 'Administrator' and administratorForm.is_valid():
-            administratorForm.save()
-            return redirect('/welcome')
+                # Vérifiez quel type de profil a été sélectionné et sauvegardez le formulaire correspondant
+                profile_type = request.POST.get('profileType')
 
-        # Si aucun formulaire n'est valide ou si un autre problème se produit
-        return render(request, 'user_profile.html', {
-            'studentForm': studentForm,
-            'teacherForm': teacherForm,
-            'educatorForm': educatorForm,
-            'administratorForm': administratorForm
-        })
+                if profile_type == 'Student' and studentForm.is_valid():
+                    studentForm.save()
+                    return redirect('register')  # Redirigez après la création du compte
+                elif profile_type == 'Teacher' and teacherForm.is_valid():
+                    teacherForm.save()
+                    return redirect('/register')
+                elif profile_type == 'Educator' and educatorForm.is_valid():
+                    educatorForm.save()
+                    return redirect('/register')
+                elif profile_type == 'Administrator' and administratorForm.is_valid():
+                    administratorForm.save()
+                    return redirect('/register')
 
+                # Si aucun formulaire n'est valide ou si un autre problème se produit
+                return render(request, 'user_profile.html', {
+                    'studentForm': studentForm,
+                    'teacherForm': teacherForm,
+                    'educatorForm': educatorForm,
+                    'administratorForm': administratorForm
+                })
+
+            else:
+                # Si ce n'est pas un POST, renvoyez le formulaire avec le préfixe
+                studentForm = StudentForm(prefix="st")
+                teacherForm = TeacherForm(prefix="te")
+                educatorForm = EducatorForm(prefix="ed")
+                administratorForm = AdministratorForm(prefix="ad")
+
+                return render(request, 'user_profile.html', {
+                    'studentForm': studentForm,
+                    'teacherForm': teacherForm,
+                    'educatorForm': educatorForm,
+                    'administratorForm': administratorForm
+                })
+
+        else:
+            return redirect('login')
     else:
-        # Si ce n'est pas un POST, renvoyez le formulaire avec le préfixe
-        studentForm = StudentForm(prefix="st")
-        teacherForm = TeacherForm(prefix="te")
-        educatorForm = EducatorForm(prefix="ed")
-        administratorForm = AdministratorForm(prefix="ad")
-
-        return render(request, 'user_profile.html', {
-            'studentForm': studentForm,
-            'teacherForm': teacherForm,
-            'educatorForm': educatorForm,
-            'administratorForm': administratorForm
-        })
+        return redirect('login')
 
 
 def add_academic_ue_views(request):
@@ -259,26 +268,52 @@ def add_session_views(request):
         return redirect('login')
 
 
+
 def add_section_views(request):
     logged_user = get_logged_user_from_request(request)
     if logged_user:
         if logged_user.person_type in ('administrateur', 'educateur'):
             if request.method == 'POST':
                 form = AddSectionForm(request.POST)
-                if form.is_valid():
-                    form.save() # Sauvegarde les données si le formulaire est valide
-                    form = AddSectionForm()
-                    return render(request, 'administrator/section.html',
-                                  {'form': form, 'success': True,
-                                            'logged_user': logged_user, 'current_date_time': datetime.now})  # Re# Rediriger ou renvoyer une réponse après soumission
+                wording = request.POST.get('wording').strip()
+
+                if Section.objects.filter(wording=wording).exists():
+                    pass
+                else:
+                    if form.is_valid():
+                        form.save()
+
+                        return render(request, 'administrator/session.html',
+                                      {
+                                          'form': form,
+                                          'logged_user': logged_user,
+                                          'current_date_time': datetime.now,
+                                          'success': True
+                                      })  # Assurez-vous que 'section' est le nom correct de l'URL
+                    else:
+                        return render(request, 'administrator/session.html',
+                                      {'form':form,
+                                                'logged_user': logged_user,
+                                                'current_date_time': datetime.now})
+
+                # Si le formulaire n'est pas valide ou si la section existe déjà, renvoyez le formulaire avec les erreurs
+                return render(request, 'administrator/section.html', {
+                    'form': form,
+                    'logged_user': logged_user,
+                    'current_date_time': datetime.now()
+                })
             else:
                 form = AddSectionForm()
-                return render(request, 'administrator/section.html',
-                      {'form': form, 'logged_user': logged_user, 'current_date_time': datetime.now})
+                return render(request, 'administrator/section.html', {
+                    'form': form,
+                    'logged_user': logged_user,
+                    'current_date_time': datetime.now()
+                })
         else:
             return redirect('login')
     else:
         return redirect('login')
+
 
 
 
@@ -1261,6 +1296,25 @@ def check_matricule(request):
         return JsonResponse({'exists': exists})
 
     return JsonResponse({'exists': False})
+
+
+
+
+
+def check_section(request):
+    import json
+    try:
+        # Lire les données JSON envoyées dans la requête
+        data = json.loads(request.body)
+        wording = data.get('wording', '').strip()
+
+        # Vérifier si la section existe déjà
+        exists = Section.objects.filter(wording=wording).exists()
+
+        return JsonResponse({'exists': exists})
+    except json.JSONDecodeError:
+        # En cas d'erreur de décodage JSON, renvoyer une réponse par défaut
+        return JsonResponse({'exists': False})
 
 
 

@@ -125,10 +125,10 @@ class EducatorForm(BaseListForm):
         }
 
 class AddAcademicUEForm(forms.ModelForm):
-
     class Meta:
         model = AcademicUE
-        fields = '__all__'  # Pas besoin de `exclude = {}` si on utilise `fields = '__all__'`
+        exclude = {'educator'}
+
 
 
 class AddUEForm(forms.ModelForm):
@@ -159,6 +159,9 @@ class AddSectionForm(forms.ModelForm):
     class Meta:
         model = Section
         fields = '__all__'
+        widgets = {
+            'wording': forms.TextInput(attrs={'id': 'wording', 'class': 'form-control'}),
+        }
 
 
 

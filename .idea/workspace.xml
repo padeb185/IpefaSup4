@@ -4,11 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="header">
+    <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="validate studentMail">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/IpefaSup4/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IpefaSup4/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IpefaSup4/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IpefaSup4/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IpefaSup4/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/administrator/section.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/administrator/section.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/user_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user_profile.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -207,15 +209,7 @@
       <workItem from="1747420707027" duration="150000" />
       <workItem from="1747660482367" duration="44000" />
       <workItem from="1747739779773" duration="3528000" />
-      <workItem from="1747743363752" duration="643000" />
-    </task>
-    <task id="LOCAL-00090" summary="logged user">
-      <option name="closed" value="true" />
-      <created>1747062489078</created>
-      <option name="number" value="00090" />
-      <option name="presentableId" value="LOCAL-00090" />
-      <option name="project" value="LOCAL" />
-      <updated>1747062489078</updated>
+      <workItem from="1747743363752" duration="7900000" />
     </task>
     <task id="LOCAL-00091" summary="logged user">
       <option name="closed" value="true" />
@@ -601,7 +595,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747743517176</updated>
     </task>
-    <option name="localTasksCounter" value="139" />
+    <task id="LOCAL-00139" summary="validate studentMail">
+      <option name="closed" value="true" />
+      <created>1747744119887</created>
+      <option name="number" value="00139" />
+      <option name="presentableId" value="LOCAL-00139" />
+      <option name="project" value="LOCAL" />
+      <updated>1747744119887</updated>
+    </task>
+    <option name="localTasksCounter" value="140" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -619,7 +621,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="view logged" />
     <MESSAGE value="sessions" />
     <MESSAGE value="sectio et addueform" />
     <MESSAGE value="professeur list etudiants" />
@@ -644,7 +645,8 @@
     <MESSAGE value="employee_email" />
     <MESSAGE value="studentMail" />
     <MESSAGE value="header" />
-    <option name="LAST_COMMIT_MESSAGE" value="header" />
+    <MESSAGE value="validate studentMail" />
+    <option name="LAST_COMMIT_MESSAGE" value="validate studentMail" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -661,6 +663,18 @@
         <line-breakpoint enabled="true" type="django-line">
           <url>file://$PROJECT_DIR$/templates/login.html</url>
           <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/templates/administrator/section.html</url>
+          <line>70</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/templates/administrator/section.html</url>
+          <line>71</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
