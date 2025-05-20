@@ -204,50 +204,60 @@
         });
     }
 
-    // Vérification de l'email employé
     function checkEmployeeEmail(formType) {
         const input = employeeEmailInputs[formType];
         const error = employeeEmailErrors[formType];
+        if (!input || !error) return;
 
-        if (!input) return;
+        const employee_email = input.value.trim();
 
-        input.addEventListener('input', function () {
-            const email = input.value.trim();
+        if (!employee_email) {
+            error.textContent = "";
+            input.classList.remove('error-input');
+            employeeEmailValid[formType] = true;
+            return;
+        }
 
-            if (!email) {
+        fetch(checkEmployeeEmailUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+            body: JSON.stringify({ employee_email: employee_email })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.exists) {
+                error.textContent = "Cette adresse email est déjà utilisée.";
+                input.classList.add('error-input');
+                employeeEmailValid[formType] = false;
+            } else {
                 error.textContent = "";
                 input.classList.remove('error-input');
                 employeeEmailValid[formType] = true;
-                return;
             }
-
-            fetch(checkEmployeeEmailUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': csrftoken,
-                },
-                body: JSON.stringify({ employee_email: email })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.exists) {
-                    error.textContent = "Cette adresse email est déjà utilisée.";
-                    input.classList.add('error-input');
-                    employeeEmailValid[formType] = false;
-                } else {
-                    error.textContent = "";
-                    input.classList.remove('error-input');
-                    employeeEmailValid[formType] = true;
-                }
-            })
-            .catch(error => {
-                console.error("Erreur lors de la vérification de l’email employé:", error);
-                employeeEmailValid[formType] = true;
-            });
+        })
+        .catch(error => {
+            console.error("Erreur lors de la vérification de l’email employé:", error);
+            employeeEmailValid[formType] = true;
         });
     }
 
+    // Ajout des écouteurs 'input' pour employee_email, qui appellent la fonction checkEmployeeEmail
+    Object.keys(employeeEmailInputs).forEach(formType => {
+        const input = employeeEmailInputs[formType];
+        if (input) {
+            input.addEventListener('input', () => checkEmployeeEmail(formType));
+        }
+    });
+
+    // Appel initial de checkEmployeeEmail pour valider les champs remplis au chargement
+    Object.keys(employeeEmailInputs).forEach(formType => {
+        if (employeeEmailInputs[formType]) {
+            checkEmployeeEmail(formType);
+        }
+    });
     // Ajout des écouteurs
     Object.keys(matriculeInputs).forEach(formType => {
         if (matriculeInputs[formType]) {
@@ -255,11 +265,7 @@
         }
     });
 
-    Object.keys(employeeEmailInputs).forEach(formType => {
-        if (employeeEmailInputs[formType]) {
-            checkEmployeeEmail(formType);
-        }
-    });
+
 
     // Empêcher la soumission si un champ est invalide
     document.getElementById('mainForm').addEventListener('submit', function (e) {

@@ -102,7 +102,7 @@ class TeacherForm(BaseListForm):
         fields = '__all__'
         widgets = {
             'matricule': forms.TextInput(attrs={'id': 'matricule-teacher', 'class': 'form-control'}),
-            'employeeEmail': forms.EmailInput(attrs={'id': 'employeeEmail-teacher', 'class': 'form-control'}),
+            'employee_email': forms.EmailInput(attrs={'id': 'employee_email-teacher', 'class': 'form-control'}),
         }
 
 class AdministratorForm(BaseListForm):
@@ -111,7 +111,7 @@ class AdministratorForm(BaseListForm):
         fields = '__all__'
         widgets = {
             'matricule': forms.TextInput(attrs={'id': 'matricule-administrator', 'class': 'form-control'}),
-            'employeeEmail': forms.EmailInput(attrs={'id': 'employeeEmail-administrator', 'class': 'form-control'}),
+            'employee_email': forms.EmailInput(attrs={'id': 'employee_email-administrator', 'class': 'form-control'}),
         }
 
 class EducatorForm(BaseListForm):
@@ -120,7 +120,7 @@ class EducatorForm(BaseListForm):
         fields = '__all__'
         widgets = {
             'matricule': forms.TextInput(attrs={'id': 'matricule-educator', 'class': 'form-control'}),
-            'employeeEmail': forms.EmailInput(attrs={'id': 'employeeEmail-educator', 'class': 'form-control'}),
+            'employee_email': forms.EmailInput(attrs={'id': 'employee_email-educator', 'class': 'form-control'}),
         }
 
 class AddAcademicUEForm(forms.ModelForm):
