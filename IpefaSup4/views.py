@@ -1263,6 +1263,7 @@ def check_matricule(request):
     return JsonResponse({'exists': False})
 
 
+
 def approve_result_view(request, registration_id):
     logged_user = get_logged_user_from_request(request)
     if logged_user:

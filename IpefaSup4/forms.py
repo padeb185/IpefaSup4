@@ -85,6 +85,7 @@ class BaseListForm(forms.ModelForm):
         return instance
 
 
+
 class StudentForm(BaseListForm):
     class Meta:
         model = Student
