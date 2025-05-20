@@ -27,19 +27,19 @@
         <div id="teacherForm" class="formType">
             {{ teacherForm.as_p }}
             <span id="matricule-error-teacher" style="color:red;"></span>
-            <span id="employeeEmail-error-teacher" style="color:red;"></span>
+            <span id="employee_email-error-teacher" style="color:red;"></span>
         </div>
 
         <div id="educatorForm" class="formType">
             {{ educatorForm.as_p }}
             <span id="matricule-error-educator" style="color:red;"></span>
-            <span id="employeeEmail-error-educator" style="color:red;"></span>
+            <span id="employee_email-error-educator" style="color:red;"></span>
         </div>
 
         <div id="administratorForm" class="formType">
             {{ administratorForm.as_p }}
             <span id="matricule-error-administrator" style="color:red;"></span>
-            <span id="employeeEmail-error-administrator" style="color:red;"></span>
+            <span id="employee_email-error-administrator" style="color:red;"></span>
         </div>
 
         <button type="submit" id="submit-btn">Créer un compte</button>
@@ -109,13 +109,13 @@
     const employeeEmailInputs = {
         'teacher': document.getElementById('employee_email-teacher'),
         'educator': document.getElementById('employee_email-educator'),
-        'administrator': document.getElementById('employee_email-administrator')
+        'administrator': document.getElementById('employee_email-administrator') // corrigé ici
     };
 
     const employeeEmailErrors = {
         'teacher': document.getElementById('employee_email-error-teacher'),
         'educator': document.getElementById('employee_email-error-educator'),
-        'administrator': document.getElementById('employee_email-error-administrator')
+        'administrator': document.getElementById('employee_email-error-administrator') // corrigé ici
     };
 
     let emailValid = true;
