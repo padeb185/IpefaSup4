@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="button">
+    <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="employee_email">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IpefaSup4/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IpefaSup4/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -204,15 +204,7 @@
       <workItem from="1747410413151" duration="4342000" />
       <workItem from="1747420707027" duration="150000" />
       <workItem from="1747660482367" duration="44000" />
-      <workItem from="1747739779773" duration="2496000" />
-    </task>
-    <task id="LOCAL-00087" summary="logged user">
-      <option name="closed" value="true" />
-      <created>1747062095817</created>
-      <option name="number" value="00087" />
-      <option name="presentableId" value="LOCAL-00087" />
-      <option name="project" value="LOCAL" />
-      <updated>1747062095817</updated>
+      <workItem from="1747739779773" duration="3337000" />
     </task>
     <task id="LOCAL-00088" summary="logged user">
       <option name="closed" value="true" />
@@ -598,7 +590,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747741981807</updated>
     </task>
-    <option name="localTasksCounter" value="136" />
+    <task id="LOCAL-00136" summary="employee_email">
+      <option name="closed" value="true" />
+      <created>1747742354427</created>
+      <option name="number" value="00136" />
+      <option name="presentableId" value="LOCAL-00136" />
+      <option name="project" value="LOCAL" />
+      <updated>1747742354427</updated>
+    </task>
+    <option name="localTasksCounter" value="137" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -616,7 +616,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add participation" />
     <MESSAGE value="add section" />
     <MESSAGE value="student form" />
     <MESSAGE value="view logged" />
@@ -641,7 +640,8 @@
     <MESSAGE value="style" />
     <MESSAGE value="filter" />
     <MESSAGE value="button" />
-    <option name="LAST_COMMIT_MESSAGE" value="button" />
+    <MESSAGE value="employee_email" />
+    <option name="LAST_COMMIT_MESSAGE" value="employee_email" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -38,6 +38,8 @@ def get_logged_user_from_request(request):
 
 
 def validate_student_email(email):
-    pattern = r"^[a-z]+\.[a-z]+@(student\.)?efpl\.be$"
+    pattern = r"^[a-z]+\.[a-z]+[0-9]*@student\.efpl\.be$"
     if not re.match(pattern, email, re.IGNORECASE):
-        raise ValidationError("L'adresse email doit être du type nom.prenom@student.efpl.be ou nom.prenom@efpl.be")
+        raise ValidationError(
+            "L'adresse email doit être du type nom.prenom@student.efpl.be ou nom.prenom@efpl.be, avec un suffixe numérique optionnel."
+        )
