@@ -17,6 +17,11 @@
     </header>
 
     <h1>Ajout d'une section</h1>
+    {% if success %}
+        <p>
+        La section a été ajoutée avec succès
+        </p>
+    {% endif %}
     <form action="{% url 'section' %}" method="post">
         {% csrf_token %}
         {{ form.as_p }}
