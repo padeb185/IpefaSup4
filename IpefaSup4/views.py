@@ -1221,24 +1221,25 @@ def check_student_mail(request):
 
 
 def check_employee_email(request):
+    import json
     if request.method == 'POST':
-        import json
         try:
             data = json.loads(request.body)
-            employee_email = data.get('employeeEmail', '').strip()
+
+            employee_email = data.get('employee_email', '').strip()
 
             if not employee_email:
                 return JsonResponse({'exists': False, 'error': 'Adresse email manquante'})
 
             exists = (
-                Educator.objects.filter(employeeEmail=employee_email).exists() or
-                Teacher.objects.filter(employeeEmail=employee_email).exists() or
-                Administrator.objects.filter(employeeEmail=employee_email).exists()
+                Educator.objects.filter(employee_email=employee_email).exists() or
+                Teacher.objects.filter(employee_email=employee_email).exists() or
+                Administrator.objects.filter(employee_email=employee_email).exists()
             )
 
             return JsonResponse({
                 'exists': exists,
-                'message': 'Cette adresse mail existe déjà' if exists else "Adresse disponible"
+                'message': 'Cette adresse mail existe déjà' if exists else 'Adresse disponible'
             })
 
         except json.JSONDecodeError:
