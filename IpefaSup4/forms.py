@@ -1,8 +1,8 @@
 from django import forms
 from .models import Educator, Teacher, Student, Administrator, AcademicUE, UE, Registration, Participation, Session, \
-    Section
+    Section, validate_student_email
 from django.contrib.auth.hashers import make_password, check_password
-from .utils import validate_student_email
+
 from django import forms
 
 
