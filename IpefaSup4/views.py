@@ -1297,6 +1297,12 @@ def check_matricule(request):
 
     return JsonResponse({'exists': False})
 
+def check_registration(request):
+    student_id = request.GET.get('student_id')
+    ue_id = request.GET.get('ue_id')
+
+    exists = Registration.objects.filter(student_id=student_id, academic_ue_id=ue_id).exists()
+    return JsonResponse({'registered': exists})
 
 
 

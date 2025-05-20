@@ -28,7 +28,7 @@
 
     <form method="post">
     {% csrf_token %}
-
+    <p id="registration-message" style="color: red; font-weight: bold;"></p>
     <label for="student">Étudiant :</label>
     <select name="student" id="student" required>
         <option value="">-- Choisir un étudiant --</option>
@@ -62,5 +62,41 @@
    <div class="action-buttons">
     <a href="{% url 'registration_list' section.id %}" class="btn-red">⬅ Retour à la liste des inscriptions</a>
 </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const studentSelect = document.getElementById('student');
+            const ueSelect = document.getElementById('academic_ue');
+            const messageParagraph = document.getElementById('registration-message');
+
+            function checkRegistration() {
+                const studentId = studentSelect.value;
+                const ueId = ueSelect.value;
+
+                if (studentId && ueId) {
+                    fetch(`/api/check-registration/?student_id=${studentId}&ue_id=${ueId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.registered) {
+                                messageParagraph.textContent = "⚠️ Cet étudiant est déjà inscrit à cette UE.";
+                            } else {
+                                messageParagraph.textContent = "";
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Erreur lors de la vérification de l’inscription:', error);
+                            messageParagraph.textContent = "Erreur lors de la vérification.";
+                        });
+                } else {
+                    messageParagraph.textContent = "";
+                }
+            }
+
+            studentSelect.addEventListener('change', checkRegistration);
+            ueSelect.addEventListener('change', checkRegistration);
+        });
+    </script>
+
+
 
 {% endblock %}

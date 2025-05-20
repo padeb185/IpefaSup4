@@ -27,7 +27,8 @@ from .views import login, welcome, register, add_academic_ue_views, add_ue_views
     participations_in_ue, student_participation_view, student_manage_view, add_student_view, ue_manage_view, \
     select_section, ues_by_section, ue_detail, manage_sessions, edit_session, manage_participations_in_ue, section_list, \
     add_registration, registration_list, add_registrations_by_cycle, participations_view, check_student_mail, \
-    check_matricule, approve_result_view, list_approved_students, check_employee_email, check_section
+    check_matricule, approve_result_view, list_approved_students, check_employee_email, check_section, \
+    check_registration
 from django.contrib import admin
 
 urlpatterns = [
@@ -113,6 +114,8 @@ urlpatterns = [
     path('check-section/', check_section, name='check_section'),
 
     path('api/check_employee_email/', check_employee_email, name='check_employee_email'),
+
+    path('api/check-registration/', check_registration, name='check_registration'),
 
     path('registration/<int:registration_id>/approve/', approve_result_view, name='approve_result'),
 
