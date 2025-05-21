@@ -71,23 +71,33 @@
         function checkRegistration() {
             const studentId = studentSelect.value;
             const ueId = ueSelect.value;
+            messageParagraph.textContent = "";  // Reset message
 
             if (studentId && ueId) {
+                // Vérifie si l'étudiant est déjà inscrit
                 fetch(`/api/check-registration/?student_id=${studentId}&ue_id=${ueId}`)
                     .then(response => response.json())
                     .then(data => {
                         if (data.registered) {
                             messageParagraph.textContent = "⚠️ Cet étudiant est déjà inscrit à cette UE.";
-                        } else {
-                            messageParagraph.textContent = "";
                         }
                     })
                     .catch(error => {
                         console.error('Erreur lors de la vérification de l’inscription:', error);
                         messageParagraph.textContent = "Erreur lors de la vérification.";
                     });
-            } else {
-                messageParagraph.textContent = "";
+
+                // Vérifie si plus de 40% des sessions ont eu lieu
+                fetch(`/api/check-ue-progress/?ue_id=${ueId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.too_late) {
+                            messageParagraph.textContent += "\n⏰ Attention : il est trop tard pour s'inscrire, plus de 40% des sessions ont eu lieu.";
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de la vérification des sessions:', error);
+                    });
             }
         }
 

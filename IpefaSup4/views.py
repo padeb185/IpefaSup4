@@ -1324,10 +1324,32 @@ def check_section(request):
 
 
 
+def check_ue_session_progress(request):
+    ue_id = request.GET.get('ue_id')
+    if ue_id:
+        try:
+            ue = AcademicUE.objects.get(id=ue_id)
+            total_sessions = ue.sessions.count()
+            sessions_with_participation = Participation.objects.filter(
+                session__in=ue.sessions.all()
+            ).exclude(status__isnull=True).distinct().count()
+
+            if total_sessions > 0:
+                ratio = sessions_with_participation / total_sessions
+            else:
+                ratio = 0
+
+            return JsonResponse({'too_late': ratio >= 0.4, 'ratio': ratio})
+        except AcademicUE.DoesNotExist:
+            return JsonResponse({'error': 'UE introuvable'}, status=404)
+    return JsonResponse({'error': 'Paramètre manquant'}, status=400)
+
+
 def approve_result_view(request, registration_id):
     logged_user = get_logged_user_from_request(request)
     if logged_user:
         if logged_user.person_type in ('educateur', 'administrateur'):
+
             registration = get_object_or_404(Registration, id=registration_id)
 
             if request.method == 'POST':
@@ -1335,30 +1357,28 @@ def approve_result_view(request, registration_id):
                 if form.is_valid():
                     form.save()
                     messages.success(request, "Résultat approuvé avec succès.")
-                    return redirect('registration_list', section_id=registration.academic_ue.section.id)
+                    # Redirige vers la même page pour afficher le message
+                    return redirect('approve_result', registration_id=registration_id)
             else:
                 form = RegistrationApprovalForm(instance=registration)
 
-            student_name = f"{registration.student.first_name} {registration.student.last_name}"
-            academic_ue_name = registration.academic_ue.wording
-            section_id = registration.academic_ue.section.id
-
-            return render(request, 'educator/approve_result.html', {
+            context = {
                 'form': form,
                 'logged_user': logged_user,
-                'current_date_time': datetime.now,
+                'current_date_time': datetime.now(),
                 'registration': registration,
-                'student_name': student_name,
-                'academic_ue_name': academic_ue_name,
+                'student_name': f"{registration.student.first_name} {registration.student.last_name}",
+                'academic_ue_name': registration.academic_ue.wording,
                 'section_id': registration.academic_ue.section.id
-            })
+            }
+
+            return render(request, 'educator/approve_result.html', context)
         else:
             return redirect('login')
     else:
         return redirect('login')
 
 
-from collections import defaultdict
 
 
 def list_approved_students(request):
