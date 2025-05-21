@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="bouton etc">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IpefaSup4/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IpefaSup4/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/educator/add_registration.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/educator/add_registration.html" afterDir="false" />
-    </list>
+    <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="add registration" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -207,15 +202,7 @@
       <workItem from="1747420707027" duration="150000" />
       <workItem from="1747660482367" duration="44000" />
       <workItem from="1747739779773" duration="3528000" />
-      <workItem from="1747743363752" duration="11068000" />
-    </task>
-    <task id="LOCAL-00094" summary="logged user">
-      <option name="closed" value="true" />
-      <created>1747065767216</created>
-      <option name="number" value="00094" />
-      <option name="presentableId" value="LOCAL-00094" />
-      <option name="project" value="LOCAL" />
-      <updated>1747065767216</updated>
+      <workItem from="1747743363752" duration="11191000" />
     </task>
     <task id="LOCAL-00095" summary="logged user">
       <option name="closed" value="true" />
@@ -601,7 +588,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747758699099</updated>
     </task>
-    <option name="localTasksCounter" value="143" />
+    <task id="LOCAL-00143" summary="add registration">
+      <option name="closed" value="true" />
+      <created>1747759898700</created>
+      <option name="number" value="00143" />
+      <option name="presentableId" value="LOCAL-00143" />
+      <option name="project" value="LOCAL" />
+      <updated>1747759898700</updated>
+    </task>
+    <option name="localTasksCounter" value="144" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -619,7 +614,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="professeur list etudiants" />
     <MESSAGE value="filtre professeur" />
     <MESSAGE value="student registration" />
     <MESSAGE value="student passed" />
@@ -644,7 +638,8 @@
     <MESSAGE value="validate studentMail" />
     <MESSAGE value="add section" />
     <MESSAGE value="bouton etc" />
-    <option name="LAST_COMMIT_MESSAGE" value="bouton etc" />
+    <MESSAGE value="add registration" />
+    <option name="LAST_COMMIT_MESSAGE" value="add registration" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
