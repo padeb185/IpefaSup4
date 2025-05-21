@@ -14,7 +14,7 @@ from .models import Educator, Student, Teacher, \
     Administrator, AcademicUE, Registration, Participation, Session, Section
 from .utils import get_logged_user_from_request
 from django.utils.timezone import now
-from django.core.exceptions import PermissionDenied
+
 
 
 
