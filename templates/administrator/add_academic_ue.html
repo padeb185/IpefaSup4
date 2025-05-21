@@ -38,4 +38,54 @@
         <a href="{% url 'welcome' %}" class="btn-red">Retour à la page d'accueil</a>
     </div>
 
-{% endblock %}
+   <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const ueSelect = document.querySelector('#id_idUE');
+
+        // Champs à remplir
+        const wordingInput = document.querySelector('#id_wording');
+        const numberPeriodsInput = document.querySelector('#id_numberPeriods');
+        const academicYearInput = document.querySelector('#id_academicYear');
+        const yearCycleInput = document.querySelector('#id_yearCycle');
+        const teacherSelect = document.querySelector('#id_teacher');
+        const sectionSelect = document.querySelector('#id_section');
+
+        ueSelect.addEventListener('change', function () {
+            const ueId = this.value;
+            if (ueId) {
+                fetch(`/ue-info/${ueId}/`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Erreur lors du chargement des données');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.wording && wordingInput) {
+                            wordingInput.value = data.wording;
+                        }
+                        if (data.numberPeriods && numberPeriodsInput) {
+                            numberPeriodsInput.value = data.numberPeriods;
+                        }
+                        if (data.section && sectionSelect) {
+                            sectionSelect.value = data.section;
+                        }
+                        if (data.academicUE) {
+                            if (data.academicUE.academicYear && academicYearInput) {
+                                academicYearInput.value = data.academicUE.academicYear;
+                            }
+                            if (data.academicUE.yearCycle && yearCycleInput) {
+                                yearCycleInput.value = data.academicUE.yearCycle;
+                            }
+                            if (data.academicUE.teacher && teacherSelect) {
+                                teacherSelect.value = data.academicUE.teacher;
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erreur fetch UE info:', error);
+                    });
+            }
+        });
+    });
+</script>

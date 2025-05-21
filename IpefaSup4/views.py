@@ -11,7 +11,7 @@ from .forms import LoginForm, StudentForm, TeacherForm, AdministratorForm, AddAc
     StudentProfileForm, EducatorForm, TeacherProfileForm, StudentEditProfileForm, AddRegistrationForm, \
     AddParticipationForm, AddSessionForm, AddSectionForm, RegistrationApprovalForm
 from .models import Educator, Student, Teacher, \
-    Administrator, AcademicUE, Registration, Participation, Session, Section
+    Administrator, AcademicUE, Registration, Participation, Session, Section, UE
 from .utils import get_logged_user_from_request
 from django.utils.timezone import now
 
@@ -1343,6 +1343,45 @@ def check_ue_session_progress(request):
         except AcademicUE.DoesNotExist:
             return JsonResponse({'error': 'UE introuvable'}, status=404)
     return JsonResponse({'error': 'Paramètre manquant'}, status=400)
+
+
+
+
+def get_ue_info(request, ue_id):
+    try:
+        ue = UE.objects.get(pk=ue_id)
+        # Vérifie si une AcademicUE existe pour cette UE
+        try:
+            academic_ue = AcademicUE.objects.get(pk=ue_id)
+        except AcademicUE.DoesNotExist:
+            academic_ue = None
+
+        # Prépare les données
+        data = {
+            'idUE': ue.idUE,
+            'wording': ue.wording,
+            'numberPeriods': ue.numberPeriods,
+            'section': ue.section.id if ue.section else None,
+            'section_name': str(ue.section) if ue.section else "",
+            'prerequisites': list(ue.prerequisites.values_list('id', flat=True)),
+            'academicUE': {},
+        }
+
+        if academic_ue:
+            data['academicUE'] = {
+                'academicYear': academic_ue.academicYear,
+                'yearCycle': academic_ue.yearCycle,
+                'teacher': academic_ue.teacher.id if academic_ue.teacher else None,
+                'teacher_name': str(academic_ue.teacher) if academic_ue.teacher else "",
+                'educator': academic_ue.educator.id if academic_ue.educator else None,
+                'educator_name': str(academic_ue.educator) if academic_ue.educator else "",
+            }
+
+        return JsonResponse(data)
+
+    except UE.DoesNotExist:
+        return JsonResponse({'error': 'UE non trouvée'}, status=404)
+
 
 
 def approve_result_view(request, registration_id):
