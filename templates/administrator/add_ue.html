@@ -17,6 +17,12 @@
     </header>
 
     <h1>Ajout d'une unité d'enseignement</h1>
+    {% if form.errors %}
+        <div class="errorlist">
+            {{ form.errors }}
+        </div>
+    {% endif %}
+
     {% if success %}
         <p>L'unité d'enseignement a été ajoutée avec succès</p>
     {% endif %}
@@ -33,4 +39,58 @@
     <div class="action-buttons">
         <a href="{% url 'welcome' %}" class="btn-red">Retour à la page d'accueil</a>
     </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const ueSelect = document.querySelector('#id_idUE'); // Champ de sélection de l'UE
+
+        // Champs à remplir automatiquement
+        const wordingInput = document.querySelector('#id_wording');
+        const numberPeriodsInput = document.querySelector('#id_numberPeriods');
+        const sectionSelect = document.querySelector('#id_section');
+
+        if (!ueSelect) {
+            console.error("Champ idUE introuvable.");
+            return;
+        }
+
+        ueSelect.addEventListener('change', function () {
+            const ueId = this.value;
+
+            // Réinitialiser les champs avant le fetch
+            if (wordingInput) wordingInput.value = '';
+            if (numberPeriodsInput) numberPeriodsInput.value = '';
+            if (sectionSelect) sectionSelect.selectedIndex = 0;
+
+            if (ueId.trim() !== '') {
+                fetch(`/ue-info/${encodeURIComponent(ueId)}/`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Erreur HTTP ' + response.status);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.wording && wordingInput) {
+                            wordingInput.value = data.wording;
+                        }
+                        if (data.numberPeriods && numberPeriodsInput) {
+                            numberPeriodsInput.value = data.numberPeriods;
+                        }
+                        if (data.section && sectionSelect) {
+                            for (let i = 0; i < sectionSelect.options.length; i++) {
+                                if (sectionSelect.options[i].value === data.section.toString()) {
+                                    sectionSelect.selectedIndex = i;
+                                    break;
+                                }
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors du chargement des données UE :', error);
+                    });
+            }
+        });
+    });
+</script>
+
 {% endblock %}

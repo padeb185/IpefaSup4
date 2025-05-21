@@ -3,7 +3,7 @@ from urllib import request
 
 from django.contrib import messages
 from django.contrib.auth.hashers import check_password
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from psycopg import IntegrityError
@@ -183,24 +183,46 @@ def add_academic_ue_views(request):
 
 def add_ue_views(request):
     logged_user = get_logged_user_from_request(request)
+
     if logged_user:
         if logged_user.person_type in ('administrateur', 'educateur'):
             if request.method == 'POST':
                 form = AddUEForm(request.POST)
                 if form.is_valid():
-                    form.save()  # Sauvegarde les données si le formulaire est valide
-                    form = AddUEForm()
-                    return render(request, 'administrator/add_ue.html',
-                                  {'form': form, 'success': True, 'logged_user': logged_user, 'current_date_time': datetime.now})
+                    try:
+                        form.save()
+                        form = AddUEForm()  # Réinitialiser pour nouvel ajout
+                        return render(request, 'administrator/add_ue.html', {
+                            'form': form,
+                            'success': True,
+                            'logged_user': logged_user,
+                            'current_date_time': datetime.now()
+                        })
+                    except Exception as e:
+                        form.add_error(None, f"Erreur lors de l'enregistrement : {e}")
+                        return render(request, 'administrator/add_ue.html', {
+                            'form': form,
+                            'logged_user': logged_user,
+                            'current_date_time': datetime.now()
+                        })
+                else:
+                    # Form invalide, renvoyer avec erreurs
+                    return render(request, 'administrator/add_ue.html', {
+                        'form': form,
+                        'logged_user': logged_user,
+                        'current_date_time': datetime.now()
+                    })
             else:
                 form = AddUEForm()
-                return render(request, 'administrator/add_ue.html',
-                              {'form': form, 'logged_user': logged_user, 'current_date_time': datetime.now})
+                return render(request, 'administrator/add_ue.html', {
+                    'form': form,
+                    'logged_user': logged_user,
+                    'current_date_time': datetime.now()
+                })
         else:
             return redirect('login')
     else:
         return redirect('login')
-
 
 
 
@@ -1381,6 +1403,22 @@ def get_ue_info(request, ue_id):
 
     except UE.DoesNotExist:
         return JsonResponse({'error': 'UE non trouvée'}, status=404)
+
+
+
+def ue_info(request, ue_id):
+    try:
+        ue = UE.objects.get(idUE=ue_id)
+        data = {
+            'wording': ue.wording,
+            'numberPeriods': ue.numberPeriods,
+            'section': ue.section.id,  # Assure-toi que les <option> du select ont pour valeur l'ID de section
+        }
+        return JsonResponse(data)
+    except UE.DoesNotExist:
+        raise Http404("UE non trouvée")
+
+
 
 
 
