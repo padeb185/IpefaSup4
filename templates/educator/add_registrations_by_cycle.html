@@ -50,7 +50,24 @@
     <a href="{% url 'registration_list' section.id %}" class="btn-red">Retour à la liste des inscriptions</a>
 </div>
 
-<script>
+    <script>
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    const csrftoken = getCookie('csrftoken');
+
     document.addEventListener('DOMContentLoaded', function () {
         const studentSelect = document.getElementById('student');
         const cycleSelect = document.getElementById('year_cycle');
@@ -68,11 +85,16 @@
             const yearCycle = cycleSelect.value;
             const sectionId = "{{ section.id }}";
 
-            alreadyRegistered = false; // reset
+            alreadyRegistered = false;
 
             if (studentId && yearCycle && sectionId) {
                 try {
-                    const response = await fetch(`/ajax/check-student-registration/?student_id=${studentId}&section_id=${sectionId}&year_cycle=${yearCycle}`);
+                    const response = await fetch(`/ajax/check-student-registration/?student_id=${studentId}&section_id=${sectionId}&year_cycle=${yearCycle}`, {
+                        method: 'GET',
+                        headers: {
+                            'X-CSRFToken': csrftoken,
+                        }
+                    });
                     const data = await response.json();
 
                     if (data.already_registered) {
@@ -105,4 +127,5 @@
         });
     });
 </script>
+
 {% endblock %}
