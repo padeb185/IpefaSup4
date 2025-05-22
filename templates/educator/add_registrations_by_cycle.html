@@ -2,51 +2,107 @@
 {% load static %}
 
 {% block title %}Ajout d'un Cycle d'études{% endblock %}
-
 {% block bodyId %}addCyclePage{% endblock %}
 
 {% block content %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 
-    <header class="welcome-header">
-        <div class="user-info">
-            Bienvenue sur IpefaSup,  {{ logged_user.first_name }} {{ logged_user.last_name }}
-        </div>
-        <div class="date-time">
-            Nous sommes le {{ current_date_time }}
-        </div>
-    </header>
-
-    <h1>Inscrire un étudiant à toutes les UE du cycle</h1>
-
-    <form method="post" class="form-box">
-        {% csrf_token %}
-
-        <div class="form-row">
-            <label for="student">Étudiant :</label>
-            <select name="student" id="student" required>
-                {% for student in students %}
-                    <option value="{{ student.id }}">{{ student.first_name }} {{ student.last_name }} {{ student.studentMail }}</option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <div class="form-row">
-            <label for="year_cycle">Cycle :</label>
-            <select name="year_cycle" id="year_cycle" required>
-                <option value="">-- Choisir un cycle --</option>
-                <option value="1">Cycle 1</option>
-                <option value="2">Cycle 2</option>
-                <option value="3">Cycle 3</option>
-                <option value="4">Cycle 4</option>
-            </select>
-        </div>
-
-        <div class="form-row">
-            <button type="submit">Inscrire</button>
-        </div>
-    </form>
-    <div class="action-buttons">
-        <a href="{% url 'registration_list' section_id %}" class="btn-red">Retour à la liste des inscriptions</a>
+<header class="welcome-header">
+    <div class="user-info">
+        Bienvenue sur IpefaSup, {{ logged_user.first_name }} {{ logged_user.last_name }}
     </div>
+    <div class="date-time">
+        Nous sommes le {{ current_date_time }}
+    </div>
+</header>
+
+<h1>Inscrire un étudiant à toutes les UE du cycle</h1>
+
+<form method="post" class="form-box" id="registration-form">
+    {% csrf_token %}
+
+    <div class="form-row">
+        <label for="student">Étudiant :</label>
+        <select name="student" id="student" required>
+            {% for student in students %}
+                <option value="{{ student.id }}">{{ student.first_name }} {{ student.last_name }} {{ student.studentMail }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-row">
+        <label for="year_cycle">Cycle :</label>
+        <select name="year_cycle" id="year_cycle" required>
+            <option value="">-- Choisir un cycle --</option>
+            <option value="1">Cycle 1</option>
+            <option value="2">Cycle 2</option>
+            <option value="3">Cycle 3</option>
+            <option value="4">Cycle 4</option>
+        </select>
+    </div>
+
+    <div class="form-row">
+        <button type="submit" id="submit-button">Inscrire</button>
+    </div>
+</form>
+
+<div class="action-buttons">
+    <a href="{% url 'registration_list' section.id %}" class="btn-red">Retour à la liste des inscriptions</a>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const studentSelect = document.getElementById('student');
+        const cycleSelect = document.getElementById('year_cycle');
+        const form = document.getElementById('registration-form');
+        const submitButton = document.getElementById('submit-button');
+
+        const infoBox = document.createElement('div');
+        infoBox.className = 'info-box';
+        cycleSelect.parentNode.appendChild(infoBox);
+
+        let alreadyRegistered = false;
+
+        async function checkRegistrationStatus() {
+            const studentId = studentSelect.value;
+            const yearCycle = cycleSelect.value;
+            const sectionId = "{{ section.id }}";
+
+            alreadyRegistered = false; // reset
+
+            if (studentId && yearCycle && sectionId) {
+                try {
+                    const response = await fetch(`/ajax/check-student-registration/?student_id=${studentId}&section_id=${sectionId}&year_cycle=${yearCycle}`);
+                    const data = await response.json();
+
+                    if (data.already_registered) {
+                        infoBox.innerHTML = `<p style="color: red; font-weight: bold;">❌ Cet étudiant est déjà inscrit à ce cycle.</p>`;
+                        alreadyRegistered = true;
+                        submitButton.disabled = true;
+                    } else {
+                        infoBox.innerHTML = '';
+                        alreadyRegistered = false;
+                        submitButton.disabled = false;
+                    }
+                } catch (error) {
+                    infoBox.innerHTML = `<p style="color: orange;">Erreur lors de la vérification de l'inscription.</p>`;
+                    console.error(error);
+                }
+            } else {
+                infoBox.innerHTML = '';
+                submitButton.disabled = false;
+            }
+        }
+
+        studentSelect.addEventListener('change', checkRegistrationStatus);
+        cycleSelect.addEventListener('change', checkRegistrationStatus);
+
+        form.addEventListener('submit', function (e) {
+            if (alreadyRegistered) {
+                e.preventDefault();
+                alert("Cet étudiant est déjà inscrit à ce cycle.");
+            }
+        });
+    });
+</script>
 {% endblock %}

@@ -1410,7 +1410,23 @@ def ue_info(request, ue_id):
     except UE.DoesNotExist:
         raise Http404("UE non trouvée")
 
+def check_student_registration(request):
+    student_id = request.GET.get('student_id')
+    section_id = request.GET.get('section_id')
+    year_cycle = request.GET.get('year_cycle')
 
+    if not all([student_id, section_id, year_cycle]):
+        return JsonResponse({'error': 'Données manquantes'}, status=400)
+
+    try:
+        academic_ues = AcademicUE.objects.filter(section_id=section_id, yearCycle=year_cycle)
+        already_registered = Registration.objects.filter(
+            student_id=student_id,
+            academic_ue__in=academic_ues
+        ).exists()
+        return JsonResponse({'already_registered': already_registered})
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
 
 
 
