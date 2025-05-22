@@ -27,13 +27,34 @@
         <p>L'unité d'enseignement a été ajoutée avec succès</p>
     {% endif %}
     <form action="{% url 'add_ue' %}" method="post">
+    {% csrf_token %}
 
-        {% csrf_token %}
-        {{ form.as_p }}
-        <p>
-            <input type="submit" value="Ajouter">
-        </p>
-    </form>
+    <p>
+        {{ form.idUE.label_tag }} {{ form.idUE }}
+    </p>
+    <p>
+        {{ form.wording.label_tag }} {{ form.wording }}
+    </p>
+    <p>
+        {{ form.numberPeriods.label_tag }} {{ form.numberPeriods }}
+    </p>
+    <p>
+        {{ form.section.label_tag }}
+        <select name="{{ form.section.name }}" id="id_section">
+            {% for section in form.section.field.queryset %}
+                <option value="{{ section.id }}">{{ section }}</option>
+            {% endfor %}
+        </select>
+    </p>
+    <p>
+        {{ form.prerequisites.label_tag }} {{ form.prerequisites }}
+    </p>
+
+    <p>
+        <input type="submit" value="Ajouter">
+    </p>
+</form>
+
 
     <br>
     <div class="action-buttons">
