@@ -1412,7 +1412,7 @@ def ue_info(request, ue_id):
         data = {
             'wording': ue.wording,
             'numberPeriods': ue.numberPeriods,
-            'section': ue.section.id,  # Assure-toi que les <option> du select ont pour valeur l'ID de section
+            'section': ue.section.id if ue.section else None
         }
         return JsonResponse(data)
     except UE.DoesNotExist:
