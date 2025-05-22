@@ -772,11 +772,7 @@ def student_manage_view(request):
         return redirect('login')
 
 
-from django.shortcuts import render, redirect
-from datetime import datetime
-from .models import Student
-from .forms import StudentForm, StudentProfileForm
-from .utils import get_logged_user_from_request  # selon où est ta fonction
+
 
 def add_student_view(request):
     logged_user = get_logged_user_from_request(request)
@@ -1019,11 +1015,6 @@ def manage_participations_in_ue(request, academic_ue_id):
 
 
 
-# Liste des sections accessibles par l'éducateur ou l'administrateur
-
-
-
-# Liste des sections accessibles par l'éducateur ou l'administrateur
 def section_list(request):
     logged_user = get_logged_user_from_request(request)
     if logged_user:
@@ -1216,6 +1207,7 @@ def add_registrations_by_cycle(request, section_id):
             return render(request, 'educator/add_registrations_by_cycle.html', {
                 'students': students,
                 'section': section,
+                'section_id': section.id,  # <-- AJOUT ESSENTIEL
                 'logged_user': logged_user,
                 'current_date_time': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             })
@@ -1456,23 +1448,31 @@ def approve_result_view(request, registration_id):
         return redirect('login')
 
 
-
-
 def list_approved_students(request):
     logged_user = get_logged_user_from_request(request)
     if logged_user:
-        if logged_user.person_type in ( 'educateur', 'administrateur'):
+        if logged_user.person_type in ('educateur', 'administrateur'):
 
-            # Filtrer les inscriptions où l'étudiant a une UE avec status AP et approved True
+            # Filtrer les inscriptions approuvées avec le statut 'AP'
             registrations = Registration.objects.filter(
                 status='AP',
                 approved=True
-            ).select_related('student', 'academic_ue')
+            ).select_related('student', 'academic_ue__section')
+
+            # Récupérer la section à partir de la première inscription trouvée
+            section = None
+            if registrations.exists():
+                first_registration = registrations.first()
+                if first_registration.academic_ue and first_registration.academic_ue.section:
+                    section = first_registration.academic_ue.section
+
+            section_id = section.id if section else None
 
             return render(request, 'educator/list_approved_students.html', {
                 'registrations': registrations,
                 'logged_user': logged_user,
-                'current_date_time': datetime.now,
+                'current_date_time': datetime.now(),
+                'section_id': section_id,
             })
         else:
             return redirect('login')

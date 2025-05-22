@@ -5,7 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="add academicUE">
-      <change beforePath="$PROJECT_DIR$/templates/administrator/add_ue.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/administrator/add_ue.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IpefaSup4/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/IpefaSup4/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/educator/add_registrations_by_cycle.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/educator/add_registrations_by_cycle.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/educator/list_approved_students.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/educator/list_approved_students.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -207,15 +210,9 @@
       <workItem from="1747743363752" duration="11191000" />
       <workItem from="1747841814461" duration="2404000" />
       <workItem from="1747845168412" duration="2225000" />
-      <workItem from="1747913347585" duration="575000" />
-    </task>
-    <task id="LOCAL-00101" summary="check studentMail">
-      <option name="closed" value="true" />
-      <created>1747221377719</created>
-      <option name="number" value="00101" />
-      <option name="presentableId" value="LOCAL-00101" />
-      <option name="project" value="LOCAL" />
-      <updated>1747221377719</updated>
+      <workItem from="1747913347585" duration="837000" />
+      <workItem from="1747914213508" duration="11000" />
+      <workItem from="1747920753979" duration="1284000" />
     </task>
     <task id="LOCAL-00102" summary="check studentMail">
       <option name="closed" value="true" />
@@ -601,7 +598,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747913755122</updated>
     </task>
-    <option name="localTasksCounter" value="150" />
+    <task id="LOCAL-00150" summary="add academicUE">
+      <option name="closed" value="true" />
+      <created>1747914134624</created>
+      <option name="number" value="00150" />
+      <option name="presentableId" value="LOCAL-00150" />
+      <option name="project" value="LOCAL" />
+      <updated>1747914134624</updated>
+    </task>
+    <option name="localTasksCounter" value="151" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

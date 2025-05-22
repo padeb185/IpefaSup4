@@ -17,16 +17,17 @@
     </div>
 </header>
   <h1>Inscriptions approuvées par étudiant</h1>
-
+    <div>
+        <input type="text" class="filter-input" placeholder="Filtrer par étudiant">
+        <input type="text" class="filter-input" placeholder="Filtrer par UE">
+        <input type="text" class="filter-input" placeholder="Filtrer par note">
+        <input type="text" class="filter-input" placeholder="Filtrer par statut">
+        <input type="text" class="filter-input" placeholder="Filtrer par approbation">
+    </div>
+    <br>
+    <br>
   <table id="registrationTable" border="1">
     <thead>
-      <tr>
-        <th><input type="text" class="filter-input" placeholder="Filtrer par étudiant"></th>
-        <th><input type="text" class="filter-input" placeholder="Filtrer par UE"></th>
-        <th><input type="text" class="filter-input" placeholder="Filtrer par note"></th>
-        <th><input type="text" class="filter-input" placeholder="Filtrer par statut"></th>
-        <th><input type="text" class="filter-input" placeholder="Filtrer par approbation"></th>
-      </tr>
       <tr>
         <th>Étudiant</th>
         <th>Unité d'enseignement</th>
@@ -63,6 +64,11 @@
       {% endfor %}
     </tbody>
   </table>
+
+
+<div class="action-buttons">
+    <a href="{% url 'registration_list' section_id %}" class="btn-red">Retour à la liste des inscriptions</a>
+</div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script>
