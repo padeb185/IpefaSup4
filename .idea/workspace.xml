@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="addRegistrationByCycle">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/administrator/add_academic_ue.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/administrator/add_academic_ue.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/administrator/add_ue.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/administrator/add_ue.html" afterDir="false" />
-    </list>
+    <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="crsftoken" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -212,15 +208,7 @@
       <workItem from="1747913347585" duration="837000" />
       <workItem from="1747914213508" duration="11000" />
       <workItem from="1747920753979" duration="3437000" />
-      <workItem from="1748003721144" duration="296000" />
-    </task>
-    <task id="LOCAL-00105" summary="check studentMail">
-      <option name="closed" value="true" />
-      <created>1747296775875</created>
-      <option name="number" value="00105" />
-      <option name="presentableId" value="LOCAL-00105" />
-      <option name="project" value="LOCAL" />
-      <updated>1747296775875</updated>
+      <workItem from="1748003721144" duration="327000" />
     </task>
     <task id="LOCAL-00106" summary="check studentMail">
       <option name="closed" value="true" />
@@ -606,7 +594,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747923251356</updated>
     </task>
-    <option name="localTasksCounter" value="154" />
+    <task id="LOCAL-00154" summary="crsftoken">
+      <option name="closed" value="true" />
+      <created>1748004036556</created>
+      <option name="number" value="00154" />
+      <option name="presentableId" value="LOCAL-00154" />
+      <option name="project" value="LOCAL" />
+      <updated>1748004036556</updated>
+    </task>
+    <option name="localTasksCounter" value="155" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -624,7 +620,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="student result" />
     <MESSAGE value="student result teacher view" />
     <MESSAGE value="teacher participation" />
     <MESSAGE value="teacher participation status" />
@@ -649,7 +644,8 @@
     <MESSAGE value="add academicUE" />
     <MESSAGE value="bouton retour" />
     <MESSAGE value="addRegistrationByCycle" />
-    <option name="LAST_COMMIT_MESSAGE" value="addRegistrationByCycle" />
+    <MESSAGE value="crsftoken" />
+    <option name="LAST_COMMIT_MESSAGE" value="crsftoken" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
