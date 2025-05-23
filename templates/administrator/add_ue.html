@@ -61,29 +61,54 @@
         <a href="{% url 'welcome' %}" class="btn-red">Retour à la page d'accueil</a>
     </div>
     <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const ueSelect = document.querySelector('#id_idUE'); // Champ de sélection de l'UE
+        document.addEventListener('DOMContentLoaded', function () {
+            const ueSelect = document.querySelector('#id_idUE'); // Champ de sélection de l'UE
 
-        // Champs à remplir automatiquement
-        const wordingInput = document.querySelector('#id_wording');
-        const numberPeriodsInput = document.querySelector('#id_numberPeriods');
-        const sectionSelect = document.querySelector('#id_section');
+            // Champs à remplir automatiquement
+            const wordingInput = document.querySelector('#id_wording');
+            const numberPeriodsInput = document.querySelector('#id_numberPeriods');
+            const sectionSelect = document.querySelector('#id_section');
 
-        if (!ueSelect) {
-            console.error("Champ idUE introuvable.");
-            return;
-        }
+            // Fonction pour récupérer le token CSRF
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
 
-        ueSelect.addEventListener('change', function () {
-            const ueId = this.value;
+            const csrftoken = getCookie('csrftoken');
 
-            // Réinitialiser les champs avant le fetch
-            if (wordingInput) wordingInput.value = '';
-            if (numberPeriodsInput) numberPeriodsInput.value = '';
-            if (sectionSelect) sectionSelect.selectedIndex = 0;
+            if (!ueSelect) {
+                console.error("Champ idUE introuvable.");
+                return;
+            }
 
-            if (ueId.trim() !== '') {
-                fetch(`/ue-info/${encodeURIComponent(ueId)}/`)
+            ueSelect.addEventListener('change', function () {
+                const ueId = this.value;
+
+                // Réinitialiser les champs avant le fetch
+                if (wordingInput) wordingInput.value = '';
+                if (numberPeriodsInput) numberPeriodsInput.value = '';
+                if (sectionSelect) sectionSelect.selectedIndex = 0;
+
+                if (ueId.trim() !== '') {
+                    fetch(`/ue-info/${encodeURIComponent(ueId)}/`, {
+                        method: 'GET',
+                        headers: {
+                            'X-CSRFToken': csrftoken,
+                            'Accept': 'application/json'
+                        },
+                        credentials: 'same-origin' // nécessaire pour envoyer les cookies, dont le CSRF
+                    })
                     .then(response => {
                         if (!response.ok) {
                             throw new Error('Erreur HTTP ' + response.status);
@@ -109,9 +134,10 @@
                     .catch(error => {
                         console.error('Erreur lors du chargement des données UE :', error);
                     });
-            }
+                }
+            });
         });
-    });
-</script>
+    </script>
+
 
 {% endblock %}
