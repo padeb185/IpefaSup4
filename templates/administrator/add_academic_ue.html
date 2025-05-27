@@ -17,6 +17,11 @@
     </header>
 
     <h1>Ajout d'une unité académique</h1>
+
+    {% if success %}
+        <p>Le cours a été ajouté avec succès</p>
+    {% endif %}
+
     <form action="{% url 'add_academic_ue' %}" method="post">
 
         {% csrf_token %}
@@ -33,4 +38,81 @@
         <a href="{% url 'welcome' %}" class="btn-red">Retour à la page d'accueil</a>
     </div>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const ueSelect = document.querySelector('#id_idUE');
+
+        // Champs à remplir
+        const wordingInput = document.querySelector('#id_wording');
+        const numberPeriodsInput = document.querySelector('#id_numberPeriods');
+        const academicYearInput = document.querySelector('#id_academicYear');
+        const yearCycleInput = document.querySelector('#id_yearCycle');
+        const teacherSelect = document.querySelector('#id_teacher');
+        const sectionSelect = document.querySelector('#id_section');
+
+        // Fonction pour obtenir le token CSRF
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Ce cookie commence-t-il par "name=" ?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        const csrftoken = getCookie('csrftoken');
+
+        ueSelect.addEventListener('change', function () {
+            const ueId = this.value;
+            if (ueId) {
+                fetch(`/ue-info/${ueId}/`, {
+                    method: 'GET',
+                    headers: {
+                        'X-CSRFToken': csrftoken,
+                        'Accept': 'application/json',
+                    },
+                    credentials: 'same-origin' // pour inclure les cookies (dont le CSRF)
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erreur lors du chargement des données');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.wording && wordingInput) {
+                        wordingInput.value = data.wording;
+                    }
+                    if (data.numberPeriods && numberPeriodsInput) {
+                        numberPeriodsInput.value = data.numberPeriods;
+                    }
+                    if (data.section && sectionSelect) {
+                        sectionSelect.value = data.section;
+                    }
+                    if (data.academicUE) {
+                        if (data.academicUE.academicYear && academicYearInput) {
+                            academicYearInput.value = data.academicUE.academicYear;
+                        }
+                        if (data.academicUE.yearCycle && yearCycleInput) {
+                            yearCycleInput.value = data.academicUE.yearCycle;
+                        }
+                        if (data.academicUE.teacher && teacherSelect) {
+                            teacherSelect.value = data.academicUE.teacher;
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur fetch UE info:', error);
+                });
+            }
+        });
+    });
+  </script>
 {% endblock %}

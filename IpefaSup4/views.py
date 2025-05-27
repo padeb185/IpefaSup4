@@ -3,7 +3,7 @@ from urllib import request
 
 from django.contrib import messages
 from django.contrib.auth.hashers import check_password
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from psycopg import IntegrityError
@@ -11,10 +11,10 @@ from .forms import LoginForm, StudentForm, TeacherForm, AdministratorForm, AddAc
     StudentProfileForm, EducatorForm, TeacherProfileForm, StudentEditProfileForm, AddRegistrationForm, \
     AddParticipationForm, AddSessionForm, AddSectionForm, RegistrationApprovalForm
 from .models import Educator, Student, Teacher, \
-    Administrator, AcademicUE, Registration, Participation, Session, Section
+    Administrator, AcademicUE, Registration, Participation, Session, Section, UE
 from .utils import get_logged_user_from_request
 from django.utils.timezone import now
-from django.core.exceptions import PermissionDenied
+
 
 
 
@@ -104,50 +104,59 @@ def login(request):
 
 
 def register(request):
-    if request.method == 'POST':
-        # Créez les formulaires avec le préfixe
-        studentForm = StudentForm(request.POST, prefix="st")
-        teacherForm = TeacherForm(request.POST, prefix="te")
-        educatorForm = EducatorForm(request.POST, prefix="ed")
-        administratorForm = AdministratorForm(request.POST, prefix="ad")
+    logged_user = get_logged_user_from_request(request)
+    if logged_user:
+        if logged_user.person_type in ('educateur', 'administrateur'):
 
-        # Vérifiez quel type de profil a été sélectionné et sauvegardez le formulaire correspondant
-        profile_type = request.POST.get('profileType')
+            if request.method == 'POST':
+                # Créez les formulaires avec le préfixe
+                studentForm = StudentForm(request.POST, prefix="st")
+                teacherForm = TeacherForm(request.POST, prefix="te")
+                educatorForm = EducatorForm(request.POST, prefix="ed")
+                administratorForm = AdministratorForm(request.POST, prefix="ad")
 
-        if profile_type == 'Student' and studentForm.is_valid():
-            studentForm.save()
-            return redirect('/welcome')  # Redirigez après la création du compte
-        elif profile_type == 'Teacher' and teacherForm.is_valid():
-            teacherForm.save()
-            return redirect('/welcome')
-        elif profile_type == 'Educator' and educatorForm.is_valid():
-            educatorForm.save()
-            return redirect('/welcome')
-        elif profile_type == 'Administrator' and administratorForm.is_valid():
-            administratorForm.save()
-            return redirect('/welcome')
+                # Vérifiez quel type de profil a été sélectionné et sauvegardez le formulaire correspondant
+                profile_type = request.POST.get('profileType')
 
-        # Si aucun formulaire n'est valide ou si un autre problème se produit
-        return render(request, 'user_profile.html', {
-            'studentForm': studentForm,
-            'teacherForm': teacherForm,
-            'educatorForm': educatorForm,
-            'administratorForm': administratorForm
-        })
+                if profile_type == 'Student' and studentForm.is_valid():
+                    studentForm.save()
+                    return redirect('register')  # Redirigez après la création du compte
+                elif profile_type == 'Teacher' and teacherForm.is_valid():
+                    teacherForm.save()
+                    return redirect('/register')
+                elif profile_type == 'Educator' and educatorForm.is_valid():
+                    educatorForm.save()
+                    return redirect('/register')
+                elif profile_type == 'Administrator' and administratorForm.is_valid():
+                    administratorForm.save()
+                    return redirect('/register')
 
+                # Si aucun formulaire n'est valide ou si un autre problème se produit
+                return render(request, 'user_profile.html', {
+                    'studentForm': studentForm,
+                    'teacherForm': teacherForm,
+                    'educatorForm': educatorForm,
+                    'administratorForm': administratorForm
+                })
+
+            else:
+                # Si ce n'est pas un POST, renvoyez le formulaire avec le préfixe
+                studentForm = StudentForm(prefix="st")
+                teacherForm = TeacherForm(prefix="te")
+                educatorForm = EducatorForm(prefix="ed")
+                administratorForm = AdministratorForm(prefix="ad")
+
+                return render(request, 'user_profile.html', {
+                    'studentForm': studentForm,
+                    'teacherForm': teacherForm,
+                    'educatorForm': educatorForm,
+                    'administratorForm': administratorForm
+                })
+
+        else:
+            return redirect('login')
     else:
-        # Si ce n'est pas un POST, renvoyez le formulaire avec le préfixe
-        studentForm = StudentForm(prefix="st")
-        teacherForm = TeacherForm(prefix="te")
-        educatorForm = EducatorForm(prefix="ed")
-        administratorForm = AdministratorForm(prefix="ad")
-
-        return render(request, 'user_profile.html', {
-            'studentForm': studentForm,
-            'teacherForm': teacherForm,
-            'educatorForm': educatorForm,
-            'administratorForm': administratorForm
-        })
+        return redirect('login')
 
 
 def add_academic_ue_views(request):
@@ -174,24 +183,46 @@ def add_academic_ue_views(request):
 
 def add_ue_views(request):
     logged_user = get_logged_user_from_request(request)
+
     if logged_user:
         if logged_user.person_type in ('administrateur', 'educateur'):
             if request.method == 'POST':
                 form = AddUEForm(request.POST)
                 if form.is_valid():
-                    form.save()  # Sauvegarde les données si le formulaire est valide
-                    form = AddUEForm()
-                    return render(request, 'administrator/add_ue.html',
-                                  {'form': form, 'success': True, 'logged_user': logged_user, 'current_date_time': datetime.now})
+                    try:
+                        form.save()
+                        form = AddUEForm()  # Réinitialiser pour nouvel ajout
+                        return render(request, 'administrator/add_ue.html', {
+                            'form': form,
+                            'success': True,
+                            'logged_user': logged_user,
+                            'current_date_time': datetime.now()
+                        })
+                    except Exception as e:
+                        form.add_error(None, f"Erreur lors de l'enregistrement : {e}")
+                        return render(request, 'administrator/add_ue.html', {
+                            'form': form,
+                            'logged_user': logged_user,
+                            'current_date_time': datetime.now()
+                        })
+                else:
+                    # Form invalide, renvoyer avec erreurs
+                    return render(request, 'administrator/add_ue.html', {
+                        'form': form,
+                        'logged_user': logged_user,
+                        'current_date_time': datetime.now()
+                    })
             else:
                 form = AddUEForm()
-                return render(request, 'administrator/add_ue.html',
-                              {'form': form, 'logged_user': logged_user, 'current_date_time': datetime.now})
+                return render(request, 'administrator/add_ue.html', {
+                    'form': form,
+                    'logged_user': logged_user,
+                    'current_date_time': datetime.now()
+                })
         else:
             return redirect('login')
     else:
         return redirect('login')
-
 
 
 
@@ -259,26 +290,52 @@ def add_session_views(request):
         return redirect('login')
 
 
+
 def add_section_views(request):
     logged_user = get_logged_user_from_request(request)
     if logged_user:
         if logged_user.person_type in ('administrateur', 'educateur'):
             if request.method == 'POST':
                 form = AddSectionForm(request.POST)
-                if form.is_valid():
-                    form.save() # Sauvegarde les données si le formulaire est valide
-                    form = AddSectionForm()
-                    return render(request, 'administrator/section.html',
-                                  {'form': form, 'success': True,
-                                            'logged_user': logged_user, 'current_date_time': datetime.now})  # Re# Rediriger ou renvoyer une réponse après soumission
+                wording = request.POST.get('wording').strip()
+
+                if Section.objects.filter(wording=wording).exists():
+                    pass
+                else:
+                    if form.is_valid():
+                        form.save()
+
+                        return render(request, 'administrator/session.html',
+                                      {
+                                          'form': form,
+                                          'logged_user': logged_user,
+                                          'current_date_time': datetime.now,
+                                          'success': True
+                                      })  # Assurez-vous que 'section' est le nom correct de l'URL
+                    else:
+                        return render(request, 'administrator/session.html',
+                                      {'form':form,
+                                                'logged_user': logged_user,
+                                                'current_date_time': datetime.now})
+
+                # Si le formulaire n'est pas valide ou si la section existe déjà, renvoyez le formulaire avec les erreurs
+                return render(request, 'administrator/section.html', {
+                    'form': form,
+                    'logged_user': logged_user,
+                    'current_date_time': datetime.now()
+                })
             else:
                 form = AddSectionForm()
-                return render(request, 'administrator/section.html',
-                      {'form': form, 'logged_user': logged_user, 'current_date_time': datetime.now})
+                return render(request, 'administrator/section.html', {
+                    'form': form,
+                    'logged_user': logged_user,
+                    'current_date_time': datetime.now()
+                })
         else:
             return redirect('login')
     else:
         return redirect('login')
+
 
 
 
@@ -715,11 +772,7 @@ def student_manage_view(request):
         return redirect('login')
 
 
-from django.shortcuts import render, redirect
-from datetime import datetime
-from .models import Student
-from .forms import StudentForm, StudentProfileForm
-from .utils import get_logged_user_from_request  # selon où est ta fonction
+
 
 def add_student_view(request):
     logged_user = get_logged_user_from_request(request)
@@ -962,11 +1015,6 @@ def manage_participations_in_ue(request, academic_ue_id):
 
 
 
-# Liste des sections accessibles par l'éducateur ou l'administrateur
-
-
-
-# Liste des sections accessibles par l'éducateur ou l'administrateur
 def section_list(request):
     logged_user = get_logged_user_from_request(request)
     if logged_user:
@@ -1159,6 +1207,7 @@ def add_registrations_by_cycle(request, section_id):
             return render(request, 'educator/add_registrations_by_cycle.html', {
                 'students': students,
                 'section': section,
+                'section_id': section.id,  # <-- AJOUT ESSENTIEL
                 'logged_user': logged_user,
                 'current_date_time': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             })
@@ -1221,24 +1270,25 @@ def check_student_mail(request):
 
 
 def check_employee_email(request):
+    import json
     if request.method == 'POST':
-        import json
         try:
             data = json.loads(request.body)
-            employee_email = data.get('employeeEmail', '').strip()
+
+            employee_email = data.get('employee_email', '').strip()
 
             if not employee_email:
                 return JsonResponse({'exists': False, 'error': 'Adresse email manquante'})
 
             exists = (
-                Educator.objects.filter(employeeEmail=employee_email).exists() or
-                Teacher.objects.filter(employeeEmail=employee_email).exists() or
-                Administrator.objects.filter(employeeEmail=employee_email).exists()
+                Educator.objects.filter(employee_email=employee_email).exists() or
+                Teacher.objects.filter(employee_email=employee_email).exists() or
+                Administrator.objects.filter(employee_email=employee_email).exists()
             )
 
             return JsonResponse({
                 'exists': exists,
-                'message': 'Cette adresse mail existe déjà' if exists else "Adresse disponible"
+                'message': 'Cette adresse mail existe déjà' if exists else 'Adresse disponible'
             })
 
         except json.JSONDecodeError:
@@ -1261,11 +1311,130 @@ def check_matricule(request):
 
     return JsonResponse({'exists': False})
 
+def check_registration(request):
+    student_id = request.GET.get('student_id')
+    ue_id = request.GET.get('ue_id')
+
+    exists = Registration.objects.filter(student_id=student_id, academic_ue_id=ue_id).exists()
+    return JsonResponse({'registered': exists})
+
+
+
+
+def check_section(request):
+    import json
+    try:
+        # Lire les données JSON envoyées dans la requête
+        data = json.loads(request.body)
+        wording = data.get('wording', '').strip()
+
+        # Vérifier si la section existe déjà
+        exists = Section.objects.filter(wording=wording).exists()
+
+        return JsonResponse({'exists': exists})
+    except json.JSONDecodeError:
+        # En cas d'erreur de décodage JSON, renvoyer une réponse par défaut
+        return JsonResponse({'exists': False})
+
+
+
+def check_ue_session_progress(request):
+    ue_id = request.GET.get('ue_id')
+    if ue_id:
+        try:
+            ue = AcademicUE.objects.get(id=ue_id)
+            total_sessions = ue.sessions.count()
+            sessions_with_participation = Participation.objects.filter(
+                session__in=ue.sessions.all()
+            ).exclude(status__isnull=True).distinct().count()
+
+            if total_sessions > 0:
+                ratio = sessions_with_participation / total_sessions
+            else:
+                ratio = 0
+
+            return JsonResponse({'too_late': ratio >= 0.4, 'ratio': ratio})
+        except AcademicUE.DoesNotExist:
+            return JsonResponse({'error': 'UE introuvable'}, status=404)
+    return JsonResponse({'error': 'Paramètre manquant'}, status=400)
+
+
+
+
+def get_ue_info(request, ue_id):
+    try:
+        ue = UE.objects.get(pk=ue_id)
+        # Vérifie si une AcademicUE existe pour cette UE
+        try:
+            academic_ue = AcademicUE.objects.get(pk=ue_id)
+        except AcademicUE.DoesNotExist:
+            academic_ue = None
+
+        # Prépare les données
+        data = {
+            'idUE': ue.idUE,
+            'wording': ue.wording,
+            'numberPeriods': ue.numberPeriods,
+            'section': ue.section.id if ue.section else None,
+            'section_name': str(ue.section) if ue.section else "",
+            'prerequisites': list(ue.prerequisites.values_list('id', flat=True)),
+            'academicUE': {},
+        }
+
+        if academic_ue:
+            data['academicUE'] = {
+                'academicYear': academic_ue.academicYear,
+                'yearCycle': academic_ue.yearCycle,
+                'teacher': academic_ue.teacher.id if academic_ue.teacher else None,
+                'teacher_name': str(academic_ue.teacher) if academic_ue.teacher else "",
+                'educator': academic_ue.educator.id if academic_ue.educator else None,
+                'educator_name': str(academic_ue.educator) if academic_ue.educator else "",
+            }
+
+        return JsonResponse(data)
+
+    except UE.DoesNotExist:
+        return JsonResponse({'error': 'UE non trouvée'}, status=404)
+
+
+
+def ue_info(request, ue_id):
+    try:
+        ue = UE.objects.get(idUE=ue_id)
+        data = {
+            'wording': ue.wording,
+            'numberPeriods': ue.numberPeriods,
+            'section': ue.section.id if ue.section else None
+        }
+        return JsonResponse(data)
+    except UE.DoesNotExist:
+        raise Http404("UE non trouvée")
+
+def check_student_registration(request):
+    student_id = request.GET.get('student_id')
+    section_id = request.GET.get('section_id')
+    year_cycle = request.GET.get('year_cycle')
+
+    if not all([student_id, section_id, year_cycle]):
+        return JsonResponse({'error': 'Données manquantes'}, status=400)
+
+    try:
+        academic_ues = AcademicUE.objects.filter(section_id=section_id, yearCycle=year_cycle)
+        already_registered = Registration.objects.filter(
+            student_id=student_id,
+            academic_ue__in=academic_ues
+        ).exists()
+        return JsonResponse({'already_registered': already_registered})
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+
 
 def approve_result_view(request, registration_id):
     logged_user = get_logged_user_from_request(request)
     if logged_user:
         if logged_user.person_type in ('educateur', 'administrateur'):
+
             registration = get_object_or_404(Registration, id=registration_id)
 
             if request.method == 'POST':
@@ -1273,47 +1442,53 @@ def approve_result_view(request, registration_id):
                 if form.is_valid():
                     form.save()
                     messages.success(request, "Résultat approuvé avec succès.")
-                    return redirect('registration_list', section_id=registration.academic_ue.section.id)
+                    # Redirige vers la même page pour afficher le message
+                    return redirect('approve_result', registration_id=registration_id)
             else:
                 form = RegistrationApprovalForm(instance=registration)
 
-            student_name = f"{registration.student.first_name} {registration.student.last_name}"
-            academic_ue_name = registration.academic_ue.wording
-            section_id = registration.academic_ue.section.id
-
-            return render(request, 'educator/approve_result.html', {
+            context = {
                 'form': form,
                 'logged_user': logged_user,
-                'current_date_time': datetime.now,
+                'current_date_time': datetime.now(),
                 'registration': registration,
-                'student_name': student_name,
-                'academic_ue_name': academic_ue_name,
+                'student_name': f"{registration.student.first_name} {registration.student.last_name}",
+                'academic_ue_name': registration.academic_ue.wording,
                 'section_id': registration.academic_ue.section.id
-            })
+            }
+
+            return render(request, 'educator/approve_result.html', context)
         else:
             return redirect('login')
     else:
         return redirect('login')
 
 
-from collections import defaultdict
-
-
 def list_approved_students(request):
     logged_user = get_logged_user_from_request(request)
     if logged_user:
-        if logged_user.person_type in ( 'educateur', 'administrateur'):
+        if logged_user.person_type in ('educateur', 'administrateur'):
 
-            # Filtrer les inscriptions où l'étudiant a une UE avec status AP et approved True
+            # Filtrer les inscriptions approuvées avec le statut 'AP'
             registrations = Registration.objects.filter(
                 status='AP',
                 approved=True
-            ).select_related('student', 'academic_ue')
+            ).select_related('student', 'academic_ue__section')
+
+            # Récupérer la section à partir de la première inscription trouvée
+            section = None
+            if registrations.exists():
+                first_registration = registrations.first()
+                if first_registration.academic_ue and first_registration.academic_ue.section:
+                    section = first_registration.academic_ue.section
+
+            section_id = section.id if section else None
 
             return render(request, 'educator/list_approved_students.html', {
                 'registrations': registrations,
                 'logged_user': logged_user,
-                'current_date_time': datetime.now,
+                'current_date_time': datetime.now(),
+                'section_id': section_id,
             })
         else:
             return redirect('login')

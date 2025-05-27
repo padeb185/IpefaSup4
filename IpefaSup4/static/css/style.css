@@ -283,6 +283,10 @@ form input[type="password"]:focus,
   border: 2px solid red !important;
   background-color: #ffe6e6 !important;
 }
+.error-input {
+    border: 2px solid red;
+    background-color: #ffe6e6;
+}
 
 .error-message {
   color: red;

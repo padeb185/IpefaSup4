@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 
 def validate_student_email(email):
-    pattern = r"^[a-z]+\.[a-z]+@student\.efpl\.be$"
+    pattern = r"^[a-z]+\.[a-z]+[0-9]*@student\.efpl\.be$"
     if not re.match(pattern, email):
         raise ValidationError("L'adresse email doit être du type nom.prenom@student.efpl.be")
 

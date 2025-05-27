@@ -1,8 +1,8 @@
 from django import forms
 from .models import Educator, Teacher, Student, Administrator, AcademicUE, UE, Registration, Participation, Session, \
-    Section
+    Section, validate_student_email
 from django.contrib.auth.hashers import make_password, check_password
-from .utils import validate_student_email
+
 from django import forms
 
 
@@ -85,6 +85,7 @@ class BaseListForm(forms.ModelForm):
         return instance
 
 
+
 class StudentForm(BaseListForm):
     class Meta:
         model = Student
@@ -102,7 +103,7 @@ class TeacherForm(BaseListForm):
         fields = '__all__'
         widgets = {
             'matricule': forms.TextInput(attrs={'id': 'matricule-teacher', 'class': 'form-control'}),
-            'employeeEmail': forms.EmailInput(attrs={'id': 'employeeEmail-teacher', 'class': 'form-control'}),
+            'employee_email': forms.EmailInput(attrs={'id': 'employee_email-teacher', 'class': 'form-control'}),
         }
 
 class AdministratorForm(BaseListForm):
@@ -111,7 +112,7 @@ class AdministratorForm(BaseListForm):
         fields = '__all__'
         widgets = {
             'matricule': forms.TextInput(attrs={'id': 'matricule-administrator', 'class': 'form-control'}),
-            'employeeEmail': forms.EmailInput(attrs={'id': 'employeeEmail-administrator', 'class': 'form-control'}),
+            'employee_email': forms.EmailInput(attrs={'id': 'employee_email-administrator', 'class': 'form-control'}),
         }
 
 class EducatorForm(BaseListForm):
@@ -120,14 +121,14 @@ class EducatorForm(BaseListForm):
         fields = '__all__'
         widgets = {
             'matricule': forms.TextInput(attrs={'id': 'matricule-educator', 'class': 'form-control'}),
-            'employeeEmail': forms.EmailInput(attrs={'id': 'employeeEmail-educator', 'class': 'form-control'}),
+            'employee_email': forms.EmailInput(attrs={'id': 'employee_email-educator', 'class': 'form-control'}),
         }
 
 class AddAcademicUEForm(forms.ModelForm):
-
     class Meta:
         model = AcademicUE
-        fields = '__all__'  # Pas besoin de `exclude = {}` si on utilise `fields = '__all__'`
+        exclude = {'educator'}
+
 
 
 class AddUEForm(forms.ModelForm):
@@ -158,6 +159,9 @@ class AddSectionForm(forms.ModelForm):
     class Meta:
         model = Section
         fields = '__all__'
+        widgets = {
+            'wording': forms.TextInput(attrs={'id': 'wording', 'class': 'form-control'}),
+        }
 
 
 

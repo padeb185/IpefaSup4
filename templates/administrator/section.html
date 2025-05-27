@@ -9,7 +9,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
     <header class="welcome-header">
         <div class="user-info">
-            Bienvenue sur IpefaSup,  {{ logged_user.first_name }} {{ logged_user.last_name }}
+            Bienvenue sur IpefaSup, {{ logged_user.first_name }} {{ logged_user.last_name }}
         </div>
         <div class="date-time">
             Nous sommes le {{ current_date_time }}
@@ -18,12 +18,14 @@
 
     <h1>Ajout d'une section</h1>
     {% if success %}
-        <p>La section a été ajoutée avec succès</p>
+        <p>
+        La section a été ajoutée avec succès
+        </p>
     {% endif %}
     <form action="{% url 'section' %}" method="post">
-
         {% csrf_token %}
         {{ form.as_p }}
+        <div id="wording-error" style="color: red;"></div>
         <p>
             <input type="submit" value="Ajouter">
         </p>
@@ -32,5 +34,69 @@
     <br>
     <br>
     <br>
-      <a href="{% url 'welcome' %}">retour</a>
+    <div class="action-buttons">
+        <a href="{% url 'welcome' %}" class="btn-red">Retour</a>
+    </div>
+
+
+    <script>
+        console.log("Script chargé"); // Vérifiez que le script est chargé
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== "") {
+                const cookies = document.cookie.split(';');
+                for (let cookie of cookies) {
+                    cookie = cookie.trim();
+                    if (cookie.startsWith(name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+        const checkSection = "{% url 'check_section' %}";
+
+        // Remplacez 'section-wording' par l'ID réel du champ wording
+        const sectionInput = document.getElementById('wording');
+        const sectionError = document.getElementById('wording-error');
+
+        if (sectionInput) {
+            console.log("Champ wording trouvé"); // Vérifiez que le champ est trouvé
+
+            sectionInput.addEventListener('input', function () {
+                console.log("Événement input déclenché"); // Vérifiez que l'événement est déclenché
+                const wording = sectionInput.value.trim();
+
+                if (!wording) {
+                    sectionError.textContent = "";
+                    return;
+                }
+
+                fetch(checkSection, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrftoken,
+                    },
+                    body: JSON.stringify({ wording: wording })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.exists) {
+                        sectionError.textContent = "Cette section existe déjà.";
+                    } else {
+                        sectionError.textContent = "";
+                    }
+                })
+                .catch(error => {
+                    console.error("Erreur:", error);
+                });
+            });
+        } else {
+            console.error("Champ wording non trouvé");
+        }
+    </script>
 {% endblock %}

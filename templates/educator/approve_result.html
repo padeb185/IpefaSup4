@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
-
 {% load static %}
 
-{% block title %}approuver les résultats{% endblock %}
 
+{% block title %}approuver les résultats{% endblock %}
 {% block bodyId %}ueResultPage{% endblock %}
 
 {% block content %}
@@ -17,15 +16,22 @@
         Nous sommes le {{ current_date_time }}
     </div>
 </header>
-  <h1>Approbation du résultat</h1>
 
-  <form method="post">
+<h1>Approbation du résultat</h1>
+
+{% if messages %}
+    {% for message in messages %}
+        <p style="color: green;">{{ message }}</p>
+    {% endfor %}
+{% endif %}
+
+<form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit" class="btn btn-success">Enregistrer</button>
-  </form>
+</form>
+
 <div class="action-buttons">
     <a href="{% url 'registration_list' section_id %}" class="btn-red">Retour à la liste des inscriptions</a>
 </div>
-
 {% endblock %}

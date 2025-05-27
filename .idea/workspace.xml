@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="button">
+    <list default="true" id="237e9320-8619-4db4-88e3-d123d727e2bb" name="Changes" comment="crsftoken">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/user_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user_profile.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,7 +34,7 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/padeb185/IpefaSup4.git&quot;,
+    &quot;url&quot;: &quot;https://github.com/ProfGC/projetIntDev_DPA.git&quot;,
     &quot;accountId&quot;: &quot;6d78cb33-1960-4161-94e4-6eb5835d8363&quot;
   }
 }</component>
@@ -56,7 +55,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;django.template.preview.state&quot;: &quot;SHOW_EDITOR_AND_PREVIEW&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/pierr/PycharmProjects/IpefaSup4/templates&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -204,190 +203,16 @@
       <workItem from="1747410413151" duration="4342000" />
       <workItem from="1747420707027" duration="150000" />
       <workItem from="1747660482367" duration="44000" />
-    </task>
-    <task id="LOCAL-00084" summary="logged user">
-      <option name="closed" value="true" />
-      <created>1747061494078</created>
-      <option name="number" value="00084" />
-      <option name="presentableId" value="LOCAL-00084" />
-      <option name="project" value="LOCAL" />
-      <updated>1747061494078</updated>
-    </task>
-    <task id="LOCAL-00085" summary="logged user">
-      <option name="closed" value="true" />
-      <created>1747061606440</created>
-      <option name="number" value="00085" />
-      <option name="presentableId" value="LOCAL-00085" />
-      <option name="project" value="LOCAL" />
-      <updated>1747061606440</updated>
-    </task>
-    <task id="LOCAL-00086" summary="logged user">
-      <option name="closed" value="true" />
-      <created>1747061821907</created>
-      <option name="number" value="00086" />
-      <option name="presentableId" value="LOCAL-00086" />
-      <option name="project" value="LOCAL" />
-      <updated>1747061821907</updated>
-    </task>
-    <task id="LOCAL-00087" summary="logged user">
-      <option name="closed" value="true" />
-      <created>1747062095817</created>
-      <option name="number" value="00087" />
-      <option name="presentableId" value="LOCAL-00087" />
-      <option name="project" value="LOCAL" />
-      <updated>1747062095817</updated>
-    </task>
-    <task id="LOCAL-00088" summary="logged user">
-      <option name="closed" value="true" />
-      <created>1747062281086</created>
-      <option name="number" value="00088" />
-      <option name="presentableId" value="LOCAL-00088" />
-      <option name="project" value="LOCAL" />
-      <updated>1747062281086</updated>
-    </task>
-    <task id="LOCAL-00089" summary="logged user">
-      <option name="closed" value="true" />
-      <created>1747062335628</created>
-      <option name="number" value="00089" />
-      <option name="presentableId" value="LOCAL-00089" />
-      <option name="project" value="LOCAL" />
-      <updated>1747062335628</updated>
-    </task>
-    <task id="LOCAL-00090" summary="logged user">
-      <option name="closed" value="true" />
-      <created>1747062489078</created>
-      <option name="number" value="00090" />
-      <option name="presentableId" value="LOCAL-00090" />
-      <option name="project" value="LOCAL" />
-      <updated>1747062489078</updated>
-    </task>
-    <task id="LOCAL-00091" summary="logged user">
-      <option name="closed" value="true" />
-      <created>1747062737564</created>
-      <option name="number" value="00091" />
-      <option name="presentableId" value="LOCAL-00091" />
-      <option name="project" value="LOCAL" />
-      <updated>1747062737564</updated>
-    </task>
-    <task id="LOCAL-00092" summary="logged user">
-      <option name="closed" value="true" />
-      <created>1747062898216</created>
-      <option name="number" value="00092" />
-      <option name="presentableId" value="LOCAL-00092" />
-      <option name="project" value="LOCAL" />
-      <updated>1747062898216</updated>
-    </task>
-    <task id="LOCAL-00093" summary="logged user">
-      <option name="closed" value="true" />
-      <created>1747063017556</created>
-      <option name="number" value="00093" />
-      <option name="presentableId" value="LOCAL-00093" />
-      <option name="project" value="LOCAL" />
-      <updated>1747063017556</updated>
-    </task>
-    <task id="LOCAL-00094" summary="logged user">
-      <option name="closed" value="true" />
-      <created>1747065767216</created>
-      <option name="number" value="00094" />
-      <option name="presentableId" value="LOCAL-00094" />
-      <option name="project" value="LOCAL" />
-      <updated>1747065767216</updated>
-    </task>
-    <task id="LOCAL-00095" summary="logged user">
-      <option name="closed" value="true" />
-      <created>1747066042836</created>
-      <option name="number" value="00095" />
-      <option name="presentableId" value="LOCAL-00095" />
-      <option name="project" value="LOCAL" />
-      <updated>1747066042836</updated>
-    </task>
-    <task id="LOCAL-00096" summary="logged user">
-      <option name="closed" value="true" />
-      <created>1747130003486</created>
-      <option name="number" value="00096" />
-      <option name="presentableId" value="LOCAL-00096" />
-      <option name="project" value="LOCAL" />
-      <updated>1747130003486</updated>
-    </task>
-    <task id="LOCAL-00097" summary="logged user">
-      <option name="closed" value="true" />
-      <created>1747130984108</created>
-      <option name="number" value="00097" />
-      <option name="presentableId" value="LOCAL-00097" />
-      <option name="project" value="LOCAL" />
-      <updated>1747130984108</updated>
-    </task>
-    <task id="LOCAL-00098" summary="check mail, matricule">
-      <option name="closed" value="true" />
-      <created>1747216702405</created>
-      <option name="number" value="00098" />
-      <option name="presentableId" value="LOCAL-00098" />
-      <option name="project" value="LOCAL" />
-      <updated>1747216702405</updated>
-    </task>
-    <task id="LOCAL-00099" summary="check mail, matricule">
-      <option name="closed" value="true" />
-      <created>1747216824137</created>
-      <option name="number" value="00099" />
-      <option name="presentableId" value="LOCAL-00099" />
-      <option name="project" value="LOCAL" />
-      <updated>1747216824137</updated>
-    </task>
-    <task id="LOCAL-00100" summary="check studentMail">
-      <option name="closed" value="true" />
-      <created>1747219787417</created>
-      <option name="number" value="00100" />
-      <option name="presentableId" value="LOCAL-00100" />
-      <option name="project" value="LOCAL" />
-      <updated>1747219787417</updated>
-    </task>
-    <task id="LOCAL-00101" summary="check studentMail">
-      <option name="closed" value="true" />
-      <created>1747221377719</created>
-      <option name="number" value="00101" />
-      <option name="presentableId" value="LOCAL-00101" />
-      <option name="project" value="LOCAL" />
-      <updated>1747221377719</updated>
-    </task>
-    <task id="LOCAL-00102" summary="check studentMail">
-      <option name="closed" value="true" />
-      <created>1747229686222</created>
-      <option name="number" value="00102" />
-      <option name="presentableId" value="LOCAL-00102" />
-      <option name="project" value="LOCAL" />
-      <updated>1747229686222</updated>
-    </task>
-    <task id="LOCAL-00103" summary="check studentMail">
-      <option name="closed" value="true" />
-      <created>1747229981579</created>
-      <option name="number" value="00103" />
-      <option name="presentableId" value="LOCAL-00103" />
-      <option name="project" value="LOCAL" />
-      <updated>1747229981579</updated>
-    </task>
-    <task id="LOCAL-00104" summary="check studentMail">
-      <option name="closed" value="true" />
-      <created>1747295555041</created>
-      <option name="number" value="00104" />
-      <option name="presentableId" value="LOCAL-00104" />
-      <option name="project" value="LOCAL" />
-      <updated>1747295555041</updated>
-    </task>
-    <task id="LOCAL-00105" summary="check studentMail">
-      <option name="closed" value="true" />
-      <created>1747296775875</created>
-      <option name="number" value="00105" />
-      <option name="presentableId" value="LOCAL-00105" />
-      <option name="project" value="LOCAL" />
-      <updated>1747296775875</updated>
-    </task>
-    <task id="LOCAL-00106" summary="check studentMail">
-      <option name="closed" value="true" />
-      <created>1747296961120</created>
-      <option name="number" value="00106" />
-      <option name="presentableId" value="LOCAL-00106" />
-      <option name="project" value="LOCAL" />
-      <updated>1747296961120</updated>
+      <workItem from="1747739779773" duration="3528000" />
+      <workItem from="1747743363752" duration="11191000" />
+      <workItem from="1747841814461" duration="2404000" />
+      <workItem from="1747845168412" duration="2225000" />
+      <workItem from="1747913347585" duration="837000" />
+      <workItem from="1747914213508" duration="11000" />
+      <workItem from="1747920753979" duration="3437000" />
+      <workItem from="1748003721144" duration="327000" />
+      <workItem from="1748015901101" duration="65000" />
+      <workItem from="1748176965667" duration="1405000" />
     </task>
     <task id="LOCAL-00107" summary="style">
       <option name="closed" value="true" />
@@ -597,7 +422,191 @@
       <option name="project" value="LOCAL" />
       <updated>1747674681140</updated>
     </task>
-    <option name="localTasksCounter" value="133" />
+    <task id="LOCAL-00133" summary="button">
+      <option name="closed" value="true" />
+      <created>1747675323055</created>
+      <option name="number" value="00133" />
+      <option name="presentableId" value="LOCAL-00133" />
+      <option name="project" value="LOCAL" />
+      <updated>1747675323055</updated>
+    </task>
+    <task id="LOCAL-00134" summary="button">
+      <option name="closed" value="true" />
+      <created>1747740469978</created>
+      <option name="number" value="00134" />
+      <option name="presentableId" value="LOCAL-00134" />
+      <option name="project" value="LOCAL" />
+      <updated>1747740469978</updated>
+    </task>
+    <task id="LOCAL-00135" summary="button">
+      <option name="closed" value="true" />
+      <created>1747741981807</created>
+      <option name="number" value="00135" />
+      <option name="presentableId" value="LOCAL-00135" />
+      <option name="project" value="LOCAL" />
+      <updated>1747741981807</updated>
+    </task>
+    <task id="LOCAL-00136" summary="employee_email">
+      <option name="closed" value="true" />
+      <created>1747742354427</created>
+      <option name="number" value="00136" />
+      <option name="presentableId" value="LOCAL-00136" />
+      <option name="project" value="LOCAL" />
+      <updated>1747742354427</updated>
+    </task>
+    <task id="LOCAL-00137" summary="studentMail">
+      <option name="closed" value="true" />
+      <created>1747743301323</created>
+      <option name="number" value="00137" />
+      <option name="presentableId" value="LOCAL-00137" />
+      <option name="project" value="LOCAL" />
+      <updated>1747743301324</updated>
+    </task>
+    <task id="LOCAL-00138" summary="header">
+      <option name="closed" value="true" />
+      <created>1747743517176</created>
+      <option name="number" value="00138" />
+      <option name="presentableId" value="LOCAL-00138" />
+      <option name="project" value="LOCAL" />
+      <updated>1747743517176</updated>
+    </task>
+    <task id="LOCAL-00139" summary="validate studentMail">
+      <option name="closed" value="true" />
+      <created>1747744119887</created>
+      <option name="number" value="00139" />
+      <option name="presentableId" value="LOCAL-00139" />
+      <option name="project" value="LOCAL" />
+      <updated>1747744119887</updated>
+    </task>
+    <task id="LOCAL-00140" summary="add section">
+      <option name="closed" value="true" />
+      <created>1747756812835</created>
+      <option name="number" value="00140" />
+      <option name="presentableId" value="LOCAL-00140" />
+      <option name="project" value="LOCAL" />
+      <updated>1747756812835</updated>
+    </task>
+    <task id="LOCAL-00141" summary="add section">
+      <option name="closed" value="true" />
+      <created>1747757211444</created>
+      <option name="number" value="00141" />
+      <option name="presentableId" value="LOCAL-00141" />
+      <option name="project" value="LOCAL" />
+      <updated>1747757211444</updated>
+    </task>
+    <task id="LOCAL-00142" summary="bouton etc">
+      <option name="closed" value="true" />
+      <created>1747758699099</created>
+      <option name="number" value="00142" />
+      <option name="presentableId" value="LOCAL-00142" />
+      <option name="project" value="LOCAL" />
+      <updated>1747758699099</updated>
+    </task>
+    <task id="LOCAL-00143" summary="add registration">
+      <option name="closed" value="true" />
+      <created>1747759898700</created>
+      <option name="number" value="00143" />
+      <option name="presentableId" value="LOCAL-00143" />
+      <option name="project" value="LOCAL" />
+      <updated>1747759898700</updated>
+    </task>
+    <task id="LOCAL-00144" summary="add registration">
+      <option name="closed" value="true" />
+      <created>1747841996779</created>
+      <option name="number" value="00144" />
+      <option name="presentableId" value="LOCAL-00144" />
+      <option name="project" value="LOCAL" />
+      <updated>1747841996781</updated>
+    </task>
+    <task id="LOCAL-00145" summary="add registration">
+      <option name="closed" value="true" />
+      <created>1747844227128</created>
+      <option name="number" value="00145" />
+      <option name="presentableId" value="LOCAL-00145" />
+      <option name="project" value="LOCAL" />
+      <updated>1747844227128</updated>
+    </task>
+    <task id="LOCAL-00146" summary="add academicUE">
+      <option name="closed" value="true" />
+      <created>1747845581114</created>
+      <option name="number" value="00146" />
+      <option name="presentableId" value="LOCAL-00146" />
+      <option name="project" value="LOCAL" />
+      <updated>1747845581114</updated>
+    </task>
+    <task id="LOCAL-00147" summary="add academicUE">
+      <option name="closed" value="true" />
+      <created>1747846630571</created>
+      <option name="number" value="00147" />
+      <option name="presentableId" value="LOCAL-00147" />
+      <option name="project" value="LOCAL" />
+      <updated>1747846630571</updated>
+    </task>
+    <task id="LOCAL-00148" summary="add academicUE">
+      <option name="closed" value="true" />
+      <created>1747847401509</created>
+      <option name="number" value="00148" />
+      <option name="presentableId" value="LOCAL-00148" />
+      <option name="project" value="LOCAL" />
+      <updated>1747847401509</updated>
+    </task>
+    <task id="LOCAL-00149" summary="add academicUE">
+      <option name="closed" value="true" />
+      <created>1747913755122</created>
+      <option name="number" value="00149" />
+      <option name="presentableId" value="LOCAL-00149" />
+      <option name="project" value="LOCAL" />
+      <updated>1747913755122</updated>
+    </task>
+    <task id="LOCAL-00150" summary="add academicUE">
+      <option name="closed" value="true" />
+      <created>1747914134624</created>
+      <option name="number" value="00150" />
+      <option name="presentableId" value="LOCAL-00150" />
+      <option name="project" value="LOCAL" />
+      <updated>1747914134624</updated>
+    </task>
+    <task id="LOCAL-00151" summary="bouton retour">
+      <option name="closed" value="true" />
+      <created>1747922144385</created>
+      <option name="number" value="00151" />
+      <option name="presentableId" value="LOCAL-00151" />
+      <option name="project" value="LOCAL" />
+      <updated>1747922144385</updated>
+    </task>
+    <task id="LOCAL-00152" summary="addRegistrationByCycle">
+      <option name="closed" value="true" />
+      <created>1747922880653</created>
+      <option name="number" value="00152" />
+      <option name="presentableId" value="LOCAL-00152" />
+      <option name="project" value="LOCAL" />
+      <updated>1747922880653</updated>
+    </task>
+    <task id="LOCAL-00153" summary="addRegistrationByCycle">
+      <option name="closed" value="true" />
+      <created>1747923251356</created>
+      <option name="number" value="00153" />
+      <option name="presentableId" value="LOCAL-00153" />
+      <option name="project" value="LOCAL" />
+      <updated>1747923251356</updated>
+    </task>
+    <task id="LOCAL-00154" summary="crsftoken">
+      <option name="closed" value="true" />
+      <created>1748004036556</created>
+      <option name="number" value="00154" />
+      <option name="presentableId" value="LOCAL-00154" />
+      <option name="project" value="LOCAL" />
+      <updated>1748004036556</updated>
+    </task>
+    <task id="LOCAL-00155" summary="crsftoken">
+      <option name="closed" value="true" />
+      <created>1748015954858</created>
+      <option name="number" value="00155" />
+      <option name="presentableId" value="LOCAL-00155" />
+      <option name="project" value="LOCAL" />
+      <updated>1748015954858</updated>
+    </task>
+    <option name="localTasksCounter" value="156" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -615,17 +624,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add participation" />
-    <MESSAGE value="add section" />
-    <MESSAGE value="student form" />
-    <MESSAGE value="view logged" />
-    <MESSAGE value="sessions" />
-    <MESSAGE value="sectio et addueform" />
-    <MESSAGE value="professeur list etudiants" />
-    <MESSAGE value="filtre professeur" />
-    <MESSAGE value="student registration" />
-    <MESSAGE value="student passed" />
-    <MESSAGE value="student result" />
     <MESSAGE value="student result teacher view" />
     <MESSAGE value="teacher participation" />
     <MESSAGE value="teacher participation status" />
@@ -640,7 +638,18 @@
     <MESSAGE value="style" />
     <MESSAGE value="filter" />
     <MESSAGE value="button" />
-    <option name="LAST_COMMIT_MESSAGE" value="button" />
+    <MESSAGE value="employee_email" />
+    <MESSAGE value="studentMail" />
+    <MESSAGE value="header" />
+    <MESSAGE value="validate studentMail" />
+    <MESSAGE value="add section" />
+    <MESSAGE value="bouton etc" />
+    <MESSAGE value="add registration" />
+    <MESSAGE value="add academicUE" />
+    <MESSAGE value="bouton retour" />
+    <MESSAGE value="addRegistrationByCycle" />
+    <MESSAGE value="crsftoken" />
+    <option name="LAST_COMMIT_MESSAGE" value="crsftoken" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -657,6 +666,16 @@
         <line-breakpoint enabled="true" type="django-line">
           <url>file://$PROJECT_DIR$/templates/login.html</url>
           <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/templates/administrator/section.html</url>
+          <line>70</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/templates/administrator/section.html</url>
+          <line>71</line>
+          <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

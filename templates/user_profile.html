@@ -5,7 +5,17 @@
 
 {% block bodyId %}userProfilePage{% endblock %}
 
+
 {% block content %}
+     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <header class="welcome-header">
+        <div class="user-info">
+            Bienvenue sur IpefaSup,  {{ logged_user.first_name }} {{ logged_user.last_name }}
+        </div>
+        <div class="date-time">
+            Nous sommes le {{ current_date_time }}
+        </div>
+    </header>
     <h1>Création d'un compte</h1>
 
     <form method="post" id="mainForm">
@@ -27,19 +37,19 @@
         <div id="teacherForm" class="formType">
             {{ teacherForm.as_p }}
             <span id="matricule-error-teacher" style="color:red;"></span>
-            <span id="employeeEmail-error-teacher" style="color:red;"></span>
+            <span id="employee_email-error-teacher" style="color:red;"></span>
         </div>
 
         <div id="educatorForm" class="formType">
             {{ educatorForm.as_p }}
             <span id="matricule-error-educator" style="color:red;"></span>
-            <span id="employeeEmail-error-educator" style="color:red;"></span>
+            <span id="employee_email-error-educator" style="color:red;"></span>
         </div>
 
         <div id="administratorForm" class="formType">
             {{ administratorForm.as_p }}
             <span id="matricule-error-administrator" style="color:red;"></span>
-            <span id="employeeEmail-error-administrator" style="color:red;"></span>
+            <span id="employee_email-error-administrator" style="color:red;"></span>
         </div>
 
         <button type="submit" id="submit-btn">Créer un compte</button>
@@ -86,6 +96,7 @@
     }
 
     const csrftoken = getCookie('csrftoken');
+
     const checkStudentMailUrl = "{% url 'check_student_mail' %}";
     const checkMatriculeUrl = "{% url 'check_matricule' %}";
     const checkEmployeeEmailUrl = "{% url 'check_employee_email' %}";
@@ -109,13 +120,13 @@
     const employeeEmailInputs = {
         'teacher': document.getElementById('employee_email-teacher'),
         'educator': document.getElementById('employee_email-educator'),
-        'administrator': document.getElementById('employee_email-administrator')
+        'administrator': document.getElementById('employee_email-administrator') // corrigé ici
     };
 
     const employeeEmailErrors = {
         'teacher': document.getElementById('employee_email-error-teacher'),
         'educator': document.getElementById('employee_email-error-educator'),
-        'administrator': document.getElementById('employee_email-error-administrator')
+        'administrator': document.getElementById('employee_email-error-administrator') // corrigé ici
     };
 
     let emailValid = true;
@@ -204,50 +215,60 @@
         });
     }
 
-    // Vérification de l'email employé
     function checkEmployeeEmail(formType) {
         const input = employeeEmailInputs[formType];
         const error = employeeEmailErrors[formType];
+        if (!input || !error) return;
 
-        if (!input) return;
+        const employee_email = input.value.trim();
 
-        input.addEventListener('input', function () {
-            const email = input.value.trim();
+        if (!employee_email) {
+            error.textContent = "";
+            input.classList.remove('error-input');
+            employeeEmailValid[formType] = true;
+            return;
+        }
 
-            if (!email) {
+        fetch(checkEmployeeEmailUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+            body: JSON.stringify({ employee_email: employee_email })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.exists) {
+                error.textContent = "Cette adresse email est déjà utilisée.";
+                input.classList.add('error-input');
+                employeeEmailValid[formType] = false;
+            } else {
                 error.textContent = "";
                 input.classList.remove('error-input');
                 employeeEmailValid[formType] = true;
-                return;
             }
-
-            fetch(checkEmployeeEmailUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': csrftoken,
-                },
-                body: JSON.stringify({ employee_email: email })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.exists) {
-                    error.textContent = "Cette adresse email est déjà utilisée.";
-                    input.classList.add('error-input');
-                    employeeEmailValid[formType] = false;
-                } else {
-                    error.textContent = "";
-                    input.classList.remove('error-input');
-                    employeeEmailValid[formType] = true;
-                }
-            })
-            .catch(error => {
-                console.error("Erreur lors de la vérification de l’email employé:", error);
-                employeeEmailValid[formType] = true;
-            });
+        })
+        .catch(error => {
+            console.error("Erreur lors de la vérification de l’email employé:", error);
+            employeeEmailValid[formType] = true;
         });
     }
 
+    // Ajout des écouteurs 'input' pour employee_email, qui appellent la fonction checkEmployeeEmail
+    Object.keys(employeeEmailInputs).forEach(formType => {
+        const input = employeeEmailInputs[formType];
+        if (input) {
+            input.addEventListener('input', () => checkEmployeeEmail(formType));
+        }
+    });
+
+    // Appel initial de checkEmployeeEmail pour valider les champs remplis au chargement
+    Object.keys(employeeEmailInputs).forEach(formType => {
+        if (employeeEmailInputs[formType]) {
+            checkEmployeeEmail(formType);
+        }
+    });
     // Ajout des écouteurs
     Object.keys(matriculeInputs).forEach(formType => {
         if (matriculeInputs[formType]) {
@@ -255,11 +276,7 @@
         }
     });
 
-    Object.keys(employeeEmailInputs).forEach(formType => {
-        if (employeeEmailInputs[formType]) {
-            checkEmployeeEmail(formType);
-        }
-    });
+
 
     // Empêcher la soumission si un champ est invalide
     document.getElementById('mainForm').addEventListener('submit', function (e) {

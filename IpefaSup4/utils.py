@@ -36,8 +36,3 @@ def get_logged_user_from_request(request):
     except (Student.DoesNotExist, Teacher.DoesNotExist, Educator.DoesNotExist, Administrator.DoesNotExist):
         return None
 
-
-def validate_student_email(email):
-    pattern = r"^[a-z]+\.[a-z]+@(student\.)?efpl\.be$"
-    if not re.match(pattern, email, re.IGNORECASE):
-        raise ValidationError("L'adresse email doit être du type nom.prenom@student.efpl.be ou nom.prenom@efpl.be")
